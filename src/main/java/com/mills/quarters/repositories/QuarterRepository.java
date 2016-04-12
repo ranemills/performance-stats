@@ -1,6 +1,7 @@
 package com.mills.quarters.repositories;
 
 import com.mills.quarters.models.Quarter;
+import com.mills.quarters.models.temp.MethodCount;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -11,7 +12,5 @@ import java.util.List;
  */
 @org.springframework.stereotype.Repository
 public interface QuarterRepository extends MongoRepository<Quarter, Long> {
-
-    List<Quarter> findAll();
 
 }

@@ -20,15 +20,16 @@ public class StatsControllerTest extends IntegrationTest {
         quarterRepository.save(ImmutableList.<Quarter>builder()
                                    .add(new Quarter(5056, "Cambridge", "Major"))
                                    .add(new Quarter(1296, "Cambridge", "Minor"))
+                                   .add(new Quarter(1280, "Yorkshire", "Royal"))
                                    .build());
 
         mockMvc.perform(get("/stats/methods"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(contentType))
             .andExpect(jsonPath("$", hasSize(2)))
-            .andExpect(jsonPath("$[0].name", equalTo("Cambridge")))
+            .andExpect(jsonPath("$[0].method", equalTo("Cambridge")))
             .andExpect(jsonPath("$[0].count", equalTo(2)))
-            .andExpect(jsonPath("$[0].name", equalTo("Yorkshire")))
-            .andExpect(jsonPath("$[0].count", equalTo(1)));
+            .andExpect(jsonPath("$[1].method", equalTo("Yorkshire")))
+            .andExpect(jsonPath("$[1].count", equalTo(1)));
     }
 }

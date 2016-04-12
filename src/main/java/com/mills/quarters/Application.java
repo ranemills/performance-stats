@@ -1,5 +1,6 @@
 package com.mills.quarters;
 
+import com.mongodb.Mongo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -7,15 +8,10 @@ import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.convert.support.GenericConversionService;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
-import javax.annotation.Resource;
 
 @Configuration
 @ComponentScan
@@ -41,5 +37,18 @@ public class Application extends SpringBootServletInitializer {
                 registry.addMapping("/*").allowedOrigins("http://localhost:9000");
             }
         };
+    }
+
+
+    public
+    @Bean
+    Mongo mongo() throws Exception {
+        return new Mongo("localhost");
+    }
+
+    public
+    @Bean
+    MongoTemplate mongoTemplate() throws Exception {
+        return new MongoTemplate(mongo(), "quarter");
     }
 }
