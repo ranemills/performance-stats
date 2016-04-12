@@ -1,27 +1,21 @@
 package com.mills.quarters.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 
 /**
  * Created by ryan on 12/04/16.
  */
-@Entity
 public class Quarter {
 
     @Id
-    @GeneratedValue
-    private Long id;
+    private ObjectId id;
 
-    @Column(nullable = false)
     private Integer changes;
 
-    @Column(nullable = false)
     private String method;
 
-    @Column(nullable = false)
     private String stage;
 
     protected Quarter() {

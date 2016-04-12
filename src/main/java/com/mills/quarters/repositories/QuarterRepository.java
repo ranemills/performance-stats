@@ -1,16 +1,17 @@
 package com.mills.quarters.repositories;
 
 import com.mills.quarters.models.Quarter;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
-
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.Repository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 /**
  * Created by ryan on 12/04/16.
  */
-@Repository
-public interface QuarterRepository extends JpaRepository<Quarter, Long> {
+@org.springframework.stereotype.Repository
+public interface QuarterRepository extends MongoRepository<Quarter, Long> {
+
+    List<Quarter> findAll();
 
 }

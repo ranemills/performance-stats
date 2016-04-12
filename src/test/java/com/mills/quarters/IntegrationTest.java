@@ -42,7 +42,7 @@ public class IntegrationTest {
     public void setup() throws Exception {
         mockMvc = webAppContextSetup(webApplicationContext).build();
 
-        quarterRepository.deleteAllInBatch();
+        quarterRepository.deleteAll();
     }
 
 }

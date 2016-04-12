@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.mills.quarters.IntegrationTest;
 import com.mills.quarters.models.Quarter;
 import org.junit.Test;
+import org.springframework.test.web.servlet.MvcResult;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
