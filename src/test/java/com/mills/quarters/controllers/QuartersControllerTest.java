@@ -1,6 +1,8 @@
 package com.mills.quarters.controllers;
 
 import com.mills.quarters.Application;
+import com.mills.quarters.models.Quarter;
+import com.mills.quarters.repositories.QuarterRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,26 +30,32 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @WebAppConfiguration
 public class QuartersControllerTest {
 
+    @Autowired
+    QuarterRepository quarterRepository;
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),
             Charset.forName("utf8"));
-
     private MockMvc mockMvc;
-    
     @Autowired
     private WebApplicationContext webApplicationContext;
 
     @Before
     public void setup() throws Exception {
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
+
+        quarterRepository.deleteAllInBatch();
     }
 
     @Test
     public void testListAllQuarters() throws Exception {
+        quarterRepository.save(new Quarter(5056, "Cambridge", "Major"));
+        quarterRepository.save(new Quarter(1296, "Cambridge", "Minor"));
         mockMvc.perform(get("/quarters/list"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0]", equalTo("hello")));
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].changes", equalTo(5056)))
+                .andExpect(jsonPath("$[0].method", equalTo("Cambridge")))
+                .andExpect(jsonPath("$[0].stage", equalTo("Major")));
     }
 }
