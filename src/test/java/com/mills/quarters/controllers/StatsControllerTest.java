@@ -11,23 +11,24 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Created by ryan on 10/04/16.
+ * Created by ryan on 12/04/16.
  */
-public class QuartersControllerTest extends IntegrationTest {
+public class StatsControllerTest extends IntegrationTest {
 
     @Test
-    public void testListAllQuarters() throws Exception {
+    public void testGetMethod() throws Exception {
         quarterRepository.save(ImmutableList.<Quarter>builder()
                                    .add(new Quarter(5056, "Cambridge", "Major"))
                                    .add(new Quarter(1296, "Cambridge", "Minor"))
                                    .build());
 
-        mockMvc.perform(get("/quarters/list"))
+        mockMvc.perform(get("/stats/methods"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(contentType))
             .andExpect(jsonPath("$", hasSize(2)))
-            .andExpect(jsonPath("$[0].changes", equalTo(5056)))
-            .andExpect(jsonPath("$[0].method", equalTo("Cambridge")))
-            .andExpect(jsonPath("$[0].stage", equalTo("Major")));
+            .andExpect(jsonPath("$[0].name", equalTo("Cambridge")))
+            .andExpect(jsonPath("$[0].count", equalTo(2)))
+            .andExpect(jsonPath("$[0].name", equalTo("Yorkshire")))
+            .andExpect(jsonPath("$[0].count", equalTo(1)));
     }
 }
