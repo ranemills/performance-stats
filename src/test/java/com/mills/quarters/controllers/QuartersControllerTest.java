@@ -6,6 +6,7 @@ import com.mills.quarters.models.Quarter;
 import org.junit.Test;
 import org.springframework.test.web.servlet.MvcResult;
 
+import static com.mills.quarters.builders.QuarterBuilder.quarterBuilder;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -19,8 +20,8 @@ public class QuartersControllerTest extends IntegrationTest {
     @Test
     public void testListAllQuarters() throws Exception {
         quarterRepository.save(ImmutableList.<Quarter>builder()
-                                   .add(new Quarter(5056, "Cambridge", "Major"))
-                                   .add(new Quarter(1296, "Cambridge", "Minor"))
+                                   .add(quarterBuilder().changes(5056).method("Cambridge").stage("Major").build())
+                                   .add(quarterBuilder().changes(1296).method("Cambridge").stage("Minor").build())
                                    .build());
 
         mockMvc.perform(get("/quarters/list"))

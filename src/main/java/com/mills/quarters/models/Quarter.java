@@ -1,43 +1,66 @@
 package com.mills.quarters.models;
 
 
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by ryan on 12/04/16.
  */
-public class Quarter {
+public class Quarter extends AbstractMongoModel {
 
-    @Id
-    private ObjectId id;
-
+    private Date date;
     private Integer changes;
-
     private String method;
-
     private String stage;
+    private Location location;
+    private List<Ringer> ringers;
 
-    protected Quarter() {
-        // no-args constructor required by JPA spec
-        // this one is protected since it shouldn't be used directly
+    public List<Ringer> getRingers() {
+        return ringers;
+    }
+
+    public void setRingers(List<Ringer> ringers) {
+        this.ringers = ringers;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public Integer getChanges() {
         return changes;
     }
 
+    public void setChanges(Integer changes) {
+        this.changes = changes;
+    }
+
     public String getMethod() {
         return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
     }
 
     public String getStage() {
         return stage;
     }
 
-    public Quarter(Integer changes, String method, String stage) {
-        this.changes = changes;
-        this.method = method;
+    public void setStage(String stage) {
         this.stage = stage;
     }
 }

@@ -97,7 +97,7 @@ MemoryPoolMXBean item = (MemoryPoolMXBean) iter.next();
 	<TD><%= HttpUtils.getRequestURL(request) %></TD>
 </TR>
 <TR>
-	<TH align=right>Request method:</TH>
+	<TH align=right>Request ringer:</TH>
 	<TD><%= request.getMethod() %></TD>
 </TR>
 <TR>
