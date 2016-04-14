@@ -24,7 +24,7 @@ public class QuartersControllerTest extends IntegrationTest {
                                    .add(quarterBuilder().changes(1296).method("Cambridge").stage("Minor").build())
                                    .build());
 
-        mockMvc.perform(get("/quarters/list"))
+        mockMvc.perform(get("/api/quarters/list"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(contentType))
             .andExpect(jsonPath("$", hasSize(2)))

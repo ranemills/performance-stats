@@ -44,7 +44,7 @@ public class StatsControllerTest extends IntegrationTest {
 
     @Test
     public void testGetMethods() throws Exception {
-        mockMvc.perform(get("/stats/methods"))
+        mockMvc.perform(get("/api/stats/methods"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(contentType))
             .andExpect(jsonPath("$", hasSize(2)))
@@ -56,7 +56,7 @@ public class StatsControllerTest extends IntegrationTest {
 
     @Test
     public void testGetMethodsWithStageParameter() throws Exception {
-        mockMvc.perform(get("/stats/methods?stage=Major"))
+        mockMvc.perform(get("/api/stats/methods?stage=Major"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(contentType))
             .andExpect(jsonPath("$", hasSize(2)))
@@ -68,7 +68,7 @@ public class StatsControllerTest extends IntegrationTest {
 
     @Test
     public void testGetStages() throws Exception {
-        mockMvc.perform(get("/stats/stages"))
+        mockMvc.perform(get("/api/stats/stages"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(contentType))
             .andExpect(jsonPath("$", hasSize(2)))
@@ -80,7 +80,7 @@ public class StatsControllerTest extends IntegrationTest {
 
     @Test
     public void testGetRingers() throws Exception {
-        mockMvc.perform(get("/stats/ringers"))
+        mockMvc.perform(get("/api/stats/ringers"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(contentType))
             .andExpect(jsonPath("$", hasSize(3)))
@@ -94,7 +94,7 @@ public class StatsControllerTest extends IntegrationTest {
 
     @Test
     public void testGetRingersWithStageParameter() throws Exception {
-        mockMvc.perform(get("/stats/ringers?stage=Major"))
+        mockMvc.perform(get("/api/stats/ringers?stage=Major"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(contentType))
             .andExpect(jsonPath("$", hasSize(3)))

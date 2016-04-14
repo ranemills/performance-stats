@@ -17,7 +17,7 @@ import static com.mills.quarters.builders.QuarterBuilder.quarterBuilder;
  * Created by ryan on 10/04/16.
  */
 @RestController
-@RequestMapping("/quarters")
+@RequestMapping("/api/quarters")
 public class QuartersController {
 
     @Autowired
