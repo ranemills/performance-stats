@@ -3,12 +3,10 @@ package com.mills.quarters.controllers;
 import com.google.common.collect.ImmutableList;
 import com.mills.quarters.models.Quarter;
 import com.mills.quarters.repositories.QuarterRepository;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
 import java.util.List;
 
 import static com.mills.quarters.builders.QuarterBuilder.quarterBuilder;
