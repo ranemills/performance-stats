@@ -34,7 +34,7 @@ public class Application extends SpringBootServletInitializer {
         return new WebMvcConfigurerAdapter() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/*").allowedOrigins("http://localhost:9000");
+                registry.addMapping("/**").allowedOrigins("http://localhost:8011");
             }
         };
     }
@@ -43,6 +43,7 @@ public class Application extends SpringBootServletInitializer {
     public
     @Bean
     Mongo mongo() throws Exception {
+        //TODO: configure this based on whether we're on Openshift or Local
         return new Mongo("localhost");
     }
 

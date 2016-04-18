@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.mills.quarters.daos.QuarterDao.SearchOptions.searchOptions;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +39,19 @@ public class StatsController {
     @RequestMapping("/ringers")
     List<RingerCount> getRingers(@RequestParam Map<String,String> allRequestParams) {
         return quarterDao.findRingerCounts(searchOptions(allRequestParams));
+    }
+
+    @RequestMapping("/filters")
+    Map<String, List<?>> getFilters(@RequestParam Map<String,String> allRequestParams) {
+        List<RingerCount> ringers = quarterDao.findRingerCounts(searchOptions(allRequestParams));
+        List<StageCount> stages = quarterDao.findStageCounts(searchOptions(allRequestParams));
+        List<MethodCount> methods = quarterDao.findMethodCounts(searchOptions(allRequestParams));
+
+        Map<String, List<?>> filters = new HashMap<String, List<?>>();
+        filters.put("methods", methods);
+        filters.put("stages", stages);
+        filters.put("ringers", ringers);
+        return filters;
     }
 
 }

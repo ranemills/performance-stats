@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.mills.quarters.models.Quarter;
 import com.mills.quarters.repositories.QuarterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

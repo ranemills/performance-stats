@@ -3,15 +3,15 @@ package com.mills.quarters.models;
 /**
  * Created by ryan on 14/04/16.
  */
-public class Ringer {
+public class Ringer extends AbstractMongoModel {
 
     private Integer towerBell;
     private Integer methodBell;
     private String name;
 
-    public Ringer(String name, int bell) {
+    public Ringer(String name, Integer methodBell) {
         this.name = name;
-        this.methodBell = bell;
+        this.methodBell = methodBell;
     }
 
     public Integer getTowerBell() {
