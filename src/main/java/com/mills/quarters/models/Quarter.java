@@ -1,6 +1,8 @@
 package com.mills.quarters.models;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import java.util.List;
  */
 public class Quarter extends AbstractMongoModel {
 
+    @JsonFormat(pattern="dd-MM-yyyy")
     private Date date;
     private Integer changes;
     private String method;

@@ -9,9 +9,23 @@ public class Ringer extends AbstractMongoModel {
     private Integer methodBell;
     private String name;
 
+    public Boolean getConductor() {
+        return conductor;
+    }
+
+    private Boolean conductor;
+
+    public Ringer() { }
+
     public Ringer(String name, Integer methodBell) {
         this.name = name;
         this.methodBell = methodBell;
+    }
+
+    public Ringer(String name, Integer methodBell, Boolean conductor) {
+        this.name = name;
+        this.methodBell = methodBell;
+        this.conductor = conductor;
     }
 
     public Integer getTowerBell() {

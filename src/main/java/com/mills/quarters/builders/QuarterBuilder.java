@@ -69,6 +69,11 @@ public class QuarterBuilder {
         return this;
     }
 
+    public QuarterBuilder ringer(String name, int bell, boolean conductor) {
+        this.ringers.add(new Ringer(name, bell, conductor));
+        return this;
+    }
+
     public Quarter build() {
         Quarter quarter = new Quarter();
         quarter.setDate(date);
