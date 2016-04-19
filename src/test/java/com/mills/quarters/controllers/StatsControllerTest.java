@@ -21,13 +21,13 @@ public class StatsControllerTest extends IntegrationTest {
     public void addTestData() {
         quarterRepository.save(ImmutableList.<Quarter>builder()
                                    .add(quarterBuilder().changes(5056)
-                                            .method("Cambridge")
+                                            .method("Cambridge Surprise")
                                             .stage("Major")
                                             .ringer("Ryan Mills", 1)
                                             .ringer("Lydia", 2)
                                             .build())
                                    .add(quarterBuilder().changes(1296)
-                                            .method("Cambridge")
+                                            .method("Cambridge Surprise")
                                             .stage("Minor")
                                             .ringer("Ryan Mills", 1)
                                             .ringer("Lydia", 2)
@@ -48,7 +48,7 @@ public class StatsControllerTest extends IntegrationTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(contentType))
             .andExpect(jsonPath("$['Yorkshire']", equalTo(1)))
-            .andExpect(jsonPath("$['Cambridge']", equalTo(2)))
+            .andExpect(jsonPath("$['Cambridge Surprise']", equalTo(2)))
             .andExpect(jsonPath("$[*]", hasSize(2)));
     }
 
@@ -58,7 +58,7 @@ public class StatsControllerTest extends IntegrationTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(contentType))
             .andExpect(jsonPath("$['Yorkshire']", equalTo(1)))
-            .andExpect(jsonPath("$['Cambridge']", equalTo(1)))
+            .andExpect(jsonPath("$['Cambridge Surprise']", equalTo(1)))
             .andExpect(jsonPath("$[*]", hasSize(2)));
     }
 
@@ -68,6 +68,16 @@ public class StatsControllerTest extends IntegrationTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(contentType))
             .andExpect(jsonPath("$['Major']", equalTo(2)))
+            .andExpect(jsonPath("$['Minor']", equalTo(1)))
+            .andExpect(jsonPath("$[*]", hasSize(2)));
+    }
+
+    @Test
+    public void testGetStagesWithMethodParameter() throws Exception {
+        mockMvc.perform(get("/api/stats/stages?method=Cambridge%20Surprise"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(contentType))
+            .andExpect(jsonPath("$['Major']", equalTo(1)))
             .andExpect(jsonPath("$['Minor']", equalTo(1)))
             .andExpect(jsonPath("$[*]", hasSize(2)));
     }

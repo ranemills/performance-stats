@@ -8,6 +8,8 @@ import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,15 +68,23 @@ public class QuarterDao {
 
     private Criteria criteriaFromSearchOptions(SearchOptions searchOptions) {
         Criteria criteria = new Criteria();
-        if (searchOptions.getStage() != null) {
-            criteria.and("stage").is(searchOptions.getStage());
+        try {
+            if (searchOptions.getStage() != null) {
+                criteria.and("stage").is(URLDecoder.decode(searchOptions.getStage(), "UTF-8"));
+            }
+            if (searchOptions.getMethod() != null) {
+                criteria.and("method").is(URLDecoder.decode(searchOptions.getMethod(), "UTF-8"));
+            }
         }
+        catch(UnsupportedEncodingException e){}
+
         return criteria;
     }
 
     public static class SearchOptions {
 
         private String stage;
+        private String method;
 
         private SearchOptions() {
         }
@@ -82,6 +92,7 @@ public class QuarterDao {
         public static SearchOptions searchOptions(Map<String, String> requestParams) {
             SearchOptions options = new SearchOptions();
             options.stage = requestParams.get("stage");
+            options.method = requestParams.get("method");
             return options;
         }
 
@@ -89,8 +100,17 @@ public class QuarterDao {
             return stage;
         }
 
+        public String getMethod() {
+            return method;
+        }
+
         public SearchOptions stage(String stage) {
             this.stage = stage;
+            return this;
+        }
+
+        public SearchOptions method(String method) {
+            this.method = method;
             return this;
         }
 
