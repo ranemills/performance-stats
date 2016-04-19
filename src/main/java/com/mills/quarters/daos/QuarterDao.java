@@ -1,16 +1,19 @@
 package com.mills.quarters.daos;
 
+import com.mills.quarters.models.Quarter;
 import com.mills.quarters.models.temp.TempCount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.springframework.data.domain.Sort.Direction.DESC;
@@ -24,6 +27,10 @@ public class QuarterDao {
 
     @Autowired
     MongoTemplate mongoTemplate;
+
+    public List<Quarter> findQuarters(SearchOptions searchOptions) {
+        return mongoTemplate.find(new Query().addCriteria(criteriaFromSearchOptions(searchOptions)), Quarter.class);
+    }
 
     public Map<String, Integer> findMethodCounts(SearchOptions searchOptions) {
         return propertyCount("method", searchOptions);
