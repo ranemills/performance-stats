@@ -1,5 +1,6 @@
 package com.mills.quarters.controllers;
 
+import com.google.common.collect.ImmutableMap;
 import com.mills.quarters.daos.QuarterDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,15 @@ public class StatsController {
 
     @Autowired
     QuarterDao quarterDao;
+
+    @RequestMapping("/available")
+    Map<String, String> getAvailableFilters(@RequestParam Map<String, String> allRequestParams) {
+        return ImmutableMap.<String, String>builder()
+                   .put("method", "Methods")
+                   .put("stage", "Stages")
+                   .put("ringer", "Ringers")
+                   .build();
+    }
 
     @RequestMapping("/methods")
     Map<String, Integer> getMethods(@RequestParam Map<String, String> allRequestParams) {
@@ -43,9 +53,9 @@ public class StatsController {
         Map<String, Integer> methods = quarterDao.findMethodCounts(searchOptions(allRequestParams));
 
         Map<String, Map<String, Integer>> filters = new HashMap<>();
-        filters.put("methods", methods);
-        filters.put("stages", stages);
-        filters.put("ringers", ringers);
+        filters.put("method", methods);
+        filters.put("stage", stages);
+        filters.put("ringer", ringers);
         return filters;
     }
 

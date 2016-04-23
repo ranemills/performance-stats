@@ -82,8 +82,11 @@ public class QuarterDao {
             if (searchOptions.getMethod() != null) {
                 criteria.and("method").is(URLDecoder.decode(searchOptions.getMethod(), "UTF-8"));
             }
+            if (searchOptions.getRinger() != null) {
+                criteria.and("ringers.name").is(URLDecoder.decode(searchOptions.getRinger(), "UTF-8"));
+            }
+        } catch (UnsupportedEncodingException e) {
         }
-        catch(UnsupportedEncodingException e){}
 
         return criteria;
     }
@@ -92,15 +95,16 @@ public class QuarterDao {
 
         private String stage;
         private String method;
+        private String ringer;
 
         private SearchOptions() {
         }
 
         public static SearchOptions searchOptions(Map<String, String> requestParams) {
-            SearchOptions options = new SearchOptions();
-            options.stage = requestParams.get("stage");
-            options.method = requestParams.get("method");
-            return options;
+            return new SearchOptions()
+                       .stage(requestParams.get("stage"))
+                       .method(requestParams.get("method"))
+                       .ringer(requestParams.get("ringer"));
         }
 
         String getStage() {
@@ -109,6 +113,15 @@ public class QuarterDao {
 
         public String getMethod() {
             return method;
+        }
+
+        public String getRinger() {
+            return ringer;
+        }
+
+        public SearchOptions ringer(String ringer) {
+            this.ringer = ringer;
+            return this;
         }
 
         public SearchOptions stage(String stage) {
@@ -120,6 +133,5 @@ public class QuarterDao {
             this.method = method;
             return this;
         }
-
     }
 }
