@@ -2,6 +2,8 @@ package com.mills.quarters.models;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.mills.quarters.models.xml.BBPerformance;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import java.util.Date;
 import java.util.List;
@@ -65,5 +67,28 @@ public class Quarter extends AbstractMongoModel {
 
     public void setStage(String stage) {
         this.stage = stage;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) { return false; }
+        if (obj == this) { return true; }
+        if (obj.getClass() != getClass()) {
+            return false;
+        }
+        Quarter rhs = (Quarter) obj;
+        return new EqualsBuilder()
+                   .append(getDate(), rhs.getDate())
+                   .append(getChanges(), rhs.getChanges())
+                   .append(getMethod(), rhs.getMethod())
+                   .append(getStage(), rhs.getStage())
+                   .append(getLocation(), rhs.getLocation())
+                   .append(getRingers(), rhs.getRingers())
+                   .isEquals();
+    }
+
+    @Override
+    public String toString() {
+        return "Date=" + getDate() + ":Location=" + getLocation() + ":Changes=" + getChanges() + ":Method=" + getMethod() + ":Stage=" + getStage() + ":Ringers" + getRingers();
     }
 }

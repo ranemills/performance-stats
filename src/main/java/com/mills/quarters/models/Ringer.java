@@ -1,5 +1,7 @@
 package com.mills.quarters.models;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 /**
  * Created by ryan on 14/04/16.
  */
@@ -38,5 +40,26 @@ public class Ringer extends AbstractMongoModel {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) { return false; }
+        if (obj == this) { return true; }
+        if (obj.getClass() != getClass()) {
+            return false;
+        }
+        Ringer rhs = (Ringer) obj;
+        return new EqualsBuilder()
+                   .append(getName(), rhs.getName())
+                   .append(getMethodBell(), rhs.getMethodBell())
+                   .append(getTowerBell(), rhs.getTowerBell())
+                   .append(getConductor(), rhs.getConductor())
+                   .isEquals();
+    }
+
+    @Override
+    public String toString() {
+        return "Name=" + getName() + ":towerBell=" + getTowerBell() + ":methodBell=" + getMethodBell() + ":Conductor=" + getConductor();
     }
 }
