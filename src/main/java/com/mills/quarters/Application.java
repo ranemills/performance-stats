@@ -2,6 +2,8 @@ package com.mills.quarters;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoCredential;
+import com.mongodb.ServerAddress;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -16,6 +18,8 @@ import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import java.util.Arrays;
 
 @Configuration
 @ComponentScan
@@ -59,12 +63,19 @@ public class Application extends SpringBootServletInitializer {
             int openshiftMongoDbPort = Integer.parseInt(System.getenv("OPENSHIFT_MONGODB_DB_PORT"));
             String username = System.getenv("OPENSHIFT_MONGODB_DB_USERNAME");
             String password = System.getenv("OPENSHIFT_MONGODB_DB_PASSWORD");
-            Mongo mongo = new MongoClient(openshiftMongoDbHost, openshiftMongoDbPort);
-            UserCredentials userCredentials = new UserCredentials(username, password);
             String databaseName = System.getenv("OPENSHIFT_APP_NAME");
-            MongoDbFactory mongoDbFactory = new SimpleMongoDbFactory(mongo, databaseName, userCredentials);
-            MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory);
-            return mongoTemplate;
+
+            // Set credentials
+            MongoCredential credential = MongoCredential.createCredential(username, databaseName, password.toCharArray());
+            ServerAddress serverAddress = new ServerAddress(openshiftMongoDbHost, openshiftMongoDbPort);
+
+            // Mongo Client
+            MongoClient mongoClient = new MongoClient(serverAddress, Arrays.asList(credential));
+
+            // Mongo DB Factory
+            MongoDbFactory mongoDbFactory = new SimpleMongoDbFactory(mongoClient, databaseName);
+
+            return new MongoTemplate(mongoDbFactory);
 
         } else {
             String databaseName = "performances";
