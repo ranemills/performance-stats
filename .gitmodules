@@ -1,0 +1,3 @@
+[submodule "src/main/webapp/quarters-viewer"]
+	path = src/main/webapp/quarters-viewer
+	url = https://ranemills@bitbucket.org/ranemills/quarters-viewer.git
