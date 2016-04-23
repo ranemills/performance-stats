@@ -73,7 +73,6 @@ public class BellBoardService {
 
         try (InputStream is = bellBoardHttpService.getPerformances()) {
             String output = IOUtils.toString(is);
-            System.out.println(output);
             Serializer serializer = new Persister();
             bbPerformanceList = serializer.read(BBPerformanceList.class, output, false);
         } catch (Exception e) {
