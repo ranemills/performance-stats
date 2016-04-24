@@ -64,12 +64,12 @@ public class QuarterBuilder {
         return this;
     }
 
-    public QuarterBuilder ringer(String name, int bell) {
+    public QuarterBuilder ringer(int bell, String name) {
         this.ringers.add(new Ringer(name, bell));
         return this;
     }
 
-    public QuarterBuilder ringer(String name, int bell, boolean conductor) {
+    public QuarterBuilder ringer(int bell, String name, boolean conductor) {
         this.ringers.add(new Ringer(name, bell, conductor));
         return this;
     }

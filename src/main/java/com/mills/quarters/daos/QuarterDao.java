@@ -32,15 +32,15 @@ public class QuarterDao {
         return mongoTemplate.find(new Query().addCriteria(criteriaFromSearchOptions(searchOptions)), Quarter.class);
     }
 
-    public Map<String, Integer> findMethodCounts(SearchOptions searchOptions) {
+    public List<TempCount> findMethodCounts(SearchOptions searchOptions) {
         return propertyCount("method", searchOptions);
     }
 
-    public Map<String, Integer> findStageCounts(SearchOptions searchOptions) {
+    public List<TempCount> findStageCounts(SearchOptions searchOptions) {
         return propertyCount("stage", searchOptions);
     }
 
-    public Map<String, Integer> findRingerCounts(SearchOptions searchOptions) {
+    public List<TempCount> findRingerCounts(SearchOptions searchOptions) {
         Aggregation agg = newAggregation(
             match(criteriaFromSearchOptions(searchOptions)),
             unwind("$ringers"),
@@ -50,14 +50,15 @@ public class QuarterDao {
             sort(DESC, "count")
         );
         AggregationResults<TempCount> results = mongoTemplate.aggregate(agg, "quarter", TempCount.class);
-        Map<String, Integer> outputMap = new HashMap<>();
-        for (TempCount tempCount : results.getMappedResults()) {
-            outputMap.put(tempCount.getProperty(), tempCount.getCount());
-        }
-        return outputMap;
+        return results.getMappedResults();
+//        Map<String, Integer> outputMap = new HashMap<>();
+//        for (TempCount tempCount : results.getMappedResults()) {
+//            outputMap.put(tempCount.getProperty(), tempCount.getCount());
+//        }
+//        return outputMap;
     }
 
-    private Map<String, Integer> propertyCount(String property, SearchOptions searchOptions) {
+    private List<TempCount> propertyCount(String property, SearchOptions searchOptions) {
         Aggregation agg = newAggregation(
             match(criteriaFromSearchOptions(searchOptions)),
             project(property),
@@ -66,11 +67,12 @@ public class QuarterDao {
             sort(DESC, "count")
         );
         AggregationResults<TempCount> results = mongoTemplate.aggregate(agg, "quarter", TempCount.class);
-        Map<String, Integer> outputMap = new HashMap<>();
-        for (TempCount countObj : results.getMappedResults()) {
-            outputMap.put(countObj.getProperty(), countObj.getCount());
-        }
-        return outputMap;
+        return results.getMappedResults();
+//        Map<String, Integer> outputMap = new HashMap<>();
+//        for (TempCount countObj : results.getMappedResults()) {
+//            outputMap.put(countObj.getProperty(), countObj.getCount());
+//        }
+//        return outputMap;
     }
 
     private Criteria criteriaFromSearchOptions(SearchOptions searchOptions) {

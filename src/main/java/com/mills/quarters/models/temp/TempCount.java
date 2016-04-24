@@ -7,6 +7,11 @@ public class TempCount {
     private int count;
     private String property;
 
+    public TempCount(String property, int count) {
+        this.property = property;
+        this.count = count;
+    }
+
     public String getProperty() {
         return property;
     }

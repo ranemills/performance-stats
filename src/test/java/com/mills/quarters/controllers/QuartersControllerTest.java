@@ -17,7 +17,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 public class QuartersControllerTest extends IntegrationTest {
 
-    //TODO: Test with parameters
 
     @Test
     public void testListAllQuarters() throws Exception {
@@ -30,6 +29,25 @@ public class QuartersControllerTest extends IntegrationTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(contentType))
             .andExpect(jsonPath("$", hasSize(2)))
+            .andExpect(jsonPath("$[0].changes", equalTo(5056)))
+            .andExpect(jsonPath("$[0].method", equalTo("Cambridge")))
+            .andExpect(jsonPath("$[0].stage", equalTo("Major")))
+            .andExpect(jsonPath("$[1].changes", equalTo(1296)))
+            .andExpect(jsonPath("$[1].method", equalTo("Cambridge")))
+            .andExpect(jsonPath("$[1].stage", equalTo("Minor")));
+    }
+
+    @Test
+    public void testListQuartersWithStageParameter() throws Exception {
+        quarterRepository.save(ImmutableList.<Quarter>builder()
+                                   .add(quarterBuilder().changes(5056).method("Cambridge").stage("Major").build())
+                                   .add(quarterBuilder().changes(1296).method("Cambridge").stage("Minor").build())
+                                   .build());
+
+        mockMvc.perform(get("/api/quarters/list?stage=Major"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(contentType))
+            .andExpect(jsonPath("$", hasSize(1)))
             .andExpect(jsonPath("$[0].changes", equalTo(5056)))
             .andExpect(jsonPath("$[0].method", equalTo("Cambridge")))
             .andExpect(jsonPath("$[0].stage", equalTo("Major")));

@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
-public class IntegrationTest {
+public abstract class IntegrationTest {
 
 
     protected MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),

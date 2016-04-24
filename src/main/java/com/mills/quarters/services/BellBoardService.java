@@ -8,11 +8,6 @@ import com.mills.quarters.models.xml.BBPerformanceRinger;
 import com.mills.quarters.repositories.QuarterRepository;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.impl.client.HttpClients;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -108,10 +102,10 @@ public class BellBoardService {
         builder.changes(performance.getTitle().getChanges());
         for(BBPerformanceRinger ringer : performance.getRingers()) {
             if(ringer.getConductor()) {
-                builder.ringer(ringer.getName(), ringer.getBell(), ringer.getConductor());
+                builder.ringer(ringer.getBell(), ringer.getName(), ringer.getConductor());
             }
             else {
-                builder.ringer(ringer.getName(), ringer.getBell());
+                builder.ringer(ringer.getBell(), ringer.getName());
             }
         }
 
