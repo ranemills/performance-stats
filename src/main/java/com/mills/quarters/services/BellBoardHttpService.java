@@ -19,7 +19,9 @@ import java.text.ParseException;
 @Service
 public class BellBoardHttpService {
 
-    private InputStream xmlHttpRequest(URI uri) throws IOException, ParseException {
+    private InputStream xmlHttpRequest(URI uri)
+        throws IOException, ParseException
+    {
         HttpGet httpGet = new HttpGet(uri);
         httpGet.setHeader("accept", "application/xml");
 
@@ -29,19 +31,26 @@ public class BellBoardHttpService {
         return httpResponse.getEntity().getContent();
     }
 
-    public InputStream getPerformance(String id) throws URISyntaxException, IOException, ParseException {
-        URI uri = new URIBuilder().setScheme("http").setHost("bb.ringingworld.co.uk").setPath("/view.php")
-                      .setParameter("id", id).build();
+    public InputStream getPerformance(String id)
+        throws URISyntaxException, IOException, ParseException
+    {
+        URI uri = new URIBuilder().setScheme("http")
+                                  .setHost("bb.ringingworld.co.uk")
+                                  .setPath("/view.php")
+                                  .setParameter("id", id)
+                                  .build();
         return xmlHttpRequest(uri);
     }
 
-    public InputStream getPerformances() throws URISyntaxException, IOException, ParseException {
+    public InputStream getPerformances()
+        throws URISyntaxException, IOException, ParseException
+    {
         URI uri = new URIBuilder().setScheme("http").setHost("bb.ringingworld.co.uk")
-                      .setPath("/export.php")
-                      .setParameter("ringer", "Ryan Mills")
-                      .setParameter("length", "quarter")
-                      .setParameter("bells_type", "tower")
-                      .build();
+                                  .setPath("/export.php")
+                                  .setParameter("ringer", "Ryan Mills")
+                                  .setParameter("length", "quarter")
+                                  .setParameter("bells_type", "tower")
+                                  .build();
         return xmlHttpRequest(uri);
     }
 

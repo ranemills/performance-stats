@@ -10,7 +10,7 @@ import java.util.ArrayList;
 @Root(name = "performance", strict = false)
 public class BBPerformance {
 
-    @Element(required=false)
+    @Element(required = false)
     String association;
 
     @Element
@@ -52,26 +52,26 @@ public class BBPerformance {
         return ringers;
     }
 
-    public BBPerformancePlace getPlace() {
-        return place;
+    public void setRingers(ArrayList<BBPerformanceRinger> ringers) {
+        this.ringers = ringers;
     }
 
-    public String toString() {
-        return "Date: " + date + ", Title: " + title + ", Place: " + place + ", Ringers: " + ringers;
+    public BBPerformancePlace getPlace() {
+        return place;
     }
 
     public void setPlace(BBPerformancePlace place) {
         this.place = place;
     }
 
-    public void setRingers(ArrayList<BBPerformanceRinger> ringers) {
-        this.ringers = ringers;
-    }
-
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) { return false; }
-        if (obj == this) { return true; }
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
         if (obj.getClass() != getClass()) {
             return false;
         }
@@ -83,6 +83,11 @@ public class BBPerformance {
                    .append(getRingers(), rhs.getRingers())
                    .append(getTitle(), rhs.getTitle())
                    .isEquals();
+    }
+
+    @Override
+    public String toString() {
+        return "Date: " + date + ", Title: " + title + ", Place: " + place + ", Ringers: " + ringers;
     }
 }
 

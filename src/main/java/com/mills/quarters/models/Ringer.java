@@ -10,14 +10,10 @@ public class Ringer extends AbstractMongoModel {
     private Integer towerBell;
     private Integer methodBell;
     private String name;
-
-    public Boolean getConductor() {
-        return conductor;
-    }
-
     private Boolean conductor;
 
-    public Ringer() { }
+    public Ringer() {
+    }
 
     public Ringer(String name, Integer methodBell) {
         this.name = name;
@@ -28,6 +24,10 @@ public class Ringer extends AbstractMongoModel {
         this.name = name;
         this.methodBell = methodBell;
         this.conductor = conductor;
+    }
+
+    public Boolean getConductor() {
+        return conductor;
     }
 
     public Integer getTowerBell() {
@@ -44,8 +44,12 @@ public class Ringer extends AbstractMongoModel {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) { return false; }
-        if (obj == this) { return true; }
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
         if (obj.getClass() != getClass()) {
             return false;
         }
@@ -60,6 +64,7 @@ public class Ringer extends AbstractMongoModel {
 
     @Override
     public String toString() {
-        return "Name=" + getName() + ":towerBell=" + getTowerBell() + ":methodBell=" + getMethodBell() + ":Conductor=" + getConductor();
+        return "Name=" + getName() + ":towerBell=" + getTowerBell() + ":methodBell=" + getMethodBell() +
+               ":Conductor=" + getConductor();
     }
 }

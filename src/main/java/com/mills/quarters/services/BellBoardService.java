@@ -38,7 +38,9 @@ public class BellBoardService {
         this.bellBoardHttpService = bellBoardHttpService;
     }
 
-    public BBPerformance parseSinglePerformanceXml(InputStream is) throws Exception {
+    public BBPerformance parseSinglePerformanceXml(InputStream is)
+        throws Exception
+    {
         BBPerformance bbPerformance;
 
         String output = IOUtils.toString(is);
@@ -52,8 +54,9 @@ public class BellBoardService {
      * Find a performance and add it to the system. Return the Quarter object.
      */
     public Quarter addPerformance(String id)
-            throws URISyntaxException, IOException, ParseException {
-        try(InputStream is = bellBoardHttpService.getPerformance(id)) {
+        throws URISyntaxException, IOException, ParseException
+    {
+        try (InputStream is = bellBoardHttpService.getPerformance(id)) {
             BBPerformance performanceXml = parseSinglePerformanceXml(is);
             return addPerformance(performanceXml);
         } catch (Exception e) {
@@ -62,7 +65,9 @@ public class BellBoardService {
         }
     }
 
-    public List<Quarter> addPerformances()  throws IOException, URISyntaxException, ParseException {
+    public List<Quarter> addPerformances()
+        throws IOException, URISyntaxException, ParseException
+    {
         BBPerformanceList bbPerformanceList;
 
         try (InputStream is = bellBoardHttpService.getPerformances()) {
@@ -76,7 +81,7 @@ public class BellBoardService {
 
         List<Quarter> quarters = new ArrayList<>();
 
-        for(BBPerformance performance : bbPerformanceList.getPerformances()) {
+        for (BBPerformance performance : bbPerformanceList.getPerformances()) {
             quarters.add(addPerformance(performance));
         }
 
@@ -90,21 +95,19 @@ public class BellBoardService {
 
         try {
             builder.date(format.parse(performance.getDate()));
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             System.out.println("Date parse exception");
         }
 
         builder.location(performance.getPlace().getPlace());
         String[] methodParts = performance.getTitle().getMethod().split(" ");
-        builder.stage(methodParts[methodParts.length-1]);
-        builder.method(StringUtils.join(Arrays.copyOfRange(methodParts, 0, methodParts.length-1), " "));
+        builder.stage(methodParts[methodParts.length - 1]);
+        builder.method(StringUtils.join(Arrays.copyOfRange(methodParts, 0, methodParts.length - 1), " "));
         builder.changes(performance.getTitle().getChanges());
-        for(BBPerformanceRinger ringer : performance.getRingers()) {
-            if(ringer.getConductor()) {
+        for (BBPerformanceRinger ringer : performance.getRingers()) {
+            if (ringer.getConductor()) {
                 builder.ringer(ringer.getBell(), ringer.getName(), ringer.getConductor());
-            }
-            else {
+            } else {
                 builder.ringer(ringer.getBell(), ringer.getName());
             }
         }

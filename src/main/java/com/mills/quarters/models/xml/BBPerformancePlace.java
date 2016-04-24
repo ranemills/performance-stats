@@ -32,20 +32,26 @@ public class BBPerformancePlace {
         return placeElements.get("county");
     }
 
-    public String toString() {
-        return placeElements.get("place") + placeElements.get("dedication") + placeElements.get("county");
-    }
-
+    @Override
     public boolean equals(Object obj) {
-        if (obj == null) { return false; }
-        if (obj == this) { return true; }
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
         if (obj.getClass() != getClass()) {
             return false;
         }
         BBPerformancePlace rhs = (BBPerformancePlace) obj;
         return new EqualsBuilder()
-                .append(getPlaceElement(), rhs.getPlaceElement())
-                .isEquals();
+                   .append(getPlaceElement(), rhs.getPlaceElement())
+                   .isEquals();
+    }
+
+    @Override
+    public String toString() {
+        return placeElements.get("place") + placeElements.get("dedication") + placeElements.get("county");
     }
 
 }

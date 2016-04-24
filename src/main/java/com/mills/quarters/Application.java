@@ -11,7 +11,6 @@ import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.authentication.UserCredentials;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
@@ -50,13 +49,17 @@ public class Application extends SpringBootServletInitializer {
 
     public
     @Bean
-    Mongo mongo() throws Exception {
+    Mongo mongo()
+        throws Exception
+    {
         //TODO: configure this based on whether we're on Openshift or Local
         return new Mongo("localhost");
     }
 
     @Bean
-    public MongoTemplate mongoTemplate() throws Exception {
+    public MongoTemplate mongoTemplate()
+        throws Exception
+    {
 
         if (System.getenv("OPENSHIFT_MONGODB_DB_HOST") != null) {
             String openshiftMongoDbHost = System.getenv("OPENSHIFT_MONGODB_DB_HOST");
@@ -66,7 +69,9 @@ public class Application extends SpringBootServletInitializer {
             String databaseName = System.getenv("OPENSHIFT_APP_NAME");
 
             // Set credentials
-            MongoCredential credential = MongoCredential.createCredential(username, databaseName, password.toCharArray());
+            MongoCredential credential = MongoCredential.createCredential(username,
+                                                                          databaseName,
+                                                                          password.toCharArray());
             ServerAddress serverAddress = new ServerAddress(openshiftMongoDbHost, openshiftMongoDbPort);
 
             // Mongo Client

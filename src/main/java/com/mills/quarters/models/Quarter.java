@@ -2,7 +2,6 @@ package com.mills.quarters.models;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.mills.quarters.models.xml.BBPerformance;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import java.util.Date;
@@ -13,7 +12,7 @@ import java.util.List;
  */
 public class Quarter extends AbstractMongoModel {
 
-    @JsonFormat(pattern="dd-MM-yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private Date date;
     private Integer changes;
     private String method;
@@ -71,8 +70,12 @@ public class Quarter extends AbstractMongoModel {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) { return false; }
-        if (obj == this) { return true; }
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
         if (obj.getClass() != getClass()) {
             return false;
         }
@@ -89,6 +92,7 @@ public class Quarter extends AbstractMongoModel {
 
     @Override
     public String toString() {
-        return "Date=" + getDate() + ":Location=" + getLocation() + ":Changes=" + getChanges() + ":Method=" + getMethod() + ":Stage=" + getStage() + ":Ringers" + getRingers();
+        return "Date=" + getDate() + ":Location=" + getLocation() + ":Changes=" + getChanges() + ":Method=" +
+               getMethod() + ":Stage=" + getStage() + ":Ringers" + getRingers();
     }
 }

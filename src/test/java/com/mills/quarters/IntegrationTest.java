@@ -25,9 +25,8 @@ public abstract class IntegrationTest {
 
 
     protected MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
-                                                     MediaType.APPLICATION_JSON.getSubtype(),
-                                                     Charset.forName("utf8"));
-
+                                                    MediaType.APPLICATION_JSON.getSubtype(),
+                                                    Charset.forName("utf8"));
 
 
     @Autowired
@@ -39,7 +38,9 @@ public abstract class IntegrationTest {
     private WebApplicationContext webApplicationContext;
 
     @Before
-    public void setup() throws Exception {
+    public void setup()
+        throws Exception
+    {
         mockMvc = webAppContextSetup(webApplicationContext).build();
 
         quarterRepository.deleteAll();
