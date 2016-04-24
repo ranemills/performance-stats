@@ -1,5 +1,6 @@
 package com.mills.quarters.services;
 
+import com.google.common.collect.ImmutableMap;
 import com.mills.quarters.builders.QuarterBuilder;
 import com.mills.quarters.models.Quarter;
 import com.mills.quarters.models.xml.BBPerformance;
@@ -8,6 +9,7 @@ import com.mills.quarters.models.xml.BBPerformanceRinger;
 import com.mills.quarters.repositories.QuarterRepository;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.mills.quarters.builders.QuarterBuilder.quarterBuilder;
 
@@ -36,6 +41,10 @@ public class BellBoardService {
     public BellBoardService(QuarterRepository quarterRepository, BellBoardHttpService bellBoardHttpService) {
         this.quarterRepository = quarterRepository;
         this.bellBoardHttpService = bellBoardHttpService;
+    }
+
+    private static String normaliseBracketedMethodCount(String methodCount) {
+        return methodCount.replaceAll("Methods", "m").replaceAll("methods", "m").replaceAll("\\s", "");
     }
 
     public BBPerformance parseSinglePerformanceXml(InputStream is)
@@ -94,15 +103,17 @@ public class BellBoardService {
         QuarterBuilder builder = quarterBuilder();
 
         try {
-            builder.date(format.parse(performance.getDate()));
+            builder.date(DateTime.parse(performance.getDate()).toDate());
         } catch (Exception e) {
             System.out.println("Date parse exception");
         }
 
         builder.location(performance.getPlace().getPlace());
-        String[] methodParts = performance.getTitle().getMethod().split(" ");
-        builder.stage(methodParts[methodParts.length - 1]);
-        builder.method(StringUtils.join(Arrays.copyOfRange(methodParts, 0, methodParts.length - 1), " "));
+
+        Map<String, String> methodParts = parseMethod(performance.getTitle().getMethod());
+        builder.stage(methodParts.get("stage"));
+        builder.method(methodParts.get("method"));
+
         builder.changes(performance.getTitle().getChanges());
         for (BBPerformanceRinger ringer : performance.getRingers()) {
             if (ringer.getConductor()) {
@@ -117,6 +128,34 @@ public class BellBoardService {
         quarterRepository.save(quarter);
 
         return quarter;
+    }
+
+    private Map<String, String> parseMethod(String methodString) {
+        Boolean isBracketedMethodCount = false;
+
+        String bracketedMethodCount = "";
+
+        Pattern bracketedMethodCountPattern = Pattern.compile("\\([[\\d]*\\s?[\\w]*[\\\\/]?]*\\)");
+        Matcher m = bracketedMethodCountPattern.matcher(methodString);
+        if (m.find()) {
+            isBracketedMethodCount = true;
+            bracketedMethodCount = normaliseBracketedMethodCount(m.group());
+            methodString = m.replaceAll("");
+        }
+
+        String[] methodParts = methodString.split(" ");
+        String stage = methodParts[methodParts.length - 1];
+        String method = StringUtils.join(Arrays.copyOfRange(methodParts, 0, methodParts.length - 1), " ");
+
+        if (isBracketedMethodCount) {
+            method = method + " " + bracketedMethodCount;
+            StringUtils.join(Arrays.asList(method, bracketedMethodCount), " ");
+        }
+
+        return ImmutableMap.<String, String>builder()
+                   .put("method", method.replaceFirst("\\A\\s", "").replaceAll("\\s+", " "))
+                   .put("stage", stage)
+                   .build();
     }
 }
 

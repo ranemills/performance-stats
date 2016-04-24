@@ -4,7 +4,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.mills.quarters.models.Quarter;
 import com.mills.quarters.repositories.QuarterRepository;
+import org.joda.time.DateTime;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ErrorCollector;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -12,13 +15,17 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.mills.quarters.builders.QuarterBuilder.quarterBuilder;
 import static com.mills.quarters.services.BellBoardServiceTest.XmlBuilder.xmlBuilder;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -26,15 +33,17 @@ import static org.mockito.BDDMockito.given;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class BellBoardServiceTest {
+    @Rule
+    public ErrorCollector collector = new ErrorCollector();
 
     @Mock
-    BellBoardHttpService bellBoardHttpService;
+    protected BellBoardHttpService bellBoardHttpService;
 
     @Mock
-    QuarterRepository quarterRepository;
+    protected QuarterRepository quarterRepository;
 
     @InjectMocks
-    BellBoardService _bellBoardService;
+    protected BellBoardService _bellBoardService;
 
     @Test
     public void testAddPerformances()
@@ -57,7 +66,8 @@ public class BellBoardServiceTest {
                                 .ringer(5, "David Thomas", true)
                                 .ringer(6, "Matthew Franklin")
                                 .ringer(7, "Tim Pett")
-                                .ringer(8, "Ryan Mills").buildString();
+                                .ringer(8, "Ryan Mills")
+                                .buildString();
 
         String p2 = xmlBuilder().association("Oxford Society")
                                 .place("Oxford")
@@ -86,7 +96,7 @@ public class BellBoardServiceTest {
         given(bellBoardHttpService.getPerformances()).willReturn(performances);
 
         Quarter expectedQuarter1 = quarterBuilder()
-                                       .date(new SimpleDateFormat("YYYY-MM-dd").parse("2016-04-10"))
+                                       .date(new DateTime(2016, 4, 10, 0, 0).toDate())
                                        .location("Abingdon")
                                        .changes(1280)
                                        .method("Yorkshire Surprise")
@@ -101,7 +111,7 @@ public class BellBoardServiceTest {
                                        .ringer(8, "Ryan Mills")
                                        .build();
         Quarter expectedQuarter2 = quarterBuilder()
-                                       .date(new SimpleDateFormat("YYYY-MM-dd").parse("2016-03-31"))
+                                       .date(new DateTime(2016, 3, 21, 0, 0).toDate())
                                        .location("Oxford")
                                        .changes(1440)
                                        .method("Triton Delight")
@@ -131,57 +141,147 @@ public class BellBoardServiceTest {
         throws Exception
     {
         String id = "1995";
-        String xml = "<?xml version=\"1.0\"?>\n" +
-                     "<performance xmlns=\"http://bb.ringingworld.co.uk/NS/performances#\" id=\"1995\">\n" +
-                     "  <association>St. Martin's Guild for the Diocese of Birmingham</association>\n" +
-                     "  <place>\n" +
-                     "    <place-name type=\"place\">Birmingham</place-name>\n" +
-                     "    <place-name type=\"dedication\">St Paul, Jewellery Quarter</place-name>\n" +
-                     "    <place-name type=\"county\">West Midlands</place-name>\n" +
-                     "    <ring type=\"tower\" tenor=\"12-2-13\" />\n" +
-                     "  </place>\n" +
-                     "  <date>2009-12-02</date>\n" +
-                     "  <duration>5h 21m</duration>\n" +
-                     "  <title><changes>10080</changes> <method>Stedman Triples</method></title>\n" +
-                     "  <details>Each change occurs once at handstroke and once at backstroke</details>\n" +
-                     "  <composer>R W Pipe (7 Part)</composer>\n" +
-                     "  <ringers>\n" +
-                     "      <ringer bell=\"1\">Christine Mills</ringer>\n" +
-                     "      <ringer bell=\"2\" conductor=\"true\">Mark R Eccleston</ringer>\n" +
-                     "      <ringer bell=\"3\">Maurice F Edwards</ringer>\n" +
-                     "      <ringer bell=\"4\">Jonathan P Healy</ringer>\n" +
-                     "      <ringer bell=\"5\">Richard L Jones</ringer>\n" +
-                     "      <ringer bell=\"6\">Paul E Bibilo</ringer>\n" +
-                     "      <ringer bell=\"7\">Michael P A Wilby</ringer>\n" +
-                     "      <ringer bell=\"8\">Richard B Grimmett</ringer>\n" +
-                     "    </ringers>\n" +
-                     "  <footnote>Rung for the first time. This peal was originally composed in June 1980 at the " +
-                     "request of John McDonald. John arranged a few unsuccessful attempts to ring it in the early" +
-                     " 1980s. This completes some Birmingham unfinished business.</footnote>\n" +
-                     "  <timestamp>2015-07-28T12:49:33</timestamp>\n" +
-                     "  <source site=\"Campanophile\" ref=\"0x16C81\" />\n" +
-                     "</performance>";
 
-        Quarter expectedQuarter = quarterBuilder().date(new SimpleDateFormat("YYYY-MM-dd").parse("2009-12-02"))
-                                                  .changes(10080)
-                                                  .location("Birmingham")
-                                                  .method("Stedman")
-                                                  .stage("Triples")
-                                                  .ringer(1, "Christine Mills")
-                                                  .ringer(2, "Mark R Eccleston", true)
-                                                  .ringer(3, "Maurice F Edwards")
-                                                  .ringer(4, "Jonathan P Healy")
-                                                  .ringer(5, "Richard L Jones")
-                                                  .ringer(6, "Paul E Bibilo")
-                                                  .ringer(7, "Michael P A Wilby")
-                                                  .ringer(8, "Richard B Grimmett")
-                                                  .build();
+        InputStream performanceXml = xmlBuilder().association("")
+                                                 .place("Abingdon")
+                                                 .dedication("St Helen")
+                                                 .county("Oxfordshire")
+                                                 .ringType("tower")
+                                                 .ringTenor("16-0-0 in F")
+                                                 .date("2016-04-10")
+                                                 .time("44 mins")
+                                                 .changes("1280")
+                                                 .method("Yorkshire Surprise Major")
+                                                 .ringer(1, "Rebecca Franklin")
+                                                 .ringer(2, "Brian Read")
+                                                 .ringer(3, "Susan Read")
+                                                 .ringer(4, "Sarah Barnes")
+                                                 .ringer(5, "David Thomas", true)
+                                                 .ringer(6, "Matthew Franklin")
+                                                 .ringer(7, "Tim Pett")
+                                                 .ringer(8, "Ryan Mills")
+                                                 .buildInputStream();
 
-        given(bellBoardHttpService.getPerformance(id)).willReturn(xmlBuilder().buildInputStream());
+        Quarter expectedQuarter = quarterBuilder()
+                                      .date(new DateTime(2016, 4, 10, 0, 0).toDate())
+                                      .location("Abingdon")
+                                      .changes(1280)
+                                      .method("Yorkshire Surprise")
+                                      .stage("Major")
+                                      .ringer(1, "Rebecca Franklin")
+                                      .ringer(2, "Brian Read")
+                                      .ringer(3, "Susan Read")
+                                      .ringer(4, "Sarah Barnes")
+                                      .ringer(5, "David Thomas", true)
+                                      .ringer(6, "Matthew Franklin")
+                                      .ringer(7, "Tim Pett")
+                                      .ringer(8, "Ryan Mills")
+                                      .build();
+
+        given(bellBoardHttpService.getPerformance(id)).willReturn(performanceXml);
 
         Quarter quarter = _bellBoardService.addPerformance(id);
 
         assertThat(quarter, is(expectedQuarter));
+    }
+
+    @Test
+    public void testAddPerformanceWithStedman()
+        throws Exception
+    {
+        Quarter quarter = getQuarterWithSpecifiedMethod("Stedman Caters");
+
+        assertThat(quarter.getMethod(), equalTo("Stedman"));
+        assertThat(quarter.getStage(), equalTo("Caters"));
+    }
+
+    @Test
+    public void testAddPerformanceWithSplicedMethodsShortMethodAndVariation()
+        throws Exception
+    {
+        Quarter quarter = getQuarterWithSpecifiedMethod("Doubles (3m/3v)");
+
+        assertThat(quarter.getMethod() + " " + quarter.getStage(), equalTo("(3m/3v) Doubles"));
+        assertThat(quarter.getMethod(), equalTo("(3m/3v)"));
+        assertThat(quarter.getStage(), equalTo("Doubles"));
+    }
+
+    @Test
+    public void testSplicedMethodsNoClassQualifier()
+        throws Exception
+    {
+        List<String> equivalentStrings = ImmutableList.<String>builder()
+                                             .add("Spliced Triples (4 Methods)")
+                                             .add("Spliced Triples (4 methods)")
+                                             .add("Spliced Triples (4m)")
+                                             .build();
+
+        for (String methodString : equivalentStrings) {
+            Quarter quarter = getQuarterWithSpecifiedMethod(methodString);
+            assertThat(quarter.getStage(), equalTo("Triples"));
+            assertThat(quarter.getMethod(), equalTo("Spliced (4m)"));
+        }
+    }
+
+    @Test
+    public void testMixedMethodsNoClassQualifier()
+        throws Exception
+    {
+        List<String> equivalentStrings = ImmutableList.<String>builder()
+                                             .add("Triples (4 Methods)")
+                                             .add("Triples (4 methods)")
+                                             .add("Triples (4m)")
+                                             .build();
+
+        for (String methodString : equivalentStrings) {
+            Quarter quarter = getQuarterWithSpecifiedMethod(methodString);
+            assertThat(quarter.getStage(), equalTo("Triples"));
+            assertThat(quarter.getMethod(), equalTo("(4m)"));
+        }
+    }
+
+    @Test
+    public void testSplicedMethodsWithClassQualifier()
+        throws Exception
+    {
+        List<String> equivalentStrings = ImmutableList.<String>builder()
+                                             .add("Spliced Surprise Major (4 Methods)")
+                                             .add("Spliced Surprise Major (4 methods)")
+                                             .add("Spliced Surprise Major (4m)")
+                                             .build();
+
+        for (String methodString : equivalentStrings) {
+            Quarter quarter = getQuarterWithSpecifiedMethod(methodString);
+            assertThat(quarter.getStage(), equalTo("Major"));
+            assertThat(quarter.getMethod(), equalTo("Spliced Surprise (4m)"));
+        }
+    }
+
+    @Test
+    public void testMixedMethodsWithClassQualifier()
+        throws Exception
+    {
+        List<String> equivalentStrings = ImmutableList.<String>builder()
+                                             .add("Surprise Major (4 Methods)")
+                                             .add("Surprise Major (4 methods)")
+                                             .add("Surprise Major (4m)")
+                                             .build();
+
+        for (String methodString : equivalentStrings) {
+            Quarter quarter = getQuarterWithSpecifiedMethod(methodString);
+            assertThat(quarter.getStage(), equalTo("Major"));
+            assertThat(quarter.getMethod(), equalTo("Surprise (4m)"));
+        }
+    }
+
+    private Quarter getQuarterWithSpecifiedMethod(String methodString)
+        throws Exception
+    {
+        String id = "id";
+        InputStream performance = xmlBuilder().method(methodString).buildInputStream();
+        given(bellBoardHttpService.getPerformance(id)).willReturn(performance);
+
+        return _bellBoardService.addPerformance(id);
     }
 
     protected static class XmlBuilder {
@@ -213,7 +313,6 @@ public class BellBoardServiceTest {
                 xml = xml + performance;
             }
             xml = xml + "</performances>";
-            System.out.println(xml);
             return xml;
         }
 
@@ -360,5 +459,5 @@ public class BellBoardServiceTest {
         }
     }
 
-
 }
+
