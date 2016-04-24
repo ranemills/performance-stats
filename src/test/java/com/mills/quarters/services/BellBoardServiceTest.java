@@ -5,9 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import com.mills.quarters.models.Quarter;
 import com.mills.quarters.repositories.QuarterRepository;
 import org.joda.time.DateTime;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ErrorCollector;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -33,17 +31,14 @@ import static org.mockito.BDDMockito.given;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class BellBoardServiceTest {
-    @Rule
-    public ErrorCollector collector = new ErrorCollector();
+    @Mock
+    private BellBoardHttpService bellBoardHttpService;
 
     @Mock
-    protected BellBoardHttpService bellBoardHttpService;
-
-    @Mock
-    protected QuarterRepository quarterRepository;
+    private QuarterRepository quarterRepository;
 
     @InjectMocks
-    protected BellBoardService _bellBoardService;
+    private BellBoardService _bellBoardService;
 
     @Test
     public void testAddPerformances()
@@ -390,10 +385,13 @@ public class BellBoardServiceTest {
 
         public XmlBuilder ringer(Integer bell, String name, Boolean conductor) {
             ringer(bell, name);
-            if (conductors == null) {
-                conductors = new ArrayList<>();
+            if (conductor) {
+                if (conductors == null) {
+                    conductors = new ArrayList<>();
+                }
+
+                conductors.add(bell);
             }
-            conductors.add(bell);
             return this;
         }
 

@@ -10,13 +10,13 @@ import java.util.Map;
 @Root(strict = false)
 public class BBPerformancePlace {
     @ElementMap(entry = "place-name", key = "type", attribute = true, inline = true)
-    public Map<String, String> placeElements;
+    private Map<String, String> placeElements;
 
     public void setPlaceElements(Map<String, String> placeElements) {
         this.placeElements = placeElements;
     }
 
-    public Map<String, String> getPlaceElement() {
+    private Map<String, String> getPlaceElements() {
         return placeElements;
     }
 
@@ -45,7 +45,7 @@ public class BBPerformancePlace {
         }
         BBPerformancePlace rhs = (BBPerformancePlace) obj;
         return new EqualsBuilder()
-                   .append(getPlaceElement(), rhs.getPlaceElement())
+                   .append(getPlaceElements(), rhs.getPlaceElements())
                    .isEquals();
     }
 

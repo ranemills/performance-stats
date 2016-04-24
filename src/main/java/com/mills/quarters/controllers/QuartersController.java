@@ -16,6 +16,7 @@ import static com.mills.quarters.daos.QuarterDao.SearchOptions.searchOptions;
 /**
  * Created by ryan on 10/04/16.
  */
+@SuppressWarnings("unused")
 @RestController
 @RequestMapping("/api/quarters")
 public class QuartersController {

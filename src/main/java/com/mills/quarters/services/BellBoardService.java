@@ -15,12 +15,7 @@ import org.simpleframework.xml.core.Persister;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,9 +28,9 @@ import static com.mills.quarters.builders.QuarterBuilder.quarterBuilder;
 @Service
 public class BellBoardService {
 
-    QuarterRepository quarterRepository;
+    private final QuarterRepository quarterRepository;
 
-    BellBoardHttpService bellBoardHttpService;
+    private final BellBoardHttpService bellBoardHttpService;
 
     @Autowired
     public BellBoardService(QuarterRepository quarterRepository, BellBoardHttpService bellBoardHttpService) {
@@ -47,7 +42,7 @@ public class BellBoardService {
         return methodCount.replaceAll("Methods", "m").replaceAll("methods", "m").replaceAll("\\s", "");
     }
 
-    public BBPerformance parseSinglePerformanceXml(InputStream is)
+    private BBPerformance parseSinglePerformanceXml(InputStream is)
         throws Exception
     {
         BBPerformance bbPerformance;
@@ -63,7 +58,6 @@ public class BellBoardService {
      * Find a performance and add it to the system. Return the Quarter object.
      */
     public Quarter addPerformance(String id)
-        throws URISyntaxException, IOException, ParseException
     {
         try (InputStream is = bellBoardHttpService.getPerformance(id)) {
             BBPerformance performanceXml = parseSinglePerformanceXml(is);
@@ -75,7 +69,6 @@ public class BellBoardService {
     }
 
     public List<Quarter> addPerformances()
-        throws IOException, URISyntaxException, ParseException
     {
         BBPerformanceList bbPerformanceList;
 
@@ -98,15 +91,9 @@ public class BellBoardService {
     }
 
     private Quarter addPerformance(BBPerformance performance) {
-        DateFormat format = new SimpleDateFormat("YYYY-MM-dd");
-
         QuarterBuilder builder = quarterBuilder();
 
-        try {
-            builder.date(DateTime.parse(performance.getDate()).toDate());
-        } catch (Exception e) {
-            System.out.println("Date parse exception");
-        }
+        builder.date(DateTime.parse(performance.getDate()).toDate());
 
         builder.location(performance.getPlace().getPlace());
 

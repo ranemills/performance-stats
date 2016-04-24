@@ -7,14 +7,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.text.ParseException;
 import java.util.List;
 
 /**
  * Created by ryan on 23/04/16.
  */
+@SuppressWarnings("unused")
 @RequestMapping("/api/bellboard")
 @RestController
 public class BellBoardController {
@@ -24,14 +22,12 @@ public class BellBoardController {
 
     @RequestMapping("/add/{id}")
     public Quarter addPerformance(@PathVariable("id") String id)
-        throws URISyntaxException, IOException, ParseException
     {
         return _bellBoardService.addPerformance(id);
     }
 
     @RequestMapping("/add")
     public List<Quarter> addPerformances()
-        throws URISyntaxException, IOException, ParseException
     {
         return _bellBoardService.addPerformances();
     }

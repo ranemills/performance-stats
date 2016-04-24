@@ -91,7 +91,7 @@ public class QuarterDao {
             if (searchOptions.getRinger() != null) {
                 criteria.and("ringers.name").is(URLDecoder.decode(searchOptions.getRinger(), "UTF-8"));
             }
-        } catch (UnsupportedEncodingException e) {
+        } catch (UnsupportedEncodingException ignored) {
         }
 
         return criteria;

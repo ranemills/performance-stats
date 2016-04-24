@@ -20,7 +20,7 @@ import java.text.ParseException;
 public class BellBoardHttpService {
 
     private InputStream xmlHttpRequest(URI uri)
-        throws IOException, ParseException
+        throws IOException
     {
         HttpGet httpGet = new HttpGet(uri);
         httpGet.setHeader("accept", "application/xml");
@@ -32,7 +32,7 @@ public class BellBoardHttpService {
     }
 
     public InputStream getPerformance(String id)
-        throws URISyntaxException, IOException, ParseException
+        throws URISyntaxException, IOException
     {
         URI uri = new URIBuilder().setScheme("http")
                                   .setHost("bb.ringingworld.co.uk")
@@ -43,7 +43,7 @@ public class BellBoardHttpService {
     }
 
     public InputStream getPerformances()
-        throws URISyntaxException, IOException, ParseException
+        throws URISyntaxException, IOException
     {
         URI uri = new URIBuilder().setScheme("http").setHost("bb.ringingworld.co.uk")
                                   .setPath("/export.php")

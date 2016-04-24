@@ -1,6 +1,5 @@
 package com.mills.quarters;
 
-import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
@@ -18,14 +17,14 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
 public class Application extends SpringBootServletInitializer {
 
-    private static Class<Application> applicationClass = Application.class;
+    private static final Class<Application> applicationClass = Application.class;
 
     public static void main(String[] args) {
         SpringApplication.run(applicationClass, args);
@@ -44,16 +43,6 @@ public class Application extends SpringBootServletInitializer {
                 registry.addMapping("/**").allowedOrigins("http://localhost:8011");
             }
         };
-    }
-
-
-    public
-    @Bean
-    Mongo mongo()
-        throws Exception
-    {
-        //TODO: configure this based on whether we're on Openshift or Local
-        return new Mongo("localhost");
     }
 
     @Bean
@@ -75,7 +64,7 @@ public class Application extends SpringBootServletInitializer {
             ServerAddress serverAddress = new ServerAddress(openshiftMongoDbHost, openshiftMongoDbPort);
 
             // Mongo Client
-            MongoClient mongoClient = new MongoClient(serverAddress, Arrays.asList(credential));
+            MongoClient mongoClient = new MongoClient(serverAddress, Collections.singletonList(credential));
 
             // Mongo DB Factory
             MongoDbFactory mongoDbFactory = new SimpleMongoDbFactory(mongoClient, databaseName);

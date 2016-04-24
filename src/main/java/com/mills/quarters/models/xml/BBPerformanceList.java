@@ -9,8 +9,7 @@ import java.util.ArrayList;
 public class BBPerformanceList {
 
     @ElementList(entry = "performance", inline = true)
-//    @Path("performance")
-        ArrayList<BBPerformance> performances;
+    private ArrayList<BBPerformance> performances;
 
     public ArrayList<BBPerformance> getPerformances() {
         return performances;

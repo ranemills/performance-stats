@@ -2,7 +2,9 @@
 <project version="4">
   <component name="CopyrightManager" default="" />
   <component name="EntryPointsManager">
-    <entry_points version="2.0" />
+    <entry_points version="2.0">
+      <entry_point TYPE="method" FQNAME="com.mills.quarters.models.temp.TempCount TempCount(java.lang.String property, int count)" />
+    </entry_points>
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">

@@ -11,20 +11,21 @@ import java.util.ArrayList;
 public class BBPerformance {
 
     @Element(required = false)
-    String association;
+    private String association;
 
     @Element
-    String date;
+    private String date;
 
     @Element
-    BBPerformanceTitle title;
+    private BBPerformanceTitle title;
     @Element
-    BBPerformancePlace place;
+    private BBPerformancePlace place;
 
     @ElementList
+    private
     ArrayList<BBPerformanceRinger> ringers;
 
-    public String getAssociation() {
+    private String getAssociation() {
         return association;
     }
 

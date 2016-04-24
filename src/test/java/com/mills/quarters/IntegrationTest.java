@@ -24,9 +24,9 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 public abstract class IntegrationTest {
 
 
-    protected MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
-                                                    MediaType.APPLICATION_JSON.getSubtype(),
-                                                    Charset.forName("utf8"));
+    protected final MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
+                                                          MediaType.APPLICATION_JSON.getSubtype(),
+                                                          Charset.forName("utf8"));
 
 
     @Autowired
@@ -39,7 +39,6 @@ public abstract class IntegrationTest {
 
     @Before
     public void setup()
-        throws Exception
     {
         mockMvc = webAppContextSetup(webApplicationContext).build();
 

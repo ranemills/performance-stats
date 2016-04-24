@@ -5,10 +5,10 @@ import org.simpleframework.xml.Element;
 
 public class BBPerformanceTitle {
     @Element
-    public Integer changes;
+    private Integer changes;
 
     @Element
-    public String method;
+    private String method;
 
     public String getMethod() {
         return method;
