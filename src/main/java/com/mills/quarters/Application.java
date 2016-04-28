@@ -1,16 +1,16 @@
 package com.mills.quarters;
 
+import com.mills.quarters.services.AuthUserDetailsService;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.mongodb.MongoDbFactory;
@@ -89,6 +89,22 @@ public class Application extends SpringBootServletInitializer {
     @EnableWebSecurity
     @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
     protected static class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+        @Autowired
+        AuthUserDetailsService authUserDetailsService;
+
+        @Override
+        protected void configure(AuthenticationManagerBuilder auth)
+            throws Exception
+        {
+            auth.userDetailsService(authUserDetailsService)
+                .and()
+                .inMemoryAuthentication()
+                .withUser("admin")
+                .password("password")
+                .roles("ADMIN");
+        }
+
         @Override
         protected void configure(HttpSecurity http)
             throws Exception
@@ -102,6 +118,19 @@ public class Application extends SpringBootServletInitializer {
                 .addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
                 .csrf().csrfTokenRepository(csrfTokenRepository());
         }
+
+//        @Autowired
+//        public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
+//            // @formatter:off
+//            auth.userDetailsService(authUserDetailsService);
+////            auth.inMemoryAuthentication()
+////                .withUser("user").password("password").roles("USER")
+////                .and()
+////                .withUser("admin").password("admin").roles("USER", "ADMIN", "READER", "WRITER")
+////                .and()
+////                .withUser("audit").password("audit").roles("USER", "ADMIN", "READER");
+//            // @formatter:on
+//        }
 
         private CsrfTokenRepository csrfTokenRepository() {
             HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
