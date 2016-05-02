@@ -112,25 +112,14 @@ public class Application extends SpringBootServletInitializer {
             http
                 .httpBasic()
                 .and()
-                .authorizeRequests()
-                .antMatchers("/quarters-viewer/**").permitAll()
-                .anyRequest().authenticated().and()
-                .addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
-                .csrf().csrfTokenRepository(csrfTokenRepository());
+                    .authorizeRequests()
+                        .antMatchers("/quarters-viewer/**").permitAll()
+                    .anyRequest().authenticated()
+                .and()
+                    .addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
+                    .csrf().csrfTokenRepository(csrfTokenRepository());
         }
 
-//        @Autowired
-//        public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-//            // @formatter:off
-//            auth.userDetailsService(authUserDetailsService);
-////            auth.inMemoryAuthentication()
-////                .withUser("user").password("password").roles("USER")
-////                .and()
-////                .withUser("admin").password("admin").roles("USER", "ADMIN", "READER", "WRITER")
-////                .and()
-////                .withUser("audit").password("audit").roles("USER", "ADMIN", "READER");
-//            // @formatter:on
-//        }
 
         private CsrfTokenRepository csrfTokenRepository() {
             HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();

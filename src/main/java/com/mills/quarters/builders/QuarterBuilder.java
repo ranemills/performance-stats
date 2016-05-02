@@ -1,8 +1,11 @@
 package com.mills.quarters.builders;
 
+import com.mills.quarters.models.AuthUser;
 import com.mills.quarters.models.Location;
 import com.mills.quarters.models.Quarter;
 import com.mills.quarters.models.Ringer;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,6 +22,7 @@ public class QuarterBuilder {
     private String stage;
     private Location location;
     private List<Ringer> ringers;
+    private AuthUser customer;
 
     private QuarterBuilder() {
         ringers = new ArrayList<>();
@@ -26,6 +30,10 @@ public class QuarterBuilder {
 
     public static QuarterBuilder quarterBuilder() {
         return new QuarterBuilder();
+    }
+
+    public Date getDate() {
+        return date;
     }
 
     public QuarterBuilder date(Date date) {
@@ -82,6 +90,21 @@ public class QuarterBuilder {
         quarter.setStage(stage);
         quarter.setLocation(location);
         quarter.setRingers(ringers);
+
+        if(customer == null) {
+            User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if(principal != null) {
+                if (principal instanceof AuthUser) {
+                    customer = (AuthUser) principal;
+                } else {
+                    customer = new AuthUser(principal);
+                }
+            } else {
+                customer = new AuthUser();
+            }
+        }
+        quarter.setCustomer(customer);
+
         return quarter;
     }
 

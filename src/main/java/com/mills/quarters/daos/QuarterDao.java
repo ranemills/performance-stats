@@ -1,5 +1,6 @@
 package com.mills.quarters.daos;
 
+import com.mills.quarters.models.AuthUser;
 import com.mills.quarters.models.Quarter;
 import com.mills.quarters.models.temp.TempCount;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,9 @@ import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
@@ -15,6 +19,7 @@ import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
 
+import static com.mills.quarters.daos.AbstractDao.customerCriteria;
 import static org.springframework.data.domain.Sort.Direction.DESC;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.match;
@@ -55,11 +60,6 @@ public class QuarterDao {
         );
         AggregationResults<TempCount> results = mongoTemplate.aggregate(agg, "quarter", TempCount.class);
         return results.getMappedResults();
-//        Map<String, Integer> outputMap = new HashMap<>();
-//        for (TempCount tempCount : results.getMappedResults()) {
-//            outputMap.put(tempCount.getProperty(), tempCount.getCount());
-//        }
-//        return outputMap;
     }
 
     private List<TempCount> propertyCount(String property, SearchOptions searchOptions) {
@@ -72,15 +72,10 @@ public class QuarterDao {
         );
         AggregationResults<TempCount> results = mongoTemplate.aggregate(agg, "quarter", TempCount.class);
         return results.getMappedResults();
-//        Map<String, Integer> outputMap = new HashMap<>();
-//        for (TempCount countObj : results.getMappedResults()) {
-//            outputMap.put(countObj.getProperty(), countObj.getCount());
-//        }
-//        return outputMap;
     }
 
     private Criteria criteriaFromSearchOptions(SearchOptions searchOptions) {
-        Criteria criteria = new Criteria();
+        Criteria criteria = customerCriteria();
         try {
             if (searchOptions.getStage() != null) {
                 criteria.and("stage").is(URLDecoder.decode(searchOptions.getStage(), "UTF-8"));
