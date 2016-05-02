@@ -27,17 +27,10 @@ public class AuthUserDao {
     public AuthUser getUserByEmail(String email)
         throws UsernameNotFoundException
     {
-        System.out.println("GOing to Mongo");
-        System.out.println(email);
         List<AuthUser> matchingUsers = mongoTemplate.find(new Query().addCriteria(new Criteria().and("username").is(email)), AuthUser.class);
-//        List<User> matchingUsers = authUserRepository.findByUsername(email);
-        System.out.println(matchingUsers);
-        System.out.println("Been to Mongo");
         if (matchingUsers.size() > 1 || matchingUsers.size() == 0) {
-            System.out.println("Too many");
             throw new UsernameNotFoundException("supplied email incorrect");
         }
-        System.out.println("Returning nicely");
         return matchingUsers.get(0);
     }
 
