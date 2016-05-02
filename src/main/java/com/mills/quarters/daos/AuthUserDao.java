@@ -1,5 +1,6 @@
 package com.mills.quarters.daos;
 
+import com.mills.quarters.models.AuthUser;
 import com.mills.quarters.repositories.AuthUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -23,12 +24,12 @@ public class AuthUserDao {
     @Autowired
     AuthUserRepository authUserRepository;
 
-    public User getUserByEmail(String email)
+    public AuthUser getUserByEmail(String email)
         throws UsernameNotFoundException
     {
         System.out.println("GOing to Mongo");
         System.out.println(email);
-        List<User> matchingUsers = mongoTemplate.find(new Query().addCriteria(new Criteria().and("username").is(email)), User.class);
+        List<AuthUser> matchingUsers = mongoTemplate.find(new Query().addCriteria(new Criteria().and("username").is(email)), AuthUser.class);
 //        List<User> matchingUsers = authUserRepository.findByUsername(email);
         System.out.println(matchingUsers);
         System.out.println("Been to Mongo");

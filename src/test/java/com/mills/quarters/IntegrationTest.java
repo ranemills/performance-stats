@@ -1,5 +1,7 @@
 package com.mills.quarters;
 
+import com.mills.quarters.daos.AuthUserDao;
+import com.mills.quarters.repositories.AuthUserRepository;
 import com.mills.quarters.repositories.QuarterRepository;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -32,6 +34,13 @@ public abstract class IntegrationTest {
     @Autowired
     protected QuarterRepository quarterRepository;
 
+    @Autowired
+    protected AuthUserRepository authUserRepository;
+
+    @Autowired
+    protected AuthUserDao authUserDao;
+
+
     protected MockMvc mockMvc;
 
     @Autowired
@@ -43,6 +52,7 @@ public abstract class IntegrationTest {
         mockMvc = webAppContextSetup(webApplicationContext).build();
 
         quarterRepository.deleteAll();
+        authUserRepository.deleteAll();
     }
 
 }

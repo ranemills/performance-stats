@@ -2,6 +2,7 @@ package com.mills.quarters.services;
 
 import com.google.common.collect.ImmutableList;
 import com.mills.quarters.daos.AuthUserDao;
+import com.mills.quarters.models.AuthUser;
 import com.mills.quarters.repositories.AuthUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -37,7 +38,7 @@ public class AuthUserDetailsService implements UserDetailsService {
     public void addUser(String email)
     {
         Collection<GrantedAuthority> authorities = ImmutableList.<GrantedAuthority>builder().add(new SimpleGrantedAuthority("USER")).build();
-        User user = new User(email, "password", authorities);
+        AuthUser user = new AuthUser(email, "password", authorities);
         authUserRepository.save(user);
     }
 }
