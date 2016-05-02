@@ -23,6 +23,7 @@ public class QuarterBuilder {
     private Location location;
     private List<Ringer> ringers;
     private AuthUser customer;
+    private String bellboardId;
 
     private QuarterBuilder() {
         ringers = new ArrayList<>();
@@ -30,6 +31,15 @@ public class QuarterBuilder {
 
     public static QuarterBuilder quarterBuilder() {
         return new QuarterBuilder();
+    }
+
+    public String getBellboardId() {
+        return bellboardId;
+    }
+
+    public QuarterBuilder bellboardId(String bellboardId) {
+        this.bellboardId = bellboardId;
+        return this;
     }
 
     public Date getDate() {
@@ -90,10 +100,11 @@ public class QuarterBuilder {
         quarter.setStage(stage);
         quarter.setLocation(location);
         quarter.setRingers(ringers);
+        quarter.setBellboardId(bellboardId);
 
-        if(customer == null) {
+        if (customer == null) {
             User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if(principal != null) {
+            if (principal != null) {
                 if (principal instanceof AuthUser) {
                     customer = (AuthUser) principal;
                 } else {

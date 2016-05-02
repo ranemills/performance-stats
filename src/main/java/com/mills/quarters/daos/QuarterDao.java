@@ -1,6 +1,5 @@
 package com.mills.quarters.daos;
 
-import com.mills.quarters.models.AuthUser;
 import com.mills.quarters.models.Quarter;
 import com.mills.quarters.models.temp.TempCount;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +8,6 @@ import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
@@ -102,10 +98,9 @@ public class QuarterDao {
         }
 
         public static SearchOptions searchOptions(Map<String, String> requestParams) {
-            return new SearchOptions()
-                       .stage(requestParams.get("stage"))
-                       .method(requestParams.get("method"))
-                       .ringer(requestParams.get("ringer"));
+            return new SearchOptions().stage(requestParams.get("stage"))
+                                      .method(requestParams.get("method"))
+                                      .ringer(requestParams.get("ringer"));
         }
 
         String getStage() {

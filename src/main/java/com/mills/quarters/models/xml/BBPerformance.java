@@ -1,6 +1,7 @@
 package com.mills.quarters.models.xml;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
@@ -10,20 +11,26 @@ import java.util.ArrayList;
 @Root(name = "performance", strict = false)
 public class BBPerformance {
 
+    @Attribute(name="id")
+    private String bellboadId;
     @Element(required = false)
     private String association;
-
     @Element
     private String date;
-
     @Element
     private BBPerformanceTitle title;
     @Element
     private BBPerformancePlace place;
-
     @ElementList
-    private
-    ArrayList<BBPerformanceRinger> ringers;
+    private ArrayList<BBPerformanceRinger> ringers;
+
+    public String getBellboadId() {
+        return bellboadId;
+    }
+
+    public void setBellboadId(String bellboadId) {
+        this.bellboadId = bellboadId;
+    }
 
     private String getAssociation() {
         return association;

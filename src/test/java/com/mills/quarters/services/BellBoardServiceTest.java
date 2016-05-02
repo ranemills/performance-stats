@@ -2,6 +2,7 @@ package com.mills.quarters.services;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.mills.quarters.AbstractTest;
 import com.mills.quarters.models.Quarter;
 import com.mills.quarters.repositories.QuarterRepository;
 import org.joda.time.DateTime;
@@ -30,7 +31,7 @@ import static org.mockito.BDDMockito.given;
  * Created by ryan on 23/04/16.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class BellBoardServiceTest {
+public class BellBoardServiceTest extends AbstractTest {
     @Mock
     private BellBoardHttpService bellBoardHttpService;
 
@@ -44,7 +45,8 @@ public class BellBoardServiceTest {
     public void testAddPerformances()
         throws Exception
     {
-        String p1 = xmlBuilder().association("")
+        String p1 = xmlBuilder().id("101")
+                                .association("")
                                 .place("Abingdon")
                                 .dedication("St Helen")
                                 .county("Oxfordshire")
@@ -64,7 +66,8 @@ public class BellBoardServiceTest {
                                 .ringer(8, "Ryan Mills")
                                 .buildString();
 
-        String p2 = xmlBuilder().association("Oxford Society")
+        String p2 = xmlBuilder().id("1500")
+                                .association("Oxford Society")
                                 .place("Oxford")
                                 .dedication("Christ Church")
                                 .county("Oxfordshire")
@@ -90,40 +93,41 @@ public class BellBoardServiceTest {
 
         given(bellBoardHttpService.getPerformances()).willReturn(performances);
 
-        Quarter expectedQuarter1 = quarterBuilder()
-                                       .date(new DateTime(2016, 4, 10, 0, 0).toDate())
-                                       .location("Abingdon")
-                                       .changes(1280)
-                                       .method("Yorkshire Surprise")
-                                       .stage("Major")
-                                       .ringer(1, "Rebecca Franklin")
-                                       .ringer(2, "Brian Read")
-                                       .ringer(3, "Susan Read")
-                                       .ringer(4, "Sarah Barnes")
-                                       .ringer(5, "David Thomas", true)
-                                       .ringer(6, "Matthew Franklin")
-                                       .ringer(7, "Tim Pett")
-                                       .ringer(8, "Ryan Mills")
-                                       .build();
-        Quarter expectedQuarter2 = quarterBuilder()
-                                       .date(new DateTime(2016, 3, 21, 0, 0).toDate())
-                                       .location("Oxford")
-                                       .changes(1440)
-                                       .method("Triton Delight")
-                                       .stage("Royal")
-                                       .ringer(1, "Bernard J Stone")
-                                       .ringer(2, "Robin O Hall", true)
-                                       .ringer(3, "Michele Winter")
-                                       .ringer(4, "Ryan E Mills")
-                                       .ringer(5, "Stephen M Jones")
-                                       .ringer(6, "Stuart F Gibson")
-                                       .ringer(7, "Elizabeth C Frye")
-                                       .ringer(8, "Michael A Williams")
-                                       .ringer(9, "Mark D Tarrant")
-                                       .ringer(10, "Colin M Lee")
-                                       .build();
+        Quarter expectedQuarter1 = quarterBuilder().bellboardId("101")
+                                                   .date(new DateTime(2016, 4, 10, 0, 0).toDate())
+                                                   .location("Abingdon")
+                                                   .changes(1280)
+                                                   .method("Yorkshire Surprise")
+                                                   .stage("Major")
+                                                   .ringer(1, "Rebecca Franklin")
+                                                   .ringer(2, "Brian Read")
+                                                   .ringer(3, "Susan Read")
+                                                   .ringer(4, "Sarah Barnes")
+                                                   .ringer(5, "David Thomas", true)
+                                                   .ringer(6, "Matthew Franklin")
+                                                   .ringer(7, "Tim Pett")
+                                                   .ringer(8, "Ryan Mills")
+                                                   .build();
+        Quarter expectedQuarter2 = quarterBuilder().bellboardId("1500")
+                                                   .date(new DateTime(2016, 3, 21, 0, 0).toDate())
+                                                   .location("Oxford")
+                                                   .changes(1440)
+                                                   .method("Triton Delight")
+                                                   .stage("Royal")
+                                                   .ringer(1, "Bernard J Stone")
+                                                   .ringer(2, "Robin O Hall", true)
+                                                   .ringer(3, "Michele Winter")
+                                                   .ringer(4, "Ryan E Mills")
+                                                   .ringer(5, "Stephen M Jones")
+                                                   .ringer(6, "Stuart F Gibson")
+                                                   .ringer(7, "Elizabeth C Frye")
+                                                   .ringer(8, "Michael A Williams")
+                                                   .ringer(9, "Mark D Tarrant")
+                                                   .ringer(10, "Colin M Lee")
+                                                   .build();
 
-        List<Quarter> expectedQuarters = ImmutableList.<Quarter>builder().add(expectedQuarter1).add(expectedQuarter2)
+        List<Quarter> expectedQuarters = ImmutableList.<Quarter>builder().add(expectedQuarter1)
+                                                                         .add(expectedQuarter2)
                                                                          .build();
 
         List<Quarter> quarters = _bellBoardService.addPerformances();
@@ -137,7 +141,8 @@ public class BellBoardServiceTest {
     {
         String id = "1995";
 
-        InputStream performanceXml = xmlBuilder().association("")
+        InputStream performanceXml = xmlBuilder().id("1995")
+                                                 .association("")
                                                  .place("Abingdon")
                                                  .dedication("St Helen")
                                                  .county("Oxfordshire")
@@ -158,6 +163,7 @@ public class BellBoardServiceTest {
                                                  .buildInputStream();
 
         Quarter expectedQuarter = quarterBuilder()
+                                      .bellboardId("1995")
                                       .date(new DateTime(2016, 4, 10, 0, 0).toDate())
                                       .location("Abingdon")
                                       .changes(1280)
@@ -279,7 +285,7 @@ public class BellBoardServiceTest {
         return _bellBoardService.addPerformance(id);
     }
 
-    protected static class XmlBuilder {
+    public static class XmlBuilder {
 
         private String id = "1995";
         private String association = "St. Martin's Guild for the Diocese of Birmingham";
@@ -296,12 +302,12 @@ public class BellBoardServiceTest {
         private Map<Integer, String> ringers; //TODO: Do this
         private List<Integer> conductors;
 
-        static XmlBuilder xmlBuilder() {
+        public static XmlBuilder xmlBuilder() {
 
             return new XmlBuilder();
         }
 
-        static String performanceListString(List<String> performances) {
+        public static String performanceListString(List<String> performances) {
             String xml = "<?xml version=\"1.0\"?> <performances xmlns=\"http://bb.ringingworld.co" +
                          ".uk/NS/performances#\">";
             for (String performance : performances) {
@@ -311,7 +317,7 @@ public class BellBoardServiceTest {
             return xml;
         }
 
-        static InputStream performanceListInputStream(List<String> performances) {
+        public static InputStream performanceListInputStream(List<String> performances) {
             return new ByteArrayInputStream(performanceListString(performances).getBytes());
         }
 
@@ -401,7 +407,6 @@ public class BellBoardServiceTest {
         }
 
         public XmlBuilder id(String id) {
-
             this.id = id;
             return this;
         }
@@ -410,7 +415,7 @@ public class BellBoardServiceTest {
             return new ByteArrayInputStream(buildString().getBytes());
         }
 
-        String buildString() {
+        public String buildString() {
             if (ringers == null) {
                 ringers = ImmutableMap.<Integer, String>builder()
                               .put(1, "Christine Mills")

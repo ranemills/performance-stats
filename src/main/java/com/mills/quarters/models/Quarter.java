@@ -19,6 +19,15 @@ public class Quarter extends AbstractMongoModel {
     private String stage;
     private Location location;
     private List<Ringer> ringers;
+    private String bellboardId;
+
+    public String getBellboardId() {
+        return bellboardId;
+    }
+
+    public void setBellboardId(String bellboardId) {
+        this.bellboardId = bellboardId;
+    }
 
     public List<Ringer> getRingers() {
         return ringers;
@@ -81,6 +90,7 @@ public class Quarter extends AbstractMongoModel {
         }
         Quarter rhs = (Quarter) obj;
         return new EqualsBuilder()
+                   .append(getBellboardId(), rhs.getBellboardId())
                    .append(getDate(), rhs.getDate())
                    .append(getChanges(), rhs.getChanges())
                    .append(getMethod(), rhs.getMethod())

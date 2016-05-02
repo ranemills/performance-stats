@@ -18,7 +18,7 @@ import java.util.List;
 public class BellBoardController {
 
     @Autowired
-    BellBoardService _bellBoardService;
+    private BellBoardService _bellBoardService;
 
     @RequestMapping("/add/{id}")
     public Quarter addPerformance(@PathVariable("id") String id)

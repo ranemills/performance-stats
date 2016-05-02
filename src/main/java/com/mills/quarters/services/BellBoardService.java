@@ -93,6 +93,8 @@ public class BellBoardService {
     private Quarter addPerformance(BBPerformance performance) {
         QuarterBuilder builder = quarterBuilder();
 
+        builder.bellboardId(performance.getBellboadId());
+
         builder.date(DateTime.parse(performance.getDate()).toDate());
 
         builder.location(performance.getPlace().getPlace());
