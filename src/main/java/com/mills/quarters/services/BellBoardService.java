@@ -2,6 +2,7 @@ package com.mills.quarters.services;
 
 import com.google.common.collect.ImmutableMap;
 import com.mills.quarters.builders.QuarterBuilder;
+import com.mills.quarters.models.BellBoardImport;
 import com.mills.quarters.models.Quarter;
 import com.mills.quarters.models.xml.BBPerformance;
 import com.mills.quarters.models.xml.BBPerformanceList;
@@ -16,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -173,6 +173,12 @@ public class BellBoardService {
                    .put("method", method.replaceFirst("\\A\\s", "").replaceAll("\\s+", " "))
                    .put("stage", stage)
                    .build();
+    }
+
+    public List<Quarter> addPerformances(BellBoardImport bbImport)
+        throws URISyntaxException
+    {
+        return addPerformances(bbImport.getUrl());
     }
 }
 

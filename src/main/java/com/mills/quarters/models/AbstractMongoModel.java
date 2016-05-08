@@ -8,7 +8,7 @@ import org.springframework.data.annotation.Id;
 /**
  * Created by ryan on 14/04/16.
  */
-abstract class AbstractMongoModel {
+public abstract class AbstractMongoModel {
 
     @Id
     private ObjectId id;

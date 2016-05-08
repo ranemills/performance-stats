@@ -4,6 +4,7 @@ import com.mills.quarters.models.AuthUser;
 import com.mills.quarters.models.Location;
 import com.mills.quarters.models.Quarter;
 import com.mills.quarters.models.Ringer;
+import com.mills.quarters.services.MongoService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
@@ -101,20 +102,7 @@ public class QuarterBuilder {
         quarter.setLocation(location);
         quarter.setRingers(ringers);
         quarter.setBellboardId(bellboardId);
-
-        if (customer == null) {
-            User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if (principal != null) {
-                if (principal instanceof AuthUser) {
-                    customer = (AuthUser) principal;
-                } else {
-                    customer = new AuthUser(principal);
-                }
-            } else {
-                customer = new AuthUser();
-            }
-        }
-        quarter.setCustomer(customer);
+        quarter = MongoService.setCustomer(quarter);
 
         return quarter;
     }

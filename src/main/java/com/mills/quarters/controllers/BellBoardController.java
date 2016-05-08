@@ -1,6 +1,9 @@
 package com.mills.quarters.controllers;
 
+import com.mills.quarters.models.BellBoardImport;
 import com.mills.quarters.models.Quarter;
+import com.mills.quarters.repositories.BellBoardImportRepository;
+import com.mills.quarters.services.BellBoardImportService;
 import com.mills.quarters.services.BellBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -26,6 +29,12 @@ public class BellBoardController {
     @Autowired
     private BellBoardService _bellBoardService;
 
+    @Autowired
+    private BellBoardImportService bellBoardImportService;
+
+    @Autowired
+    private BellBoardImportRepository bellBoardImportRepository;
+
     @RequestMapping("/add/{id}")
     public Quarter addPerformance(@PathVariable("id") String id)
     {
@@ -42,9 +51,16 @@ public class BellBoardController {
     public List<Quarter> importPerformances(@RequestParam String bbUrl)
     {
         try {
-            return _bellBoardService.addPerformances(bbUrl);
+            BellBoardImport bbImport = bellBoardImportService.addImport(bbUrl);
+            return _bellBoardService.addPerformances(bbImport);
         } catch (URISyntaxException e) {
             throw new IllegalArgumentException("Invalid URL");
         }
+    }
+
+    @RequestMapping("/imports")
+    public List<BellBoardImport> listImports()
+    {
+        return bellBoardImportRepository.findAll();
     }
 }
