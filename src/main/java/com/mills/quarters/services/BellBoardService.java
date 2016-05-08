@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -88,6 +90,32 @@ public class BellBoardService {
         }
 
         return quarters;
+    }
+
+    public List<Quarter> addPerformances(String inUrl)
+        throws URISyntaxException
+    {
+        BBPerformanceList bbPerformanceList;
+        String outUrl = inUrl.replace("search.php", "export.php");
+        try (InputStream is = bellBoardHttpService.getPerformances(outUrl)) {
+            String output = IOUtils.toString(is);
+            Serializer serializer = new Persister();
+            bbPerformanceList = serializer.read(BBPerformanceList.class, output, false);
+        } catch (URISyntaxException e) {
+            throw e;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            bbPerformanceList = new BBPerformanceList();
+        }
+
+        List<Quarter> quarters = new ArrayList<>();
+
+        for (BBPerformance performance : bbPerformanceList.getPerformances()) {
+            quarters.add(addPerformance(performance));
+        }
+
+        return quarters;
+
     }
 
     private Quarter addPerformance(BBPerformance performance) {

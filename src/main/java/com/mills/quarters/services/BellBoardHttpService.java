@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.ParseException;
@@ -51,6 +52,13 @@ public class BellBoardHttpService {
                                   .setParameter("length", "quarter")
                                   .setParameter("bells_type", "tower")
                                   .build();
+        return xmlHttpRequest(uri);
+    }
+
+    public InputStream getPerformances(String rawUrl)
+        throws URISyntaxException, IOException
+    {
+        URI uri = new URI(rawUrl);
         return xmlHttpRequest(uri);
     }
 

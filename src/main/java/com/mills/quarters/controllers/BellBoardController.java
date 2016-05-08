@@ -3,10 +3,16 @@ package com.mills.quarters.controllers;
 import com.mills.quarters.models.Quarter;
 import com.mills.quarters.services.BellBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,5 +36,15 @@ public class BellBoardController {
     public List<Quarter> addPerformances()
     {
         return _bellBoardService.addPerformances();
+    }
+
+    @RequestMapping("/import")
+    public List<Quarter> importPerformances(@RequestParam String bbUrl)
+    {
+        try {
+            return _bellBoardService.addPerformances(bbUrl);
+        } catch (URISyntaxException e) {
+            throw new IllegalArgumentException("Invalid URL");
+        }
     }
 }

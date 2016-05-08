@@ -14,6 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -25,6 +26,7 @@ import static com.mills.quarters.services.BellBoardServiceTest.XmlBuilder.xmlBui
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.fail;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -184,6 +186,117 @@ public class BellBoardServiceTest extends AbstractTest {
         Quarter quarter = _bellBoardService.addPerformance(id);
 
         assertThat(quarter, is(expectedQuarter));
+    }
+
+    @Test
+    public void testAddPerformancesWithUrl()
+        throws Exception
+    {
+        String searchUrl = "http://bb.ringingworld.co.uk/search.php?ringer=ryan+mills&length=q-or-p&bells_type=tower";
+        String exportUrl = "http://bb.ringingworld.co.uk/export.php?ringer=ryan+mills&length=q-or-p&bells_type=tower";
+
+        String p1 = xmlBuilder().id("101")
+                                .association("")
+                                .place("Abingdon")
+                                .dedication("St Helen")
+                                .county("Oxfordshire")
+                                .ringType("tower")
+                                .ringTenor("16-0-0 in F")
+                                .date("2016-04-10")
+                                .time("44 mins")
+                                .changes("1280")
+                                .method("Yorkshire Surprise Major")
+                                .ringer(1, "Rebecca Franklin")
+                                .ringer(2, "Brian Read")
+                                .ringer(3, "Susan Read")
+                                .ringer(4, "Sarah Barnes")
+                                .ringer(5, "David Thomas", true)
+                                .ringer(6, "Matthew Franklin")
+                                .ringer(7, "Tim Pett")
+                                .ringer(8, "Ryan Mills")
+                                .buildString();
+
+        String p2 = xmlBuilder().id("1500")
+                                .association("Oxford Society")
+                                .place("Oxford")
+                                .dedication("Christ Church")
+                                .county("Oxfordshire")
+                                .ringType("tower")
+                                .ringTenor("31-0-23")
+                                .date("2016-03-21")
+                                .time("1h00")
+                                .changes("1440")
+                                .method("Triton Delight Royal")
+                                .ringer(1, "Bernard J Stone")
+                                .ringer(2, "Robin O Hall", true)
+                                .ringer(3, "Michele Winter")
+                                .ringer(4, "Ryan E Mills")
+                                .ringer(5, "Stephen M Jones")
+                                .ringer(6, "Stuart F Gibson")
+                                .ringer(7, "Elizabeth C Frye")
+                                .ringer(8, "Michael A Williams")
+                                .ringer(9, "Mark D Tarrant")
+                                .ringer(10, "Colin M Lee")
+                                .buildString();
+
+        InputStream performances = XmlBuilder.performanceListInputStream(Arrays.asList(p1, p2));
+
+        given(bellBoardHttpService.getPerformances(exportUrl)).willReturn(performances);
+
+        Quarter expectedQuarter1 = quarterBuilder().bellboardId("101")
+                                                   .date(new DateTime(2016, 4, 10, 0, 0).toDate())
+                                                   .location("Abingdon")
+                                                   .changes(1280)
+                                                   .method("Yorkshire Surprise")
+                                                   .stage("Major")
+                                                   .ringer(1, "Rebecca Franklin")
+                                                   .ringer(2, "Brian Read")
+                                                   .ringer(3, "Susan Read")
+                                                   .ringer(4, "Sarah Barnes")
+                                                   .ringer(5, "David Thomas", true)
+                                                   .ringer(6, "Matthew Franklin")
+                                                   .ringer(7, "Tim Pett")
+                                                   .ringer(8, "Ryan Mills")
+                                                   .build();
+        Quarter expectedQuarter2 = quarterBuilder().bellboardId("1500")
+                                                   .date(new DateTime(2016, 3, 21, 0, 0).toDate())
+                                                   .location("Oxford")
+                                                   .changes(1440)
+                                                   .method("Triton Delight")
+                                                   .stage("Royal")
+                                                   .ringer(1, "Bernard J Stone")
+                                                   .ringer(2, "Robin O Hall", true)
+                                                   .ringer(3, "Michele Winter")
+                                                   .ringer(4, "Ryan E Mills")
+                                                   .ringer(5, "Stephen M Jones")
+                                                   .ringer(6, "Stuart F Gibson")
+                                                   .ringer(7, "Elizabeth C Frye")
+                                                   .ringer(8, "Michael A Williams")
+                                                   .ringer(9, "Mark D Tarrant")
+                                                   .ringer(10, "Colin M Lee")
+                                                   .build();
+
+        List<Quarter> expectedQuarters = ImmutableList.<Quarter>builder().add(expectedQuarter1)
+                                                                         .add(expectedQuarter2)
+                                                                         .build();
+
+        List<Quarter> quarters = _bellBoardService.addPerformances(searchUrl);
+
+        assertThat(quarters, is(expectedQuarters));
+    }
+
+    @Test
+    public void testAddPerformancesFailsWithInvalidUrl()
+        throws Exception
+    {
+        String invalidUrl = "thisisnotaurl";
+        given(bellBoardHttpService.getPerformances(invalidUrl)).willThrow(URISyntaxException.class);
+        try {
+            _bellBoardService.addPerformances(invalidUrl);
+            fail("Should not be able to add a performance with an invalid URL");
+        } catch (URISyntaxException e) {
+            assertThat(true, is(true));
+        }
     }
 
     @Test

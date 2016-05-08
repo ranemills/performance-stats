@@ -40,7 +40,6 @@ public abstract class IntegrationTest extends AbstractTest {
     @Autowired
     protected AuthUserDao authUserDao;
 
-
     protected MockMvc mockMvc;
 
     @Autowired
