@@ -103,6 +103,7 @@ public class Application extends SpringBootServletInitializer {
                 .withUser("admin")
                 .password("password")
                 .roles("ADMIN");
+            System.out.println("configuring auth");
         }
 
         @Override

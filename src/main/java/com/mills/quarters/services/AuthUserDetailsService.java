@@ -30,6 +30,7 @@ public class AuthUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email)
         throws UsernameNotFoundException
     {
+        System.out.println("loadUserByUsername, email: " + email);
         return authUserDao.getUserByEmail(email);
     }
 
