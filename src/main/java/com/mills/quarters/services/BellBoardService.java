@@ -10,7 +10,6 @@ import com.mills.quarters.models.xml.BBPerformanceRinger;
 import com.mills.quarters.repositories.QuarterRepository;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -123,7 +124,12 @@ public class BellBoardService {
 
         builder.bellboardId(performance.getBellboadId());
 
-        builder.date(DateTime.parse(performance.getDate()).toDate());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            builder.date(sdf.parse(performance.getDate()));
+        } catch (ParseException e) {
+        }
 
         builder.location(performance.getPlace().getPlace());
 

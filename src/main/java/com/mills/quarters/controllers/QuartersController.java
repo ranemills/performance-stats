@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +27,9 @@ public class QuartersController {
     private QuarterDao quarterDao;
 
     @RequestMapping("/list")
-    List<Quarter> getQuarters(@RequestParam Map<String, String> allRequestParams) {
+    List<Quarter> getQuarters(@RequestParam Map<String, String> allRequestParams)
+        throws Exception
+    {
         return quarterDao.findQuarters(searchOptions(allRequestParams));
     }
 

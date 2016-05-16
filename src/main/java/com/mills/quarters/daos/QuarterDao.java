@@ -1,6 +1,8 @@
 package com.mills.quarters.daos;
 
 import com.mills.quarters.models.Quarter;
+import com.mills.quarters.models.temp.DateTempCount;
+import com.mills.quarters.models.temp.StringTempCount;
 import com.mills.quarters.models.temp.TempCount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -12,6 +14,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -37,15 +42,19 @@ public class QuarterDao {
         return mongoTemplate.find(new Query().addCriteria(criteriaFromSearchOptions(searchOptions)), Quarter.class);
     }
 
-    public List<TempCount> findMethodCounts(SearchOptions searchOptions) {
+    public List<StringTempCount> findMethodCounts(SearchOptions searchOptions) {
         return propertyCount("method", searchOptions);
     }
 
-    public List<TempCount> findStageCounts(SearchOptions searchOptions) {
+    public List<StringTempCount> findStageCounts(SearchOptions searchOptions) {
         return propertyCount("stage", searchOptions);
     }
 
-    public List<TempCount> findRingerCounts(SearchOptions searchOptions) {
+    public List<DateTempCount> findDateCounts(SearchOptions searchOptions) {
+        return propertyCount("date", searchOptions, DateTempCount.class);
+    }
+
+    public List<StringTempCount> findRingerCounts(SearchOptions searchOptions) {
         Aggregation agg = newAggregation(
             match(criteriaFromSearchOptions(searchOptions)),
             unwind("$ringers"),
@@ -54,11 +63,15 @@ public class QuarterDao {
             project("count").and("property").previousOperation(),
             sort(DESC, "count")
         );
-        AggregationResults<TempCount> results = mongoTemplate.aggregate(agg, "quarter", TempCount.class);
+        AggregationResults<StringTempCount> results = mongoTemplate.aggregate(agg, "quarter", StringTempCount.class);
         return results.getMappedResults();
     }
 
-    private List<TempCount> propertyCount(String property, SearchOptions searchOptions) {
+    private List<StringTempCount> propertyCount(String property, SearchOptions searchOptions) {
+        return propertyCount(property, searchOptions, StringTempCount.class);
+    }
+
+    private <T extends TempCount> List<T> propertyCount(String property, SearchOptions searchOptions, Class tempCount) {
         Aggregation agg = newAggregation(
             match(criteriaFromSearchOptions(searchOptions)),
             project(property),
@@ -66,7 +79,7 @@ public class QuarterDao {
             project("count").and("property").previousOperation(),
             sort(DESC, "count")
         );
-        AggregationResults<TempCount> results = mongoTemplate.aggregate(agg, "quarter", TempCount.class);
+        AggregationResults<T> results = mongoTemplate.aggregate(agg, "quarter", tempCount);
         return results.getMappedResults();
     }
 
@@ -78,6 +91,9 @@ public class QuarterDao {
             }
             if (searchOptions.getMethod() != null) {
                 criteria.and("method").is(URLDecoder.decode(searchOptions.getMethod(), "UTF-8"));
+            }
+            if (searchOptions.getDate() != null) {
+                criteria.and("date").is(searchOptions.getDate());
             }
             if (searchOptions.getRinger() != null) {
                 criteria.and("ringers.name").is(URLDecoder.decode(searchOptions.getRinger(), "UTF-8"));
@@ -93,14 +109,26 @@ public class QuarterDao {
         private String stage;
         private String method;
         private String ringer;
+        private Date date;
 
         private SearchOptions() {
         }
 
-        public static SearchOptions searchOptions(Map<String, String> requestParams) {
-            return new SearchOptions().stage(requestParams.get("stage"))
-                                      .method(requestParams.get("method"))
-                                      .ringer(requestParams.get("ringer"));
+        public static SearchOptions searchOptions(Map<String, String> requestParams)
+            throws ParseException
+        {
+            SearchOptions searchOptions = new SearchOptions().stage(requestParams.get("stage"))
+                                                             .method(requestParams.get("method"))
+                                                             .ringer(requestParams.get("ringer"));
+
+            if (requestParams.get("date") != null) {
+                searchOptions.date(requestParams.get("date"));
+            }
+            return searchOptions;
+        }
+
+        public Date getDate() {
+            return date;
         }
 
         String getStage() {
@@ -127,6 +155,14 @@ public class QuarterDao {
 
         public SearchOptions method(String method) {
             this.method = method;
+            return this;
+        }
+
+        public SearchOptions date(String date)
+            throws ParseException
+        {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            this.date = sdf.parse(date);
             return this;
         }
     }

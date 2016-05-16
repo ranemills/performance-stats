@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableMap;
 import com.mills.quarters.AbstractTest;
 import com.mills.quarters.models.Quarter;
 import com.mills.quarters.repositories.QuarterRepository;
-import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -15,6 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -34,12 +34,11 @@ import static org.mockito.BDDMockito.given;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class BellBoardServiceTest extends AbstractTest {
+    private static final SimpleDateFormat SDF = new SimpleDateFormat("dd-MM-yyyy");
     @Mock
     private BellBoardHttpService bellBoardHttpService;
-
     @Mock
     private QuarterRepository quarterRepository;
-
     @InjectMocks
     private BellBoardService _bellBoardService;
 
@@ -96,7 +95,7 @@ public class BellBoardServiceTest extends AbstractTest {
         given(bellBoardHttpService.getPerformances()).willReturn(performances);
 
         Quarter expectedQuarter1 = quarterBuilder().bellboardId("101")
-                                                   .date(new DateTime(2016, 4, 10, 0, 0).toDate())
+                                                   .date(SDF.parse("10-04-2016"))
                                                    .location("Abingdon")
                                                    .changes(1280)
                                                    .method("Yorkshire Surprise")
@@ -111,7 +110,7 @@ public class BellBoardServiceTest extends AbstractTest {
                                                    .ringer(8, "Ryan Mills")
                                                    .build();
         Quarter expectedQuarter2 = quarterBuilder().bellboardId("1500")
-                                                   .date(new DateTime(2016, 3, 21, 0, 0).toDate())
+                                                   .date(SDF.parse("21-03-2016"))
                                                    .location("Oxford")
                                                    .changes(1440)
                                                    .method("Triton Delight")
@@ -166,7 +165,7 @@ public class BellBoardServiceTest extends AbstractTest {
 
         Quarter expectedQuarter = quarterBuilder()
                                       .bellboardId("1995")
-                                      .date(new DateTime(2016, 4, 10, 0, 0).toDate())
+                                      .date(SDF.parse("10-04-2016"))
                                       .location("Abingdon")
                                       .changes(1280)
                                       .method("Yorkshire Surprise")
@@ -244,7 +243,7 @@ public class BellBoardServiceTest extends AbstractTest {
         given(bellBoardHttpService.getPerformances(exportUrl)).willReturn(performances);
 
         Quarter expectedQuarter1 = quarterBuilder().bellboardId("101")
-                                                   .date(new DateTime(2016, 4, 10, 0, 0).toDate())
+                                                   .date(SDF.parse("10-04-2016"))
                                                    .location("Abingdon")
                                                    .changes(1280)
                                                    .method("Yorkshire Surprise")
@@ -259,7 +258,7 @@ public class BellBoardServiceTest extends AbstractTest {
                                                    .ringer(8, "Ryan Mills")
                                                    .build();
         Quarter expectedQuarter2 = quarterBuilder().bellboardId("1500")
-                                                   .date(new DateTime(2016, 3, 21, 0, 0).toDate())
+                                                   .date(SDF.parse("21-03-2016"))
                                                    .location("Oxford")
                                                    .changes(1440)
                                                    .method("Triton Delight")

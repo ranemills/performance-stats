@@ -5,8 +5,6 @@ import com.mills.quarters.models.Location;
 import com.mills.quarters.models.Quarter;
 import com.mills.quarters.models.Ringer;
 import com.mills.quarters.services.MongoService;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 
 import java.util.ArrayList;
 import java.util.Date;

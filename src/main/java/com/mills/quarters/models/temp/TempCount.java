@@ -1,22 +1,26 @@
 package com.mills.quarters.models.temp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Created by ryan on 19/04/16.
  */
 public class TempCount {
     private int count;
-    private String property;
+    private Object property;
 
-    public TempCount(String property, int count) {
+    public TempCount(Object property, int count) {
         this.property = property;
         this.count = count;
     }
 
-    public String getProperty() {
+    @JsonIgnore
+    public Object getProperty() {
         return property;
     }
 
-    public void setProperty(String property) {
+    public void setProperty(Object property) {
         this.property = property;
     }
 

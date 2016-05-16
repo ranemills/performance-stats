@@ -7,6 +7,7 @@ import com.mills.quarters.models.Quarter;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import static com.mills.quarters.builders.QuarterBuilder.quarterBuilder;
@@ -25,21 +26,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class StatsControllerTest extends IntegrationTest {
 
     @Before
-    public void addTestData() {
+    public void addTestData()
+        throws Exception
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
         quarterRepository.save(ImmutableList.<Quarter>builder()
                                    .add(quarterBuilder().changes(5056)
+                                                        .date(sdf.parse("21-04-2015"))
                                                         .method("Cambridge Surprise")
                                                         .stage("Major")
                                                         .ringer(1, "Ryan Mills")
                                                         .ringer(2, "Lydia")
                                                         .build())
                                    .add(quarterBuilder().changes(1296)
+                                                        .date(sdf.parse("21-04-2012"))
                                                         .method("Cambridge Surprise")
                                                         .stage("Minor")
                                                         .ringer(1, "Ryan Mills")
                                                         .ringer(2, "Lydia")
                                                         .build())
                                    .add(quarterBuilder().changes(1280)
+                                                        .date(sdf.parse("21-04-2012"))
                                                         .method("Yorkshire Surprise")
                                                         .stage("Major")
                                                         .ringer(1, "Ryan Mills")
@@ -143,6 +151,7 @@ public class StatsControllerTest extends IntegrationTest {
                                                   .put("method", "Methods")
                                                   .put("ringer", "Ringers")
                                                   .put("stage", "Stages")
+                                                  .put("date", "Dates")
                                                   .build();
         mockMvc.perform(get("/api/stats/available"))
                .andExpect(status().isOk())
@@ -248,6 +257,20 @@ public class StatsControllerTest extends IntegrationTest {
                                                            equalTo(filterMatcher("Lydia", 1)))))
                .andExpect(jsonPath("$['ringer'][1]", anyOf(equalTo(filterMatcher("Ryan Mills", 1)),
                                                            equalTo(filterMatcher("Lydia", 1)))));
+    }
+
+    @Test
+    public void testGetFiltersWithDateParameter()
+        throws Exception
+    {
+        mockMvc.perform(get("/api/stats/filters?date=21-04-2012"))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(contentType))
+               .andExpect(jsonPath("$['method']", hasSize(2)))
+               .andExpect(jsonPath("$['stage']", hasSize(2)))
+               .andExpect(jsonPath("$['ringer']", hasSize(3)))
+               .andExpect(jsonPath("$['date']", hasSize(1)))
+               .andExpect(jsonPath("$['date'][0]", equalTo(filterMatcher("21-04-2012", 2))));
     }
 
 
