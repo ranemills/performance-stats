@@ -35,10 +35,14 @@ public class BellBoardService {
 
     private final BellBoardHttpService bellBoardHttpService;
 
+    private final AuthUserService authUserService;
+
     @Autowired
-    public BellBoardService(QuarterRepository quarterRepository, BellBoardHttpService bellBoardHttpService) {
+    public BellBoardService(QuarterRepository quarterRepository, BellBoardHttpService bellBoardHttpService,
+                            AuthUserService authUserService) {
         this.quarterRepository = quarterRepository;
         this.bellBoardHttpService = bellBoardHttpService;
+        this.authUserService = authUserService;
     }
 
     private static String normaliseBracketedMethodCount(String methodCount) {
@@ -184,7 +188,9 @@ public class BellBoardService {
     public List<Quarter> addPerformances(BellBoardImport bbImport)
         throws URISyntaxException
     {
-        return addPerformances(bbImport.getUrl());
+        List<Quarter> performances = addPerformances(bbImport.getUrl());
+        authUserService.setCurrentUserAsImported();
+        return performances;
     }
 }
 

@@ -15,6 +15,7 @@ public class AuthUser extends User {
 
     @Id
     private ObjectId id;
+    private boolean hasImported = false;
 
     public AuthUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
@@ -27,6 +28,14 @@ public class AuthUser extends User {
     public AuthUser(User principal) {
         super(principal.getUsername(), principal.getPassword(), principal.getAuthorities());
         setId(new ObjectId());
+    }
+
+    public boolean hasImported() {
+        return hasImported;
+    }
+
+    public void setHasImported(boolean hasImported) {
+        this.hasImported = hasImported;
     }
 
     public ObjectId getId() {
