@@ -25,8 +25,8 @@ public class AuthUser extends User {
         super("testAuthUser", "", new ArrayList<GrantedAuthority>());
     }
 
-    public AuthUser(User principal) {
-        super(principal.getUsername(), principal.getPassword(), principal.getAuthorities());
+    public AuthUser(User user) {
+        super(user.getUsername(), user.getPassword(), user.getAuthorities());
         setId(new ObjectId());
     }
 

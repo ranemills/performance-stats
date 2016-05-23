@@ -20,6 +20,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
@@ -98,11 +99,7 @@ public class Application extends SpringBootServletInitializer {
             throws Exception
         {
             auth.userDetailsService(authUserDetailsService)
-                .and()
-                .inMemoryAuthentication()
-                .withUser("admin")
-                .password("password")
-                .roles("ADMIN");
+                .passwordEncoder(new BCryptPasswordEncoder());
         }
 
         @Override
@@ -112,12 +109,14 @@ public class Application extends SpringBootServletInitializer {
             http
                 .httpBasic()
                 .and()
-                    .authorizeRequests()
-                        .antMatchers("/quarters-viewer/**").permitAll()
-                    .anyRequest().authenticated()
+                .authorizeRequests()
+                .antMatchers("/quarters-viewer/**", "/api/auth/register").permitAll()
+                .anyRequest().authenticated()
                 .and()
-                    .addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
-                    .csrf().csrfTokenRepository(csrfTokenRepository());
+                .addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
+                .csrf().csrfTokenRepository(csrfTokenRepository())
+                .and()
+                .rememberMe();
         }
 
 

@@ -10,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -20,11 +21,15 @@ import java.util.Collection;
 @Service
 public class AuthUserDetailsService implements UserDetailsService {
 
-    @Autowired
-    AuthUserDao authUserDao;
+    private static final Collection<GrantedAuthority> defaultAuthorities = ImmutableList.<GrantedAuthority>builder()
+                                                                               .add(new SimpleGrantedAuthority("USER"))
+                                                                               .build();
+    private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
-    AuthUserRepository authUserRepository;
+    private AuthUserDao authUserDao;
+    @Autowired
+    private AuthUserRepository authUserRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email)
@@ -33,10 +38,10 @@ public class AuthUserDetailsService implements UserDetailsService {
         return authUserDao.getUserByEmail(email);
     }
 
-    public void addUser(String email)
+    public void addUser(String email, String password)
     {
-        Collection<GrantedAuthority> authorities = ImmutableList.<GrantedAuthority>builder().add(new SimpleGrantedAuthority("USER")).build();
-        AuthUser user = new AuthUser(email, "password", authorities);
+
+        AuthUser user = new AuthUser(email, passwordEncoder.encode(password), defaultAuthorities);
         authUserRepository.save(user);
     }
 }
