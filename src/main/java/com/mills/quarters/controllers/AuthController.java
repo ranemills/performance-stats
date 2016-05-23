@@ -40,10 +40,11 @@ public class AuthController {
     }
 
     @RequestMapping("/register")
-    public void registerUser(@RequestParam("email") String email,
+    public void registerUser(@RequestParam("username") String username,
                              @RequestParam("password") String password)
+        throws Exception
     {
-        authUserDetailsService.addUser(email, password);
+        authUserDetailsService.addUser(username, password);
     }
 
 }

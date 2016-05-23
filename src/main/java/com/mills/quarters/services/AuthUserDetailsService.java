@@ -39,9 +39,17 @@ public class AuthUserDetailsService implements UserDetailsService {
     }
 
     public void addUser(String email, String password)
+        throws IllegalArgumentException
     {
-
-        AuthUser user = new AuthUser(email, passwordEncoder.encode(password), defaultAuthorities);
-        authUserRepository.save(user);
+        try
+        {
+            loadUserByUsername(email);
+            throw new IllegalArgumentException("User already exists");
+        }
+        catch(UsernameNotFoundException e)
+        {
+            AuthUser user = new AuthUser(email, passwordEncoder.encode(password), defaultAuthorities);
+            authUserRepository.save(user);
+        }
     }
 }
