@@ -83,7 +83,7 @@ public class QuarterDao {
         return results.getMappedResults();
     }
 
-    private Criteria criteriaFromSearchOptions(SearchOptions searchOptions) {
+    private static Criteria criteriaFromSearchOptions(SearchOptions searchOptions) {
         Criteria criteria = customerCriteria();
         try {
             if (searchOptions.getStage() != null) {

@@ -35,14 +35,10 @@ public class BellBoardService {
 
     private final BellBoardHttpService bellBoardHttpService;
 
-    private final AuthUserService authUserService;
-
     @Autowired
-    public BellBoardService(QuarterRepository quarterRepository, BellBoardHttpService bellBoardHttpService,
-                            AuthUserService authUserService) {
+    public BellBoardService(QuarterRepository quarterRepository, BellBoardHttpService bellBoardHttpService) {
         this.quarterRepository = quarterRepository;
         this.bellBoardHttpService = bellBoardHttpService;
-        this.authUserService = authUserService;
     }
 
     private static String normaliseBracketedMethodCount(String methodCount) {
@@ -64,45 +60,23 @@ public class BellBoardService {
     /*
      * Find a performance and add it to the system. Return the Quarter object.
      */
-    public Quarter addPerformance(String id)
+    public Quarter quarterFromBBPerformance(String id)
     {
         try (InputStream is = bellBoardHttpService.getPerformance(id)) {
             BBPerformance performanceXml = parseSinglePerformanceXml(is);
-            return addPerformance(performanceXml);
+            return quarterFromBBPerformance(performanceXml, null);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return new Quarter();
         }
     }
 
-    public List<Quarter> addPerformances()
-    {
-        BBPerformanceList bbPerformanceList;
-
-        try (InputStream is = bellBoardHttpService.getPerformances()) {
-            String output = IOUtils.toString(is);
-            Serializer serializer = new Persister();
-            bbPerformanceList = serializer.read(BBPerformanceList.class, output, false);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            bbPerformanceList = new BBPerformanceList();
-        }
-
-        List<Quarter> quarters = new ArrayList<>();
-
-        for (BBPerformance performance : bbPerformanceList.getPerformances()) {
-            quarters.add(addPerformance(performance));
-        }
-
-        return quarters;
-    }
-
-    public List<Quarter> addPerformances(String inUrl)
+    public List<Quarter> addPerformances(BellBoardImport bbImport)
         throws URISyntaxException
     {
         BBPerformanceList bbPerformanceList;
-        String outUrl = inUrl.replace("search.php", "export.php");
-        try (InputStream is = bellBoardHttpService.getPerformances(outUrl)) {
+        String outUrl = bbImport.getUrl().replace("search.php", "export.php");
+        try (InputStream is = bellBoardHttpService.getPerformances(outUrl, bbImport.getLastImport())) {
             String output = IOUtils.toString(is);
             Serializer serializer = new Persister();
             bbPerformanceList = serializer.read(BBPerformanceList.class, output, false);
@@ -116,14 +90,13 @@ public class BellBoardService {
         List<Quarter> quarters = new ArrayList<>();
 
         for (BBPerformance performance : bbPerformanceList.getPerformances()) {
-            quarters.add(addPerformance(performance));
+            quarters.add(quarterFromBBPerformance(performance, bbImport));
         }
 
-        return quarters;
-
+        return quarterRepository.save(quarters);
     }
 
-    private Quarter addPerformance(BBPerformance performance) {
+    private Quarter quarterFromBBPerformance(BBPerformance performance, BellBoardImport bbImport) {
         QuarterBuilder builder = quarterBuilder();
 
         builder.bellboardId(performance.getBellboadId());
@@ -150,11 +123,9 @@ public class BellBoardService {
             }
         }
 
-        Quarter quarter = builder.build();
+        builder.bellboardImport(bbImport);
 
-        quarterRepository.save(quarter);
-
-        return quarter;
+        return builder.build();
     }
 
     private Map<String, String> parseMethod(String methodString) {
@@ -183,14 +154,6 @@ public class BellBoardService {
                    .put("method", method.replaceFirst("\\A\\s", "").replaceAll("\\s+", " "))
                    .put("stage", stage)
                    .build();
-    }
-
-    public List<Quarter> addPerformances(BellBoardImport bbImport)
-        throws URISyntaxException
-    {
-        List<Quarter> performances = addPerformances(bbImport.getUrl());
-        authUserService.setCurrentUserAsImported();
-        return performances;
     }
 }
 

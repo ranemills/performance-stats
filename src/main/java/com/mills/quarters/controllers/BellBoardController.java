@@ -5,6 +5,7 @@ import com.mills.quarters.models.Quarter;
 import com.mills.quarters.repositories.BellBoardImportRepository;
 import com.mills.quarters.services.BellBoardImportService;
 import com.mills.quarters.services.BellBoardService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,24 +32,17 @@ public class BellBoardController {
     @Autowired
     private BellBoardImportRepository bellBoardImportRepository;
 
-    @RequestMapping("/add/{id}")
-    public Quarter addPerformance(@PathVariable("id") String id)
-    {
-        return _bellBoardService.addPerformance(id);
-    }
-
-    @RequestMapping("/add")
-    public List<Quarter> addPerformances()
-    {
-        return _bellBoardService.addPerformances();
-    }
-
     @RequestMapping("/import")
-    public List<Quarter> importPerformances(@RequestParam String bbUrl)
+    public List<Quarter> importPerformances(@RequestParam(required = false) String name, @RequestParam(required = true) String bbUrl)
     {
         try {
-            BellBoardImport bbImport = bellBoardImportService.addImport(bbUrl);
-            return _bellBoardService.addPerformances(bbImport);
+            BellBoardImport bbImport;
+            if(!StringUtils.isNotEmpty(name)) {
+                bbImport = bellBoardImportService.addImport(name, bbUrl);
+            } else {
+                bbImport = bellBoardImportService.addImport(bbUrl);
+            }
+            return bellBoardImportService.runImport(bbImport);
         } catch (URISyntaxException e) {
             throw new IllegalArgumentException("Invalid URL");
         }

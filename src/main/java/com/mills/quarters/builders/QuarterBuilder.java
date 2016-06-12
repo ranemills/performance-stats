@@ -1,6 +1,6 @@
 package com.mills.quarters.builders;
 
-import com.mills.quarters.models.AuthUser;
+import com.mills.quarters.models.BellBoardImport;
 import com.mills.quarters.models.Location;
 import com.mills.quarters.models.Quarter;
 import com.mills.quarters.models.Ringer;
@@ -15,91 +15,92 @@ import java.util.List;
  */
 public class QuarterBuilder {
 
-    private Date date;
-    private Integer changes;
-    private String method;
-    private String stage;
-    private Location location;
-    private List<Ringer> ringers;
-    private AuthUser customer;
-    private String bellboardId;
+    private Date _date;
+    private Integer _changes;
+    private String _method;
+    private String _stage;
+    private Location _location;
+    private List<Ringer> _ringers;
+    private String _bellboardId;
+    private BellBoardImport _bellboardImport;
 
     private QuarterBuilder() {
-        ringers = new ArrayList<>();
+        _ringers = new ArrayList<>();
     }
 
     public static QuarterBuilder quarterBuilder() {
         return new QuarterBuilder();
     }
 
-    public String getBellboardId() {
-        return bellboardId;
-    }
-
-    public QuarterBuilder bellboardId(String bellboardId) {
-        this.bellboardId = bellboardId;
+    public QuarterBuilder bellboardImport(BellBoardImport bellboardImport) {
+        this._bellboardImport = bellboardImport;
         return this;
     }
 
-    public Date getDate() {
-        return date;
+    public QuarterBuilder bellboardId(String bellboardId) {
+        this._bellboardId = bellboardId;
+        return this;
     }
 
     public QuarterBuilder date(Date date) {
-        this.date = date;
+        this._date = date;
         return this;
     }
 
     public QuarterBuilder changes(int changes) {
-        this.changes = changes;
+        this._changes = changes;
         return this;
     }
 
     public QuarterBuilder method(String method) {
-        this.method = method;
+        this._method = method;
         return this;
     }
 
     public QuarterBuilder stage(String stage) {
-        this.stage = stage;
+        this._stage = stage;
         return this;
     }
 
     public QuarterBuilder location(Location location) {
-        this.location = location;
+        this._location = location;
         return this;
     }
 
     public QuarterBuilder location(String locationName) {
-        this.location = new Location();
-        this.location.setName(locationName);
+        this._location = new Location();
+        this._location.setName(locationName);
         return this;
     }
 
     public QuarterBuilder ringer(Ringer ringer) {
-        this.ringers.add(ringer);
+        this._ringers.add(ringer);
         return this;
     }
 
     public QuarterBuilder ringer(int bell, String name) {
-        this.ringers.add(new Ringer(name, bell));
+        this._ringers.add(new Ringer(name, bell));
         return this;
     }
 
     public QuarterBuilder ringer(int bell, String name, boolean conductor) {
-        this.ringers.add(new Ringer(name, bell, conductor));
+        this._ringers.add(new Ringer(name, bell, conductor));
         return this;
     }
 
     public Quarter build() {
         Quarter quarter = new Quarter();
-        quarter.setDate(date);
-        quarter.setChanges(changes);
-        quarter.setMethod(method);
-        quarter.setStage(stage);
-        quarter.setLocation(location);
-        quarter.setRingers(ringers);
-        quarter.setBellboardId(bellboardId);
+        quarter.setDate(_date);
+        quarter.setChanges(_changes);
+        quarter.setMethod(_method);
+        quarter.setStage(_stage);
+        quarter.setLocation(_location);
+        quarter.setRingers(_ringers);
+        quarter.setBellboardId(_bellboardId);
+        if(_bellboardImport != null)
+        {
+            quarter.setBellBoardImport(_bellboardImport);
+        }
         quarter = MongoService.setCustomer(quarter);
 
         return quarter;

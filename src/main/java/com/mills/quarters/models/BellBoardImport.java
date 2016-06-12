@@ -1,5 +1,7 @@
 package com.mills.quarters.models;
 
+import java.util.Date;
+
 /**
  * Created by ryan on 08/05/16.
  */
@@ -7,6 +9,25 @@ public class BellBoardImport extends AbstractMongoModel {
 
     private String name;
     private String url;
+    private Date lastImport;
+
+    private BellBoardImport()
+    {
+
+    }
+
+    public BellBoardImport(String url)
+    {
+        this.url = url;
+    }
+
+    public Date getLastImport() {
+        return lastImport;
+    }
+
+    public void setLastImport(Date lastImport) {
+        this.lastImport = lastImport;
+    }
 
     public String getName() {
         return name;
@@ -20,7 +41,4 @@ public class BellBoardImport extends AbstractMongoModel {
         return url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
 }

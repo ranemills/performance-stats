@@ -3,6 +3,7 @@ package com.mills.quarters.services;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.mills.quarters.AbstractTest;
+import com.mills.quarters.models.BellBoardImport;
 import com.mills.quarters.models.Quarter;
 import com.mills.quarters.repositories.QuarterRepository;
 import org.junit.Test;
@@ -28,6 +29,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.fail;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 /**
  * Created by ryan on 23/04/16.
@@ -41,100 +43,6 @@ public class BellBoardServiceTest extends AbstractTest {
     private QuarterRepository quarterRepository;
     @InjectMocks
     private BellBoardService _bellBoardService;
-
-    @Test
-    public void testAddPerformances()
-        throws Exception
-    {
-        String p1 = xmlBuilder().id("101")
-                                .association("")
-                                .place("Abingdon")
-                                .dedication("St Helen")
-                                .county("Oxfordshire")
-                                .ringType("tower")
-                                .ringTenor("16-0-0 in F")
-                                .date("2016-04-10")
-                                .time("44 mins")
-                                .changes("1280")
-                                .method("Yorkshire Surprise Major")
-                                .ringer(1, "Rebecca Franklin")
-                                .ringer(2, "Brian Read")
-                                .ringer(3, "Susan Read")
-                                .ringer(4, "Sarah Barnes")
-                                .ringer(5, "David Thomas", true)
-                                .ringer(6, "Matthew Franklin")
-                                .ringer(7, "Tim Pett")
-                                .ringer(8, "Ryan Mills")
-                                .buildString();
-
-        String p2 = xmlBuilder().id("1500")
-                                .association("Oxford Society")
-                                .place("Oxford")
-                                .dedication("Christ Church")
-                                .county("Oxfordshire")
-                                .ringType("tower")
-                                .ringTenor("31-0-23")
-                                .date("2016-03-21")
-                                .time("1h00")
-                                .changes("1440")
-                                .method("Triton Delight Royal")
-                                .ringer(1, "Bernard J Stone")
-                                .ringer(2, "Robin O Hall", true)
-                                .ringer(3, "Michele Winter")
-                                .ringer(4, "Ryan E Mills")
-                                .ringer(5, "Stephen M Jones")
-                                .ringer(6, "Stuart F Gibson")
-                                .ringer(7, "Elizabeth C Frye")
-                                .ringer(8, "Michael A Williams")
-                                .ringer(9, "Mark D Tarrant")
-                                .ringer(10, "Colin M Lee")
-                                .buildString();
-
-        InputStream performances = XmlBuilder.performanceListInputStream(Arrays.asList(p1, p2));
-
-        given(bellBoardHttpService.getPerformances()).willReturn(performances);
-
-        Quarter expectedQuarter1 = quarterBuilder().bellboardId("101")
-                                                   .date(SDF.parse("10-04-2016"))
-                                                   .location("Abingdon")
-                                                   .changes(1280)
-                                                   .method("Yorkshire Surprise")
-                                                   .stage("Major")
-                                                   .ringer(1, "Rebecca Franklin")
-                                                   .ringer(2, "Brian Read")
-                                                   .ringer(3, "Susan Read")
-                                                   .ringer(4, "Sarah Barnes")
-                                                   .ringer(5, "David Thomas", true)
-                                                   .ringer(6, "Matthew Franklin")
-                                                   .ringer(7, "Tim Pett")
-                                                   .ringer(8, "Ryan Mills")
-                                                   .build();
-        Quarter expectedQuarter2 = quarterBuilder().bellboardId("1500")
-                                                   .date(SDF.parse("21-03-2016"))
-                                                   .location("Oxford")
-                                                   .changes(1440)
-                                                   .method("Triton Delight")
-                                                   .stage("Royal")
-                                                   .ringer(1, "Bernard J Stone")
-                                                   .ringer(2, "Robin O Hall", true)
-                                                   .ringer(3, "Michele Winter")
-                                                   .ringer(4, "Ryan E Mills")
-                                                   .ringer(5, "Stephen M Jones")
-                                                   .ringer(6, "Stuart F Gibson")
-                                                   .ringer(7, "Elizabeth C Frye")
-                                                   .ringer(8, "Michael A Williams")
-                                                   .ringer(9, "Mark D Tarrant")
-                                                   .ringer(10, "Colin M Lee")
-                                                   .build();
-
-        List<Quarter> expectedQuarters = ImmutableList.<Quarter>builder().add(expectedQuarter1)
-                                                                         .add(expectedQuarter2)
-                                                                         .build();
-
-        List<Quarter> quarters = _bellBoardService.addPerformances();
-
-        assertThat(quarters, is(expectedQuarters));
-    }
 
     @Test
     public void testAddPerformanceGivenId()
@@ -182,7 +90,7 @@ public class BellBoardServiceTest extends AbstractTest {
 
         given(bellBoardHttpService.getPerformance(id)).willReturn(performanceXml);
 
-        Quarter quarter = _bellBoardService.addPerformance(id);
+        Quarter quarter = _bellBoardService.quarterFromBBPerformance(id);
 
         assertThat(quarter, is(expectedQuarter));
     }
@@ -240,7 +148,7 @@ public class BellBoardServiceTest extends AbstractTest {
 
         InputStream performances = XmlBuilder.performanceListInputStream(Arrays.asList(p1, p2));
 
-        given(bellBoardHttpService.getPerformances(exportUrl)).willReturn(performances);
+        given(bellBoardHttpService.getPerformances(exportUrl, null)).willReturn(performances);
 
         Quarter expectedQuarter1 = quarterBuilder().bellboardId("101")
                                                    .date(SDF.parse("10-04-2016"))
@@ -279,9 +187,10 @@ public class BellBoardServiceTest extends AbstractTest {
                                                                          .add(expectedQuarter2)
                                                                          .build();
 
-        List<Quarter> quarters = _bellBoardService.addPerformances(searchUrl);
+        BellBoardImport bellBoardImport = new BellBoardImport(searchUrl);
+        List<Quarter> quarters = _bellBoardService.addPerformances(bellBoardImport);
 
-        assertThat(quarters, is(expectedQuarters));
+        verify(quarterRepository).save(expectedQuarters);
     }
 
     @Test
@@ -289,9 +198,10 @@ public class BellBoardServiceTest extends AbstractTest {
         throws Exception
     {
         String invalidUrl = "thisisnotaurl";
-        given(bellBoardHttpService.getPerformances(invalidUrl)).willThrow(URISyntaxException.class);
+        given(bellBoardHttpService.getPerformances(invalidUrl, null)).willThrow(URISyntaxException.class);
         try {
-            _bellBoardService.addPerformances(invalidUrl);
+            BellBoardImport bellBoardImport = new BellBoardImport(invalidUrl);
+            _bellBoardService.addPerformances(bellBoardImport);
             fail("Should not be able to add a performance with an invalid URL");
         } catch (URISyntaxException e) {
             assertThat(true, is(true));
@@ -394,7 +304,7 @@ public class BellBoardServiceTest extends AbstractTest {
         InputStream performance = xmlBuilder().method(methodString).buildInputStream();
         given(bellBoardHttpService.getPerformance(id)).willReturn(performance);
 
-        return _bellBoardService.addPerformance(id);
+        return _bellBoardService.quarterFromBBPerformance(id);
     }
 
     public static class XmlBuilder {

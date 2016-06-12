@@ -5,6 +5,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -13,6 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.ParseException;
+import java.util.Date;
 
 /**
  * Created by ryan on 23/04/16.
@@ -43,22 +45,18 @@ public class BellBoardHttpService {
         return xmlHttpRequest(uri);
     }
 
-    public InputStream getPerformances()
+    public InputStream getPerformances(String rawUrl, Date changedSince)
         throws URISyntaxException, IOException
     {
-        URI uri = new URIBuilder().setScheme("http").setHost("bb.ringingworld.co.uk")
-                                  .setPath("/export.php")
-                                  .setParameter("ringer", "Ryan Mills")
-                                  .setParameter("length", "quarter")
-                                  .setParameter("bells_type", "tower")
-                                  .build();
-        return xmlHttpRequest(uri);
-    }
-
-    public InputStream getPerformances(String rawUrl)
-        throws URISyntaxException, IOException
-    {
-        URI uri = new URI(rawUrl);
+        URI uri;
+        if(changedSince != null)
+        {
+            uri = new URIBuilder(rawUrl).addParameter("changed_since", new DateTime(changedSince).toString("YYYY-MM-dd")).build();
+        }
+        else
+        {
+            uri = new URI(rawUrl);
+        }
         return xmlHttpRequest(uri);
     }
 
