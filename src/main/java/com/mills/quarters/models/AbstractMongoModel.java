@@ -1,9 +1,9 @@
 package com.mills.quarters.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.mongodb.DBRef;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 /**
  * Created by ryan on 14/04/16.
@@ -13,17 +13,14 @@ public abstract class AbstractMongoModel {
     @Id
     private ObjectId id;
     @JsonIgnore
-    private DBRef customer;
+    @DBRef
+    private AuthUser customer;
 
-    public DBRef getCustomer() {
+    public AuthUser getCustomer() {
         return customer;
     }
 
     public void setCustomer(AuthUser customer) {
-        this.customer = new DBRef("authUser", customer.getId());
-    }
-
-    public void setCustomer(DBRef customer) {
         this.customer = customer;
     }
 

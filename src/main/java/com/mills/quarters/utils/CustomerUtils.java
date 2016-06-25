@@ -2,7 +2,6 @@ package com.mills.quarters.utils;
 
 import com.mills.quarters.models.AbstractMongoModel;
 import com.mills.quarters.models.AuthUser;
-import com.mongodb.DBRef;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -13,8 +12,7 @@ import org.springframework.security.core.userdetails.User;
 public abstract class CustomerUtils {
 
     public static Criteria customerCriteria() {
-        AuthUser user = getCurrentUser();
-        return new Criteria("customer").is(new DBRef("authUser", user.getId()));
+        return new Criteria("customer.$id").is(getCurrentUser().getId());
     }
 
     public static AuthUser getCurrentUser()

@@ -2,8 +2,8 @@ package com.mills.quarters.models;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.mongodb.DBRef;
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.util.Date;
 import java.util.List;
@@ -21,14 +21,15 @@ public class Quarter extends AbstractMongoModel {
     private Location location;
     private List<Ringer> ringers;
     private String bellboardId;
-    private DBRef bellBoardImport;
+    @DBRef
+    private BellBoardImport bellBoardImport;
 
-    public DBRef getBellBoardImport() {
+    public BellBoardImport getBellBoardImport() {
         return bellBoardImport;
     }
 
     public void setBellBoardImport(BellBoardImport bellBoardImport) {
-        this.bellBoardImport = new DBRef("bellBoardImport", bellBoardImport.getId());
+        this.bellBoardImport = bellBoardImport;
     }
 
     public String getBellboardId() {
