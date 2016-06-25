@@ -2,15 +2,19 @@ package com.mills.performances.models;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+import static com.mills.performances.MongoConfiguration.DOCUMENT_AUTHUSER;
+
 /**
  * Created by ryan on 02/05/16.
  */
+@Document(collection = DOCUMENT_AUTHUSER)
 public class AuthUser extends User {
 
     @Id

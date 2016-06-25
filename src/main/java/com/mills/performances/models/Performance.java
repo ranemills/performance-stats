@@ -9,10 +9,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Date;
 import java.util.List;
 
+import static com.mills.performances.MongoConfiguration.DOCUMENT_PERFORMANCE;
+
 /**
  * Created by ryan on 12/04/16.
  */
-@Document("")
+@Document(collection = DOCUMENT_PERFORMANCE)
 public class Performance extends AbstractMongoModel {
 
     @JsonFormat(pattern = "dd-MM-yyyy")
@@ -25,6 +27,12 @@ public class Performance extends AbstractMongoModel {
     private String bellboardId;
     @DBRef
     private BellBoardImport bellBoardImport;
+
+    public Performance()
+    {
+        super();
+    }
+
 
     public BellBoardImport getBellBoardImport() {
         return bellBoardImport;

@@ -27,6 +27,7 @@ public class AuthUserServiceImpl implements AuthUserService, UserDetailsService 
                                                                                .add(new SimpleGrantedAuthority("USER"))
                                                                                .build();
     private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    
     @Autowired
     private AuthUserRepository authUserRepository;
 

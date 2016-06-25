@@ -18,6 +18,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
 
+import static com.mills.performances.MongoConfiguration.DOCUMENT_PERFORMANCE;
 import static com.mills.performances.utils.CustomerUtils.customerCriteria;
 import static org.springframework.data.domain.Sort.Direction.DESC;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
@@ -87,7 +88,8 @@ public class PerformanceRepositoryImpl implements PerformanceCustomRepository {
             project("count").and("property").previousOperation(),
             sort(DESC, "count")
         );
-        AggregationResults<StringTempCount> results = mongoTemplate.aggregate(agg, "performance", StringTempCount.class);
+        AggregationResults<StringTempCount> results = mongoTemplate.aggregate(agg, DOCUMENT_PERFORMANCE,
+                                                                              StringTempCount.class);
         return results.getMappedResults();
     }
 
@@ -95,8 +97,8 @@ public class PerformanceRepositoryImpl implements PerformanceCustomRepository {
         return propertyCount(property, searchOptions, StringTempCount.class);
     }
 
-    private <T extends TempCount> List<T> propertyCount(String property, PerformanceSearchOptions searchOptions, Class
-                                                                                                                 tempCount)
+    private <T extends TempCount> List<T> propertyCount(String property, PerformanceSearchOptions searchOptions,
+                                                        Class tempCount)
     {
         Aggregation agg = newAggregation(
             match(criteriaFromSearchOptions(searchOptions)),
@@ -105,7 +107,7 @@ public class PerformanceRepositoryImpl implements PerformanceCustomRepository {
             project("count").and("property").previousOperation(),
             sort(DESC, "count")
         );
-        AggregationResults<T> results = mongoTemplate.aggregate(agg, "quarter", tempCount);
+        AggregationResults<T> results = mongoTemplate.aggregate(agg, DOCUMENT_PERFORMANCE, tempCount);
         return results.getMappedResults();
     }
 

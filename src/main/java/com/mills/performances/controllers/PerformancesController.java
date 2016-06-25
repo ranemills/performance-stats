@@ -18,13 +18,13 @@ import static com.mills.performances.models.temp.PerformanceSearchOptions.search
 @SuppressWarnings("unused")
 @RestController
 @RequestMapping("/api/performances")
-public class QuartersController {
+public class PerformancesController {
 
     @Autowired
     private PerformanceRepository _performanceRepository;
 
     @RequestMapping("/list")
-    List<Performance> getQuarters(@RequestParam Map<String, String> allRequestParams)
+    List<Performance> getPerformances(@RequestParam Map<String, String> allRequestParams)
         throws Exception
     {
         return _performanceRepository.findPerformances(searchOptions(allRequestParams));

@@ -5,6 +5,8 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
+import static com.mills.performances.utils.CustomerUtils.getCurrentUser;
+
 /**
  * Created by ryan on 14/04/16.
  */
@@ -15,6 +17,12 @@ public abstract class AbstractMongoModel {
     @JsonIgnore
     @DBRef
     private AuthUser customer;
+
+    AbstractMongoModel()
+    {
+        customer = getCurrentUser();
+    }
+
 
     public AuthUser getCustomer() {
         return customer;

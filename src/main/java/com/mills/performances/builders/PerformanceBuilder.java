@@ -111,7 +111,6 @@ public class PerformanceBuilder {
         {
             performance.setBellBoardImport(_bellboardImport);
         }
-        performance = CustomerUtils.setCustomer(performance);
 
         return performance;
     }

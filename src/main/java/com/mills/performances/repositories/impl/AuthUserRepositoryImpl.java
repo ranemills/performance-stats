@@ -20,6 +20,7 @@ public class AuthUserRepositoryImpl implements AuthUserCustomRepository {
     @Autowired
     private MongoTemplate _mongoTemplate;
 
+    @Override
     public AuthUser getUserByEmail(String email)
         throws UsernameNotFoundException
     {

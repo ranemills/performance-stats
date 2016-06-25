@@ -1,18 +1,22 @@
-package com.mills.performances.services;
+package com.mills.bellboard.services;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.mills.bellboard.services.BellBoardHttpService;
+import com.mills.bellboard.models.xml.BBPerformance;
+import com.mills.bellboard.models.xml.BBPerformanceList;
 import com.mills.performances.AbstractTest;
 import com.mills.performances.models.BellBoardImport;
 import com.mills.performances.models.Performance;
 import com.mills.performances.repositories.PerformanceRepository;
 import com.mills.performances.services.impl.BellBoardServiceImpl;
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.Persister;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -20,15 +24,19 @@ import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.mills.bellboard.services.BellBoardServiceTest.XmlBuilder.xmlBuilder;
 import static com.mills.performances.builders.PerformanceBuilder.performanceBuilder;
-import static com.mills.performances.services.BellBoardServiceTest.XmlBuilder.xmlBuilder;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.fail;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -41,9 +49,7 @@ public class BellBoardServiceTest extends AbstractTest {
     private static final SimpleDateFormat SDF = new SimpleDateFormat("dd-MM-yyyy");
 
     @Mock
-    private BellBoardHttpService bellBoardHttpService;
-    @Mock
-    private PerformanceRepository performanceRepository;
+    private com.mills.bellboard.services.BellBoardService bellBoardService;
     @InjectMocks
     private BellBoardServiceImpl _bellBoardService;
 
@@ -53,7 +59,7 @@ public class BellBoardServiceTest extends AbstractTest {
     {
         String id = "1995";
 
-        InputStream performanceXml = xmlBuilder().id("1995")
+        BBPerformance performanceXml = xmlBuilder().id("1995")
                                                  .association("")
                                                  .place("Abingdon")
                                                  .dedication("St Helen")
@@ -72,26 +78,26 @@ public class BellBoardServiceTest extends AbstractTest {
                                                  .ringer(6, "Matthew Franklin")
                                                  .ringer(7, "Tim Pett")
                                                  .ringer(8, "Ryan Mills")
-                                                 .buildInputStream();
+                                                 .buildXml();
 
         Performance expectedPerformance = performanceBuilder()
-                                      .bellboardId("1995")
-                                      .date(SDF.parse("10-04-2016"))
-                                      .location("Abingdon")
-                                      .changes(1280)
-                                      .method("Yorkshire Surprise")
-                                      .stage("Major")
-                                      .ringer(1, "Rebecca Franklin")
-                                      .ringer(2, "Brian Read")
-                                      .ringer(3, "Susan Read")
-                                      .ringer(4, "Sarah Barnes")
-                                      .ringer(5, "David Thomas", true)
-                                      .ringer(6, "Matthew Franklin")
-                                      .ringer(7, "Tim Pett")
-                                      .ringer(8, "Ryan Mills")
-                                      .build();
+                                              .bellboardId("1995")
+                                              .date(SDF.parse("10-04-2016"))
+                                              .location("Abingdon")
+                                              .changes(1280)
+                                              .method("Yorkshire Surprise")
+                                              .stage("Major")
+                                              .ringer(1, "Rebecca Franklin")
+                                              .ringer(2, "Brian Read")
+                                              .ringer(3, "Susan Read")
+                                              .ringer(4, "Sarah Barnes")
+                                              .ringer(5, "David Thomas", true)
+                                              .ringer(6, "Matthew Franklin")
+                                              .ringer(7, "Tim Pett")
+                                              .ringer(8, "Ryan Mills")
+                                              .build();
 
-        given(bellBoardHttpService.getPerformance(id)).willReturn(performanceXml);
+        given(bellBoardService.getSinglePerformance(id)).willReturn(performanceXml);
 
         Performance performance = _bellBoardService.getPerformance(id);
 
@@ -149,9 +155,9 @@ public class BellBoardServiceTest extends AbstractTest {
                                 .ringer(10, "Colin M Lee")
                                 .buildString();
 
-        InputStream performances = XmlBuilder.performanceListInputStream(Arrays.asList(p1, p2));
+        List<BBPerformance> performances = XmlBuilder.xmlList(Arrays.asList(p1, p2));
 
-        given(bellBoardHttpService.getPerformances(exportUrl, null)).willReturn(performances);
+        given(bellBoardService.getPerformances(exportUrl, null)).willReturn(performances);
 
         Performance expectedPerformance1 = performanceBuilder().bellboardId("101")
                                                                .date(SDF.parse("10-04-2016"))
@@ -193,22 +199,18 @@ public class BellBoardServiceTest extends AbstractTest {
         BellBoardImport bellBoardImport = new BellBoardImport(searchUrl);
         List<Performance> quarters = _bellBoardService.getPerformances(bellBoardImport);
 
-        verify(performanceRepository).save(expectedPerformances);
+        assertThat(quarters, containsInAnyOrder(expectedPerformances.toArray()));
     }
 
     @Test
-    public void testAddPerformancesFailsWithInvalidUrl()
+    public void testAddPerformancesReturnsEmptyListWithInvalidUrl()
         throws Exception
     {
         String invalidUrl = "thisisnotaurl";
-        given(bellBoardHttpService.getPerformances(invalidUrl, null)).willThrow(URISyntaxException.class);
-        try {
-            BellBoardImport bellBoardImport = new BellBoardImport(invalidUrl);
-            _bellBoardService.getPerformances(bellBoardImport);
-            fail("Should not be able to add a performance with an invalid URL");
-        } catch (URISyntaxException e) {
-            assertThat(true, is(true));
-        }
+        given(bellBoardService.getPerformances(invalidUrl, null)).willThrow(Exception.class);
+        BellBoardImport bellBoardImport = new BellBoardImport(invalidUrl);
+        List<Performance> performances = _bellBoardService.getPerformances(bellBoardImport);
+        assertThat(performances, hasSize(0));
     }
 
     @Test
@@ -304,8 +306,8 @@ public class BellBoardServiceTest extends AbstractTest {
         throws Exception
     {
         String id = "id";
-        InputStream performance = xmlBuilder().method(methodString).buildInputStream();
-        given(bellBoardHttpService.getPerformance(id)).willReturn(performance);
+        BBPerformance performance = xmlBuilder().method(methodString).buildXml();
+        given(bellBoardService.getSinglePerformance(id)).willReturn(performance);
 
         return _bellBoardService.getPerformance(id);
     }
@@ -344,6 +346,15 @@ public class BellBoardServiceTest extends AbstractTest {
 
         public static InputStream performanceListInputStream(List<String> performances) {
             return new ByteArrayInputStream(performanceListString(performances).getBytes());
+        }
+
+        public static List<BBPerformance> xmlList(List<String> performances)
+            throws Exception
+        {
+            String output = IOUtils.toString(performanceListInputStream(performances));
+            Serializer serializer = new Persister();
+            return serializer.read(BBPerformanceList.class, output, false).getPerformances();
+
         }
 
         public XmlBuilder association(String association) {
@@ -434,6 +445,14 @@ public class BellBoardServiceTest extends AbstractTest {
         public XmlBuilder id(String id) {
             this.id = id;
             return this;
+        }
+
+        BBPerformance buildXml()
+            throws Exception
+        {
+            String output = IOUtils.toString(buildInputStream());
+            Serializer serializer = new Persister();
+            return serializer.read(BBPerformance.class, output, false);
         }
 
         InputStream buildInputStream() {

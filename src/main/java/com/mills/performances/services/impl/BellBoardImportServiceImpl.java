@@ -3,6 +3,7 @@ package com.mills.performances.services.impl;
 import com.mills.performances.models.BellBoardImport;
 import com.mills.performances.models.Performance;
 import com.mills.performances.repositories.BellBoardImportRepository;
+import com.mills.performances.repositories.PerformanceRepository;
 import com.mills.performances.services.AuthUserService;
 import com.mills.performances.services.BellBoardImportService;
 import com.mills.performances.services.BellBoardService;
@@ -21,11 +22,13 @@ import java.util.List;
 public class BellBoardImportServiceImpl implements BellBoardImportService {
 
     @Autowired
-    AuthUserService authUserService;
+    private AuthUserService _authUserService;
     @Autowired
-    private BellBoardImportRepository bellBoardImportRepository;
+    private BellBoardImportRepository _bellBoardImportRepository;
     @Autowired
-    private BellBoardService bellBoardService;
+    private BellBoardService _bellBoardService;
+    @Autowired
+    private PerformanceRepository _performanceRepository;
 
     @Override
     public BellBoardImport addImport(String inUrl)
@@ -39,19 +42,22 @@ public class BellBoardImportServiceImpl implements BellBoardImportService {
         String outUrl = inUrl.replace("search.php", "export.php");
 
         BellBoardImport bbImport = new BellBoardImport(outUrl);
-        bbImport = CustomerUtils.setCustomer(bbImport);
         bbImport.setName(name);
-        return bellBoardImportRepository.save(bbImport);
+        return _bellBoardImportRepository.save(bbImport);
     }
 
     @Override
     public List<Performance> runImport(BellBoardImport bbImport)
         throws URISyntaxException
     {
-        List<Performance> res = bellBoardService.getPerformances(bbImport);
+        List<Performance> res = _bellBoardService.getPerformances(bbImport);
+        _performanceRepository.save(res);
+
         bbImport.setLastImport(DateTime.now().toDate());
-        bellBoardImportRepository.save(bbImport);
-        authUserService.setCurrentUserAsImported();
+        _bellBoardImportRepository.save(bbImport);
+
+        _authUserService.setCurrentUserAsImported();
+
         return res;
     }
 }

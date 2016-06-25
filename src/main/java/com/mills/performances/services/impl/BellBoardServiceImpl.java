@@ -16,7 +16,7 @@ import static com.mills.performances.builders.PerformanceBuilder.fromBBPeformanc
 @Service
 public class BellBoardServiceImpl implements BellBoardService {
 
-    private final com.mills.bellboard.services.BellBoardService _bellBoardService;
+    private com.mills.bellboard.services.BellBoardService _bellBoardService;
 
     public BellBoardServiceImpl() {
         _bellBoardService = new com.mills.bellboard.services.impl.BellBoardServiceImpl();
@@ -29,10 +29,10 @@ public class BellBoardServiceImpl implements BellBoardService {
         String outUrl = bbImport.getUrl().replace("search.php", "export.php");
 
         List<Performance> performances = new ArrayList<>();
+        DateTime changedSince = bbImport.getLastImport() == null ? null : new DateTime(bbImport.getLastImport());
 
         try {
-            for (BBPerformance bbPerformance : _bellBoardService.getPerformances(outUrl,
-                                                                                 new DateTime(bbImport.getLastImport()))) {
+            for (BBPerformance bbPerformance : _bellBoardService.getPerformances(outUrl, changedSince)) {
 
                 performances.add(fromBBPeformance(bbPerformance).bellboardImport(bbImport).build());
             }

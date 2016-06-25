@@ -110,7 +110,7 @@ public class Application extends SpringBootServletInitializer {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/performances-viewer/**", "/api/auth/register*").permitAll()
+                .antMatchers("/quarters-viewer/**", "/api/auth/register*").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)

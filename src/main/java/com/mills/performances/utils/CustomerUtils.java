@@ -27,6 +27,7 @@ public abstract class CustomerUtils {
         return user;
     }
 
+    @Deprecated
     public static <T extends AbstractMongoModel> T setCustomer(T object) {
         object.setCustomer(getCurrentUser());
         return object;

@@ -1,10 +1,15 @@
 package com.mills.performances.models;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.Date;
+
+import static com.mills.performances.MongoConfiguration.DOCUMENT_BELLBOARDIMPORT;
 
 /**
  * Created by ryan on 08/05/16.
  */
+@Document(collection = DOCUMENT_BELLBOARDIMPORT)
 public class BellBoardImport extends AbstractMongoModel {
 
     private String name;
@@ -13,11 +18,12 @@ public class BellBoardImport extends AbstractMongoModel {
 
     private BellBoardImport()
     {
-
+        super();
     }
 
     public BellBoardImport(String url)
     {
+        super();
         this.url = url;
     }
 
