@@ -2,10 +2,10 @@ package com.mills.performances.repositories.impl;
 
 import com.mills.performances.models.Performance;
 import com.mills.performances.models.temp.DateTempCount;
-import com.mills.performances.models.temp.QuarterSearchOptions;
+import com.mills.performances.models.temp.PerformanceSearchOptions;
 import com.mills.performances.models.temp.StringTempCount;
 import com.mills.performances.models.temp.TempCount;
-import com.mills.performances.repositories.QuarterCustomRepository;
+import com.mills.performances.repositories.PerformanceCustomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
@@ -31,12 +31,12 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.unwi
  * Created by ryan on 12/04/16.
  */
 @Repository
-public class QuarterRepositoryImpl implements QuarterCustomRepository {
+public class PerformanceRepositoryImpl implements PerformanceCustomRepository {
 
     @Autowired
     MongoTemplate mongoTemplate;
 
-    private static Criteria criteriaFromSearchOptions(QuarterSearchOptions searchOptions) {
+    private static Criteria criteriaFromSearchOptions(PerformanceSearchOptions searchOptions) {
         Criteria criteria = customerCriteria();
         try {
             if (searchOptions.getStage() != null) {
@@ -58,27 +58,27 @@ public class QuarterRepositoryImpl implements QuarterCustomRepository {
     }
 
     @Override
-    public List<Performance> findQuarters(QuarterSearchOptions searchOptions) {
+    public List<Performance> findPerformances(PerformanceSearchOptions searchOptions) {
         return mongoTemplate.find(new Query().addCriteria(criteriaFromSearchOptions(searchOptions)), Performance.class);
     }
 
     @Override
-    public List<StringTempCount> findMethodCounts(QuarterSearchOptions searchOptions) {
+    public List<StringTempCount> findMethodCounts(PerformanceSearchOptions searchOptions) {
         return propertyCount("method", searchOptions);
     }
 
     @Override
-    public List<StringTempCount> findStageCounts(QuarterSearchOptions searchOptions) {
+    public List<StringTempCount> findStageCounts(PerformanceSearchOptions searchOptions) {
         return propertyCount("stage", searchOptions);
     }
 
     @Override
-    public List<DateTempCount> findDateCounts(QuarterSearchOptions searchOptions) {
+    public List<DateTempCount> findDateCounts(PerformanceSearchOptions searchOptions) {
         return propertyCount("date", searchOptions, DateTempCount.class);
     }
 
     @Override
-    public List<StringTempCount> findRingerCounts(QuarterSearchOptions searchOptions) {
+    public List<StringTempCount> findRingerCounts(PerformanceSearchOptions searchOptions) {
         Aggregation agg = newAggregation(
             match(criteriaFromSearchOptions(searchOptions)),
             unwind("$ringers"),
@@ -87,15 +87,15 @@ public class QuarterRepositoryImpl implements QuarterCustomRepository {
             project("count").and("property").previousOperation(),
             sort(DESC, "count")
         );
-        AggregationResults<StringTempCount> results = mongoTemplate.aggregate(agg, "quarter", StringTempCount.class);
+        AggregationResults<StringTempCount> results = mongoTemplate.aggregate(agg, "performance", StringTempCount.class);
         return results.getMappedResults();
     }
 
-    private List<StringTempCount> propertyCount(String property, QuarterSearchOptions searchOptions) {
+    private List<StringTempCount> propertyCount(String property, PerformanceSearchOptions searchOptions) {
         return propertyCount(property, searchOptions, StringTempCount.class);
     }
 
-    private <T extends TempCount> List<T> propertyCount(String property, QuarterSearchOptions searchOptions, Class
+    private <T extends TempCount> List<T> propertyCount(String property, PerformanceSearchOptions searchOptions, Class
                                                                                                                  tempCount)
     {
         Aggregation agg = newAggregation(

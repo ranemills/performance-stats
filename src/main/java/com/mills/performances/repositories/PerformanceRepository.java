@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
  * Created by ryan on 12/04/16.
  */
 @Repository
-public interface QuarterRepository extends MongoRepository<Performance, Long>, QuarterCustomRepository {
+public interface PerformanceRepository extends MongoRepository<Performance, Long>, PerformanceCustomRepository {
 
 }

@@ -8,22 +8,22 @@ import java.util.Map;
 /**
  * Created by ryan on 25/06/16.
  */
-public class QuarterSearchOptions {
+public class PerformanceSearchOptions {
 
     private String stage;
     private String method;
     private String ringer;
     private Date date;
 
-    private QuarterSearchOptions() {
+    private PerformanceSearchOptions() {
     }
 
-    public static QuarterSearchOptions searchOptions(Map<String, String> requestParams)
+    public static PerformanceSearchOptions searchOptions(Map<String, String> requestParams)
         throws ParseException
     {
-        QuarterSearchOptions searchOptions = new QuarterSearchOptions().stage(requestParams.get("stage"))
-                                                                       .method(requestParams.get("method"))
-                                                                       .ringer(requestParams.get("ringer"));
+        PerformanceSearchOptions searchOptions = new PerformanceSearchOptions().stage(requestParams.get("stage"))
+                                                                               .method(requestParams.get("method"))
+                                                                               .ringer(requestParams.get("ringer"));
 
         if (requestParams.get("date") != null) {
             searchOptions.date(requestParams.get("date"));
@@ -47,22 +47,22 @@ public class QuarterSearchOptions {
         return ringer;
     }
 
-    public QuarterSearchOptions ringer(String ringer) {
+    public PerformanceSearchOptions ringer(String ringer) {
         this.ringer = ringer;
         return this;
     }
 
-    public QuarterSearchOptions stage(String stage) {
+    public PerformanceSearchOptions stage(String stage) {
         this.stage = stage;
         return this;
     }
 
-    public QuarterSearchOptions method(String method) {
+    public PerformanceSearchOptions method(String method) {
         this.method = method;
         return this;
     }
 
-    public QuarterSearchOptions date(String date)
+    public PerformanceSearchOptions date(String date)
         throws ParseException
     {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");

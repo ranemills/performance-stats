@@ -1,24 +1,17 @@
 package com.mills.performances.services.impl;
 
 import com.mills.bellboard.models.xml.BBPerformance;
-import com.mills.bellboard.models.xml.BBPerformanceRinger;
-import com.mills.performances.builders.PerformanceBuilder;
 import com.mills.performances.models.BellBoardImport;
 import com.mills.performances.models.Performance;
 import com.mills.performances.services.BellBoardService;
 import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.net.URISyntaxException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static com.mills.performances.builders.PerformanceBuilder.fromBBPeformance;
-import static com.mills.performances.builders.PerformanceBuilder.quarterBuilder;
 
 @Service
 public class BellBoardServiceImpl implements BellBoardService {

@@ -38,7 +38,7 @@ public class PerformanceBuilder {
         _ringers = new ArrayList<>();
     }
 
-    public static PerformanceBuilder quarterBuilder() {
+    public static PerformanceBuilder performanceBuilder() {
         return new PerformanceBuilder();
     }
 
@@ -118,7 +118,7 @@ public class PerformanceBuilder {
 
     public static PerformanceBuilder fromBBPeformance(BBPerformance bbPerformance)
     {
-        PerformanceBuilder builder = quarterBuilder();
+        PerformanceBuilder builder = performanceBuilder();
 
         builder.bellboardId(bbPerformance.getBellboadId());
 

@@ -5,7 +5,7 @@ import com.mills.performances.IntegrationTest;
 import com.mills.performances.models.Performance;
 import org.junit.Test;
 
-import static com.mills.performances.builders.PerformanceBuilder.quarterBuilder;
+import static com.mills.performances.builders.PerformanceBuilder.performanceBuilder;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -16,16 +16,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Created by ryan on 10/04/16.
  */
-public class QuartersControllerTest extends IntegrationTest {
+public class PerformancesControllerTest extends IntegrationTest {
 
 
     @Test
-    public void testListAllQuarters()
+    public void testListAllPerformances()
         throws Exception
     {
-        quarterRepository.save(ImmutableList.<Performance>builder()
-                                   .add(quarterBuilder().changes(5056).method("Cambridge").stage("Major").build())
-                                   .add(quarterBuilder().changes(1296).method("Cambridge").stage("Minor").build())
+        performanceRepository.save(ImmutableList.<Performance>builder()
+                                   .add(performanceBuilder().changes(5056).method("Cambridge").stage("Major").build())
+                                   .add(performanceBuilder().changes(1296).method("Cambridge").stage("Minor").build())
                                    .build());
 
         mockMvc.perform(get("/api/performances/list"))
@@ -41,12 +41,12 @@ public class QuartersControllerTest extends IntegrationTest {
     }
 
     @Test
-    public void testListQuartersWithStageParameter()
+    public void testListPerformancesWithStageParameter()
         throws Exception
     {
-        quarterRepository.save(ImmutableList.<Performance>builder()
-                                   .add(quarterBuilder().changes(5056).method("Cambridge").stage("Major").build())
-                                   .add(quarterBuilder().changes(1296).method("Cambridge").stage("Minor").build())
+        performanceRepository.save(ImmutableList.<Performance>builder()
+                                   .add(performanceBuilder().changes(5056).method("Cambridge").stage("Major").build())
+                                   .add(performanceBuilder().changes(1296).method("Cambridge").stage("Minor").build())
                                    .build());
 
         mockMvc.perform(get("/api/performances/list?stage=Major"))

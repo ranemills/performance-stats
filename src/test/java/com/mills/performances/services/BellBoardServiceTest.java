@@ -6,7 +6,7 @@ import com.mills.bellboard.services.BellBoardHttpService;
 import com.mills.performances.AbstractTest;
 import com.mills.performances.models.BellBoardImport;
 import com.mills.performances.models.Performance;
-import com.mills.performances.repositories.QuarterRepository;
+import com.mills.performances.repositories.PerformanceRepository;
 import com.mills.performances.services.impl.BellBoardServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.mills.performances.builders.PerformanceBuilder.quarterBuilder;
+import static com.mills.performances.builders.PerformanceBuilder.performanceBuilder;
 import static com.mills.performances.services.BellBoardServiceTest.XmlBuilder.xmlBuilder;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -43,7 +43,7 @@ public class BellBoardServiceTest extends AbstractTest {
     @Mock
     private BellBoardHttpService bellBoardHttpService;
     @Mock
-    private QuarterRepository quarterRepository;
+    private PerformanceRepository performanceRepository;
     @InjectMocks
     private BellBoardServiceImpl _bellBoardService;
 
@@ -74,7 +74,7 @@ public class BellBoardServiceTest extends AbstractTest {
                                                  .ringer(8, "Ryan Mills")
                                                  .buildInputStream();
 
-        Performance expectedPerformance = quarterBuilder()
+        Performance expectedPerformance = performanceBuilder()
                                       .bellboardId("1995")
                                       .date(SDF.parse("10-04-2016"))
                                       .location("Abingdon")
@@ -153,38 +153,38 @@ public class BellBoardServiceTest extends AbstractTest {
 
         given(bellBoardHttpService.getPerformances(exportUrl, null)).willReturn(performances);
 
-        Performance expectedPerformance1 = quarterBuilder().bellboardId("101")
-                                                           .date(SDF.parse("10-04-2016"))
-                                                           .location("Abingdon")
-                                                           .changes(1280)
-                                                           .method("Yorkshire Surprise")
-                                                           .stage("Major")
-                                                           .ringer(1, "Rebecca Franklin")
-                                                           .ringer(2, "Brian Read")
-                                                           .ringer(3, "Susan Read")
-                                                           .ringer(4, "Sarah Barnes")
-                                                           .ringer(5, "David Thomas", true)
-                                                           .ringer(6, "Matthew Franklin")
-                                                           .ringer(7, "Tim Pett")
-                                                           .ringer(8, "Ryan Mills")
-                                                           .build();
-        Performance expectedPerformance2 = quarterBuilder().bellboardId("1500")
-                                                           .date(SDF.parse("21-03-2016"))
-                                                           .location("Oxford")
-                                                           .changes(1440)
-                                                           .method("Triton Delight")
-                                                           .stage("Royal")
-                                                           .ringer(1, "Bernard J Stone")
-                                                           .ringer(2, "Robin O Hall", true)
-                                                           .ringer(3, "Michele Winter")
-                                                           .ringer(4, "Ryan E Mills")
-                                                           .ringer(5, "Stephen M Jones")
-                                                           .ringer(6, "Stuart F Gibson")
-                                                           .ringer(7, "Elizabeth C Frye")
-                                                           .ringer(8, "Michael A Williams")
-                                                           .ringer(9, "Mark D Tarrant")
-                                                           .ringer(10, "Colin M Lee")
-                                                           .build();
+        Performance expectedPerformance1 = performanceBuilder().bellboardId("101")
+                                                               .date(SDF.parse("10-04-2016"))
+                                                               .location("Abingdon")
+                                                               .changes(1280)
+                                                               .method("Yorkshire Surprise")
+                                                               .stage("Major")
+                                                               .ringer(1, "Rebecca Franklin")
+                                                               .ringer(2, "Brian Read")
+                                                               .ringer(3, "Susan Read")
+                                                               .ringer(4, "Sarah Barnes")
+                                                               .ringer(5, "David Thomas", true)
+                                                               .ringer(6, "Matthew Franklin")
+                                                               .ringer(7, "Tim Pett")
+                                                               .ringer(8, "Ryan Mills")
+                                                               .build();
+        Performance expectedPerformance2 = performanceBuilder().bellboardId("1500")
+                                                               .date(SDF.parse("21-03-2016"))
+                                                               .location("Oxford")
+                                                               .changes(1440)
+                                                               .method("Triton Delight")
+                                                               .stage("Royal")
+                                                               .ringer(1, "Bernard J Stone")
+                                                               .ringer(2, "Robin O Hall", true)
+                                                               .ringer(3, "Michele Winter")
+                                                               .ringer(4, "Ryan E Mills")
+                                                               .ringer(5, "Stephen M Jones")
+                                                               .ringer(6, "Stuart F Gibson")
+                                                               .ringer(7, "Elizabeth C Frye")
+                                                               .ringer(8, "Michael A Williams")
+                                                               .ringer(9, "Mark D Tarrant")
+                                                               .ringer(10, "Colin M Lee")
+                                                               .build();
 
         List<Performance> expectedPerformances = ImmutableList.<Performance>builder().add(expectedPerformance1)
                                                                                      .add(expectedPerformance2)
@@ -193,7 +193,7 @@ public class BellBoardServiceTest extends AbstractTest {
         BellBoardImport bellBoardImport = new BellBoardImport(searchUrl);
         List<Performance> quarters = _bellBoardService.getPerformances(bellBoardImport);
 
-        verify(quarterRepository).save(expectedPerformances);
+        verify(performanceRepository).save(expectedPerformances);
     }
 
     @Test

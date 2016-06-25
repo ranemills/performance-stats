@@ -10,7 +10,7 @@ import org.junit.Test;
 import java.text.SimpleDateFormat;
 import java.util.Map;
 
-import static com.mills.performances.builders.PerformanceBuilder.quarterBuilder;
+import static com.mills.performances.builders.PerformanceBuilder.performanceBuilder;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
@@ -31,28 +31,28 @@ public class StatsControllerTest extends IntegrationTest {
     {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
-        quarterRepository.save(ImmutableList.<Performance>builder()
-                                   .add(quarterBuilder().changes(5056)
-                                                        .date(sdf.parse("21-04-2015"))
-                                                        .method("Cambridge Surprise")
-                                                        .stage("Major")
-                                                        .ringer(1, "Ryan Mills")
-                                                        .ringer(2, "Lydia")
-                                                        .build())
-                                   .add(quarterBuilder().changes(1296)
-                                                        .date(sdf.parse("21-04-2012"))
-                                                        .method("Cambridge Surprise")
-                                                        .stage("Minor")
-                                                        .ringer(1, "Ryan Mills")
-                                                        .ringer(2, "Lydia")
-                                                        .build())
-                                   .add(quarterBuilder().changes(1280)
-                                                        .date(sdf.parse("21-04-2012"))
-                                                        .method("Yorkshire Surprise")
-                                                        .stage("Major")
-                                                        .ringer(1, "Ryan Mills")
-                                                        .ringer(2, "Claire")
-                                                        .build())
+        performanceRepository.save(ImmutableList.<Performance>builder()
+                                   .add(performanceBuilder().changes(5056)
+                                                            .date(sdf.parse("21-04-2015"))
+                                                            .method("Cambridge Surprise")
+                                                            .stage("Major")
+                                                            .ringer(1, "Ryan Mills")
+                                                            .ringer(2, "Lydia")
+                                                            .build())
+                                   .add(performanceBuilder().changes(1296)
+                                                            .date(sdf.parse("21-04-2012"))
+                                                            .method("Cambridge Surprise")
+                                                            .stage("Minor")
+                                                            .ringer(1, "Ryan Mills")
+                                                            .ringer(2, "Lydia")
+                                                            .build())
+                                   .add(performanceBuilder().changes(1280)
+                                                            .date(sdf.parse("21-04-2012"))
+                                                            .method("Yorkshire Surprise")
+                                                            .stage("Major")
+                                                            .ringer(1, "Ryan Mills")
+                                                            .ringer(2, "Claire")
+                                                            .build())
                                    .build());
     }
 

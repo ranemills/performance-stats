@@ -2,10 +2,10 @@ package com.mills.performances.controllers;
 
 import com.google.common.collect.ImmutableMap;
 import com.mills.performances.models.temp.DateTempCount;
-import com.mills.performances.models.temp.QuarterSearchOptions;
+import com.mills.performances.models.temp.PerformanceSearchOptions;
 import com.mills.performances.models.temp.StringTempCount;
 import com.mills.performances.models.temp.TempCount;
-import com.mills.performances.repositories.QuarterRepository;
+import com.mills.performances.repositories.PerformanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.mills.performances.models.temp.QuarterSearchOptions.searchOptions;
+import static com.mills.performances.models.temp.PerformanceSearchOptions.searchOptions;
 
 /**
  * Created by ryan on 10/04/16.
@@ -26,7 +26,7 @@ import static com.mills.performances.models.temp.QuarterSearchOptions.searchOpti
 public class StatsController {
 
     @Autowired
-    private QuarterRepository _quarterRepository;
+    private PerformanceRepository _performanceRepository;
 
     @RequestMapping("/available")
     Map<String, String> getAvailableFilters(@RequestParam Map<String, String> allRequestParams)
@@ -44,33 +44,33 @@ public class StatsController {
     List<StringTempCount> getMethods(@RequestParam Map<String, String> allRequestParams)
         throws Exception
     {
-        return _quarterRepository.findMethodCounts(searchOptions(allRequestParams));
+        return _performanceRepository.findMethodCounts(searchOptions(allRequestParams));
     }
 
     @RequestMapping("/stages")
     List<StringTempCount> getStages(@RequestParam Map<String, String> allRequestParams)
         throws Exception
     {
-        return _quarterRepository.findStageCounts(searchOptions(allRequestParams));
+        return _performanceRepository.findStageCounts(searchOptions(allRequestParams));
     }
 
     @RequestMapping("/ringers")
     List<StringTempCount> getRingers(@RequestParam Map<String, String> allRequestParams)
         throws Exception
     {
-        return _quarterRepository.findRingerCounts(searchOptions(allRequestParams));
+        return _performanceRepository.findRingerCounts(searchOptions(allRequestParams));
     }
 
     @RequestMapping("/filters")
     Map<String, List<? extends TempCount>> getFilters(@RequestParam Map<String, String> allRequestParams)
         throws Exception
     {
-        QuarterSearchOptions searchOptions = searchOptions(allRequestParams);
+        PerformanceSearchOptions searchOptions = searchOptions(allRequestParams);
 
-        List<StringTempCount> ringers = _quarterRepository.findRingerCounts(searchOptions);
-        List<StringTempCount> stages = _quarterRepository.findStageCounts(searchOptions);
-        List<StringTempCount> methods = _quarterRepository.findMethodCounts(searchOptions);
-        List<DateTempCount> dates = _quarterRepository.findDateCounts(searchOptions);
+        List<StringTempCount> ringers = _performanceRepository.findRingerCounts(searchOptions);
+        List<StringTempCount> stages = _performanceRepository.findStageCounts(searchOptions);
+        List<StringTempCount> methods = _performanceRepository.findMethodCounts(searchOptions);
+        List<DateTempCount> dates = _performanceRepository.findDateCounts(searchOptions);
 
         Map<String, List<? extends TempCount>> filters = new HashMap<>();
         filters.put("method", methods);

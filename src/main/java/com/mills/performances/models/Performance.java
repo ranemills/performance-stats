@@ -4,6 +4,7 @@ package com.mills.performances.models;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 /**
  * Created by ryan on 12/04/16.
  */
+@Document("")
 public class Performance extends AbstractMongoModel {
 
     @JsonFormat(pattern = "dd-MM-yyyy")

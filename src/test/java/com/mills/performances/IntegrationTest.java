@@ -1,7 +1,7 @@
 package com.mills.performances;
 
 import com.mills.performances.repositories.AuthUserRepository;
-import com.mills.performances.repositories.QuarterRepository;
+import com.mills.performances.repositories.PerformanceRepository;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public abstract class IntegrationTest extends AbstractTest {
 
 
     @Autowired
-    protected QuarterRepository quarterRepository;
+    protected PerformanceRepository performanceRepository;
 
     @Autowired
     protected AuthUserRepository authUserRepository;
@@ -46,7 +46,7 @@ public abstract class IntegrationTest extends AbstractTest {
     {
         mockMvc = webAppContextSetup(webApplicationContext).build();
 
-        quarterRepository.deleteAll();
+        performanceRepository.deleteAll();
         authUserRepository.deleteAll();
     }
 
