@@ -1,10 +1,11 @@
 package com.mills.quarters.controllers;
 
 import com.google.common.collect.ImmutableMap;
-import com.mills.quarters.daos.QuarterDao;
 import com.mills.quarters.models.temp.DateTempCount;
+import com.mills.quarters.models.temp.QuarterSearchOptions;
 import com.mills.quarters.models.temp.StringTempCount;
 import com.mills.quarters.models.temp.TempCount;
+import com.mills.quarters.repositories.QuarterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.mills.quarters.daos.QuarterDao.SearchOptions.searchOptions;
+import static com.mills.quarters.models.temp.QuarterSearchOptions.searchOptions;
 
 /**
  * Created by ryan on 10/04/16.
@@ -25,7 +26,7 @@ import static com.mills.quarters.daos.QuarterDao.SearchOptions.searchOptions;
 public class StatsController {
 
     @Autowired
-    QuarterDao quarterDao;
+    private QuarterRepository _quarterRepository;
 
     @RequestMapping("/available")
     Map<String, String> getAvailableFilters(@RequestParam Map<String, String> allRequestParams)
@@ -43,33 +44,33 @@ public class StatsController {
     List<StringTempCount> getMethods(@RequestParam Map<String, String> allRequestParams)
         throws Exception
     {
-        return quarterDao.findMethodCounts(searchOptions(allRequestParams));
+        return _quarterRepository.findMethodCounts(searchOptions(allRequestParams));
     }
 
     @RequestMapping("/stages")
     List<StringTempCount> getStages(@RequestParam Map<String, String> allRequestParams)
         throws Exception
     {
-        return quarterDao.findStageCounts(searchOptions(allRequestParams));
+        return _quarterRepository.findStageCounts(searchOptions(allRequestParams));
     }
 
     @RequestMapping("/ringers")
     List<StringTempCount> getRingers(@RequestParam Map<String, String> allRequestParams)
         throws Exception
     {
-        return quarterDao.findRingerCounts(searchOptions(allRequestParams));
+        return _quarterRepository.findRingerCounts(searchOptions(allRequestParams));
     }
 
     @RequestMapping("/filters")
     Map<String, List<? extends TempCount>> getFilters(@RequestParam Map<String, String> allRequestParams)
         throws Exception
     {
-        QuarterDao.SearchOptions searchOptions = searchOptions(allRequestParams);
+        QuarterSearchOptions searchOptions = searchOptions(allRequestParams);
 
-        List<StringTempCount> ringers = quarterDao.findRingerCounts(searchOptions);
-        List<StringTempCount> stages = quarterDao.findStageCounts(searchOptions);
-        List<StringTempCount> methods = quarterDao.findMethodCounts(searchOptions);
-        List<DateTempCount> dates = quarterDao.findDateCounts(searchOptions);
+        List<StringTempCount> ringers = _quarterRepository.findRingerCounts(searchOptions);
+        List<StringTempCount> stages = _quarterRepository.findStageCounts(searchOptions);
+        List<StringTempCount> methods = _quarterRepository.findMethodCounts(searchOptions);
+        List<DateTempCount> dates = _quarterRepository.findDateCounts(searchOptions);
 
         Map<String, List<? extends TempCount>> filters = new HashMap<>();
         filters.put("method", methods);

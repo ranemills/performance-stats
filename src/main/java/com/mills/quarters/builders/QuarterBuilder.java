@@ -4,7 +4,7 @@ import com.mills.quarters.models.BellBoardImport;
 import com.mills.quarters.models.Location;
 import com.mills.quarters.models.Quarter;
 import com.mills.quarters.models.Ringer;
-import com.mills.quarters.services.MongoService;
+import com.mills.quarters.utils.CustomerUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -101,7 +101,7 @@ public class QuarterBuilder {
         {
             quarter.setBellBoardImport(_bellboardImport);
         }
-        quarter = MongoService.setCustomer(quarter);
+        quarter = CustomerUtils.setCustomer(quarter);
 
         return quarter;
     }

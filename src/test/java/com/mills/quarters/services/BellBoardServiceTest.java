@@ -6,6 +6,7 @@ import com.mills.quarters.AbstractTest;
 import com.mills.quarters.models.BellBoardImport;
 import com.mills.quarters.models.Quarter;
 import com.mills.quarters.repositories.QuarterRepository;
+import com.mills.quarters.services.impl.BellBoardServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -37,12 +38,13 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class BellBoardServiceTest extends AbstractTest {
     private static final SimpleDateFormat SDF = new SimpleDateFormat("dd-MM-yyyy");
+
     @Mock
     private BellBoardHttpService bellBoardHttpService;
     @Mock
     private QuarterRepository quarterRepository;
     @InjectMocks
-    private BellBoardService _bellBoardService;
+    private BellBoardServiceImpl _bellBoardService;
 
     @Test
     public void testAddPerformanceGivenId()

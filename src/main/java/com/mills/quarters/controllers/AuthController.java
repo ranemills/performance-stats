@@ -2,7 +2,7 @@ package com.mills.quarters.controllers;
 
 import com.mills.quarters.models.AuthUser;
 import com.mills.quarters.repositories.AuthUserRepository;
-import com.mills.quarters.services.AuthUserDetailsService;
+import com.mills.quarters.services.AuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -23,14 +23,14 @@ import java.util.Map;
 public class AuthController {
 
     @Autowired
-    AuthUserDetailsService authUserDetailsService;
+    private AuthUserService _authUserDetailsService;
 
     @Autowired
-    AuthUserRepository authUserRepository;
+    private AuthUserRepository _authUserRepository;
 
     @RequestMapping("/user")
     public Map<String, Object> user(Principal user) {
-        AuthUser authUser = authUserRepository.findByUsername(user.getName()).get(0);
+        AuthUser authUser = _authUserRepository.findByUsername(user.getName()).get(0);
 
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("name", authUser.getUsername());
@@ -44,7 +44,7 @@ public class AuthController {
                              @RequestParam("password") String password)
         throws Exception
     {
-        authUserDetailsService.addUser(username, password);
+        _authUserDetailsService.addUser(username, password);
     }
 
 }

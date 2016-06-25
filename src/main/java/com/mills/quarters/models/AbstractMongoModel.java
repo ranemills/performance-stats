@@ -19,12 +19,12 @@ public abstract class AbstractMongoModel {
         return customer;
     }
 
-    public void setCustomer(DBRef customer) {
-        this.customer = customer;
-    }
-
     public void setCustomer(AuthUser customer) {
         this.customer = new DBRef("authUser", customer.getId());
+    }
+
+    public void setCustomer(DBRef customer) {
+        this.customer = customer;
     }
 
     public ObjectId getId() {

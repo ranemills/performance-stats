@@ -10,7 +10,7 @@ import java.util.List;
  * Created by ryan on 12/04/16.
  */
 @Repository
-public interface AuthUserRepository extends MongoRepository<AuthUser, Long> {
+public interface AuthUserRepository extends MongoRepository<AuthUser, Long>, AuthUserCustomRepository {
 
     List<AuthUser> findByUsername(String email);
 

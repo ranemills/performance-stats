@@ -7,7 +7,6 @@ import com.mills.quarters.services.BellBoardImportService;
 import com.mills.quarters.services.BellBoardService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,22 +26,23 @@ public class BellBoardController {
     private BellBoardService _bellBoardService;
 
     @Autowired
-    private BellBoardImportService bellBoardImportService;
+    private BellBoardImportService _bellBoardImportService;
 
     @Autowired
-    private BellBoardImportRepository bellBoardImportRepository;
+    private BellBoardImportRepository _bellBoardImportRepository;
 
     @RequestMapping("/import")
-    public List<Quarter> importPerformances(@RequestParam(required = false) String name, @RequestParam(required = true) String bbUrl)
+    public List<Quarter> importPerformances(@RequestParam(required = false) String name,
+                                            @RequestParam(required = true) String bbUrl)
     {
         try {
             BellBoardImport bbImport;
-            if(!StringUtils.isNotEmpty(name)) {
-                bbImport = bellBoardImportService.addImport(name, bbUrl);
+            if (!StringUtils.isNotEmpty(name)) {
+                bbImport = _bellBoardImportService.addImport(name, bbUrl);
             } else {
-                bbImport = bellBoardImportService.addImport(bbUrl);
+                bbImport = _bellBoardImportService.addImport(bbUrl);
             }
-            return bellBoardImportService.runImport(bbImport);
+            return _bellBoardImportService.runImport(bbImport);
         } catch (URISyntaxException e) {
             throw new IllegalArgumentException("Invalid URL");
         }
@@ -51,6 +51,6 @@ public class BellBoardController {
     @RequestMapping("/imports")
     public List<BellBoardImport> listImports()
     {
-        return bellBoardImportRepository.findAll();
+        return _bellBoardImportRepository.findAll();
     }
 }

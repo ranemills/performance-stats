@@ -1,6 +1,5 @@
 package com.mills.quarters;
 
-import com.mills.quarters.daos.AuthUserDao;
 import com.mills.quarters.repositories.AuthUserRepository;
 import com.mills.quarters.repositories.QuarterRepository;
 import org.junit.Before;
@@ -36,9 +35,6 @@ public abstract class IntegrationTest extends AbstractTest {
 
     @Autowired
     protected AuthUserRepository authUserRepository;
-
-    @Autowired
-    protected AuthUserDao authUserDao;
 
     protected MockMvc mockMvc;
 

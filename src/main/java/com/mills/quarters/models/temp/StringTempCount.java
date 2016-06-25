@@ -1,6 +1,5 @@
 package com.mills.quarters.models.temp;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
