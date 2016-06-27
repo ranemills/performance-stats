@@ -1,7 +1,9 @@
 package com.mills.performances.controllers;
 
 import com.mills.performances.models.Performance;
+import com.mills.performances.models.temp.PerformanceSearchOptions;
 import com.mills.performances.repositories.PerformanceRepository;
+import com.mills.performances.services.AlgoliaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,12 +24,16 @@ public class PerformancesController {
 
     @Autowired
     private PerformanceRepository _performanceRepository;
+    @Autowired
+    private AlgoliaService _algoliaService;
 
     @RequestMapping("/list")
     List<Performance> getPerformances(@RequestParam Map<String, String> allRequestParams)
         throws Exception
     {
-        return _performanceRepository.findPerformances(searchOptions(allRequestParams));
+        PerformanceSearchOptions searchOptions = searchOptions(allRequestParams);
+        _algoliaService.getPerformances(searchOptions);
+        return _performanceRepository.findPerformances(searchOptions);
     }
 
     //TODO: Add this method
