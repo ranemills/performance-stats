@@ -51,9 +51,11 @@ public class BellBoardHttpServiceImpl implements BellBoardHttpService {
         URI uri;
         if (changedSince != null) {
             uri = new URIBuilder(rawUrl).addParameter("changed_since", changedSince.toString("YYYY-MM-dd"))
+                                        .addParameter("pagesize", "1000")
                                         .build();
         } else {
-            uri = new URI(rawUrl);
+            uri = new URIBuilder(rawUrl).addParameter("pagesize", "1000")
+                                        .build();
         }
         return xmlHttpRequest(uri);
     }

@@ -25,20 +25,10 @@ public class AlgoliaServiceImpl implements AlgoliaService {
     private static JSONArray fromPerformances(List<Performance> performances) {
         JSONArray array = new JSONArray();
         for (Performance performance : performances) {
-            array.put(fromPerformance(performance));
+            array.put(performance.toJSONObject());
         }
         return array;
 
-    }
-
-    private static JSONObject fromPerformance(Performance performance) {
-        JSONObject object = new JSONObject();
-        object.put("method_name", performance.getMethod());
-        object.put("stage", performance.getStage());
-        object.put("changes", performance.getChanges());
-        object.put("location", performance.getLocation());
-        object.put("date", performance.getDate());
-        return object;
     }
 
     private static Query queryFromSearchOptions(PerformanceSearchOptions searchOptions) {
@@ -52,8 +42,6 @@ public class AlgoliaServiceImpl implements AlgoliaService {
         if (searchOptions.getMethod() != null) {
             query.setFacetFilters("method:" + searchOptions.getMethod());
         }
-        System.out.println("===query===");
-        System.out.println(query.getFacetFilters());
         return query;
     }
 
@@ -61,6 +49,7 @@ public class AlgoliaServiceImpl implements AlgoliaService {
     public void addPerformances(List<Performance> performances) {
         Index index = client.initIndex("performances");
         try {
+            index.clearIndex();
             index.addObjects(fromPerformances(performances));
         } catch (AlgoliaException e) {
             System.out.println(e.getMessage());
@@ -71,8 +60,14 @@ public class AlgoliaServiceImpl implements AlgoliaService {
     public JSONObject getPerformances(PerformanceSearchOptions searchOptions) {
         Index index = client.initIndex("performances");
         try {
-            JSONObject res = index.search(queryFromSearchOptions(searchOptions).setFacets(Collections.singletonList
-                                                                                                          ("*")));
+            Query query = queryFromSearchOptions(searchOptions)
+                              .setFacets(Collections.singletonList("*"))
+                              .setAttributesToRetrieve(Collections.singletonList("id"))
+                              .setHitsPerPage(200).setAttributesToHighlight(Collections.singletonList(""));
+            System.out.println("===query===");
+            System.out.println(query.getQuery());
+            JSONObject res = index.search(query);
+            System.out.println("===res===");
             System.out.println(res);
             return res;
         } catch (AlgoliaException e) {
