@@ -32,8 +32,6 @@ public class BellBoardServiceImpl implements BellBoardService{
             String output = IOUtils.toString(is);
             Serializer serializer = new Persister();
             return serializer.read(BBPerformance.class, output);
-        } catch (Exception e) {
-            throw e;
         }
     }
 
@@ -46,10 +44,6 @@ public class BellBoardServiceImpl implements BellBoardService{
             Serializer serializer = new Persister();
             BBPerformanceList bbPerformanceList = serializer.read(BBPerformanceList.class, output, false);
             return bbPerformanceList.getPerformances();
-        }
-        catch (Exception e)
-        {
-            throw e;
         }
     }
 }

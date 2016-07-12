@@ -1,6 +1,7 @@
 package com.mills.bellboard.models.xml;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Text;
@@ -19,7 +20,7 @@ public class BBPerformanceRinger {
 
     }
 
-    public BBPerformanceRinger(String name, int bell, boolean conductor) {
+    public BBPerformanceRinger(String name, int bell, Boolean conductor) {
         this.name = name;
         this.bell = bell;
         this.conductor = conductor;
@@ -71,6 +72,9 @@ public class BBPerformanceRinger {
 
     @Override
     public String toString() {
-        return name;
+        return new ToStringBuilder(this).append("name", name)
+                                        .append("bell", bell)
+                                        .append("conductor", conductor)
+                                        .build();
     }
 }

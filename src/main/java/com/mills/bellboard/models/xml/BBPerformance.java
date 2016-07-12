@@ -1,17 +1,19 @@
 package com.mills.bellboard.models.xml;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Root(name = "performance", strict = false)
 public class BBPerformance {
 
-    @Attribute(name="id")
+    @Attribute(name = "id")
     private String bellboadId;
     @Element(required = false)
     private String association;
@@ -22,7 +24,7 @@ public class BBPerformance {
     @Element
     private BBPerformancePlace place;
     @ElementList
-    private ArrayList<BBPerformanceRinger> ringers;
+    private List<BBPerformanceRinger> ringers;
 
     public String getBellboadId() {
         return bellboadId;
@@ -56,11 +58,11 @@ public class BBPerformance {
         this.title = title;
     }
 
-    public ArrayList<BBPerformanceRinger> getRingers() {
+    public List<BBPerformanceRinger> getRingers() {
         return ringers;
     }
 
-    public void setRingers(ArrayList<BBPerformanceRinger> ringers) {
+    public void setRingers(List<BBPerformanceRinger> ringers) {
         this.ringers = ringers;
     }
 
@@ -95,7 +97,13 @@ public class BBPerformance {
 
     @Override
     public String toString() {
-        return "Date: " + date + ", Title: " + title + ", Place: " + place + ", Ringers: " + ringers;
+        return new ToStringBuilder(this).append(date)
+                                        .append("association", association)
+                                        .append("date", date)
+                                        .append("place", place)
+                                        .append("ringers", ringers)
+                                        .append("title", title)
+                                        .build();
     }
 }
 

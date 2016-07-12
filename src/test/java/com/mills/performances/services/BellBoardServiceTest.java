@@ -1,4 +1,4 @@
-package com.mills.bellboard.services;
+package com.mills.performances.services;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -7,7 +7,6 @@ import com.mills.bellboard.models.xml.BBPerformanceList;
 import com.mills.performances.AbstractTest;
 import com.mills.performances.models.BellBoardImport;
 import com.mills.performances.models.Performance;
-import com.mills.performances.repositories.PerformanceRepository;
 import com.mills.performances.services.impl.BellBoardServiceImpl;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
@@ -20,26 +19,21 @@ import org.simpleframework.xml.core.Persister;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.mills.bellboard.services.BellBoardServiceTest.XmlBuilder.xmlBuilder;
 import static com.mills.performances.builders.PerformanceBuilder.performanceBuilder;
+import static com.mills.performances.services.BellBoardServiceTest.XmlBuilder.xmlBuilder;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.fail;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
 
 /**
  * Created by ryan on 23/04/16.
@@ -60,25 +54,25 @@ public class BellBoardServiceTest extends AbstractTest {
         String id = "1995";
 
         BBPerformance performanceXml = xmlBuilder().id("1995")
-                                                 .association("")
-                                                 .place("Abingdon")
-                                                 .dedication("St Helen")
-                                                 .county("Oxfordshire")
-                                                 .ringType("tower")
-                                                 .ringTenor("16-0-0 in F")
-                                                 .date("2016-04-10")
-                                                 .time("44 mins")
-                                                 .changes("1280")
-                                                 .method("Yorkshire Surprise Major")
-                                                 .ringer(1, "Rebecca Franklin")
-                                                 .ringer(2, "Brian Read")
-                                                 .ringer(3, "Susan Read")
-                                                 .ringer(4, "Sarah Barnes")
-                                                 .ringer(5, "David Thomas", true)
-                                                 .ringer(6, "Matthew Franklin")
-                                                 .ringer(7, "Tim Pett")
-                                                 .ringer(8, "Ryan Mills")
-                                                 .buildXml();
+                                                   .association("")
+                                                   .place("Abingdon")
+                                                   .dedication("St Helen")
+                                                   .county("Oxfordshire")
+                                                   .ringType("tower")
+                                                   .ringTenor("16-0-0 in F")
+                                                   .date("2016-04-10")
+                                                   .time("44 mins")
+                                                   .changes("1280")
+                                                   .method("Yorkshire Surprise Major")
+                                                   .ringer(1, "Rebecca Franklin")
+                                                   .ringer(2, "Brian Read")
+                                                   .ringer(3, "Susan Read")
+                                                   .ringer(4, "Sarah Barnes")
+                                                   .ringer(5, "David Thomas", true)
+                                                   .ringer(6, "Matthew Franklin")
+                                                   .ringer(7, "Tim Pett")
+                                                   .ringer(8, "Ryan Mills")
+                                                   .buildXml();
 
         Performance expectedPerformance = performanceBuilder()
                                               .bellboardId("1995")

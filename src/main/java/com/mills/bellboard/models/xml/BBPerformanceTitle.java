@@ -1,6 +1,7 @@
 package com.mills.bellboard.models.xml;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.simpleframework.xml.Element;
 
 public class BBPerformanceTitle {
@@ -43,4 +44,13 @@ public class BBPerformanceTitle {
                    .append(getChanges(), rhs.getChanges())
                    .isEquals();
     }
+
+    @Override
+    public String toString()
+    {
+        return new ToStringBuilder(this).append("changes", changes)
+                                        .append("method", method)
+                                        .build();
+    }
+
 }

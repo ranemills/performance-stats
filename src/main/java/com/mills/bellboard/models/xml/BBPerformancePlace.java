@@ -2,6 +2,7 @@ package com.mills.bellboard.models.xml;
 
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.simpleframework.xml.ElementMap;
 import org.simpleframework.xml.Root;
 
@@ -14,10 +15,6 @@ public class BBPerformancePlace {
 
     public void setPlaceElements(Map<String, String> placeElements) {
         this.placeElements = placeElements;
-    }
-
-    private Map<String, String> getPlaceElements() {
-        return placeElements;
     }
 
     public String getPlace() {
@@ -45,13 +42,18 @@ public class BBPerformancePlace {
         }
         BBPerformancePlace rhs = (BBPerformancePlace) obj;
         return new EqualsBuilder()
-                   .append(getPlaceElements(), rhs.getPlaceElements())
+                   .append(getPlace(), rhs.getPlace())
+                   .append(getDedication(), rhs.getDedication())
+                   .append(getCounty(), rhs.getCounty())
                    .isEquals();
     }
 
     @Override
     public String toString() {
-        return placeElements.get("place") + placeElements.get("dedication") + placeElements.get("county");
+        return new ToStringBuilder(this).append("place", getPlace())
+                                        .append("dedication", getDedication())
+                                        .append("county", getCounty())
+                                        .build();
     }
 
 }
