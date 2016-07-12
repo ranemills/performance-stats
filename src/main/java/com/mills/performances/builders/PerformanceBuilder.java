@@ -67,6 +67,13 @@ public class PerformanceBuilder {
         return this;
     }
 
+    public PerformanceBuilder fromMethodString(String method) {
+        Map<String, String> methodParts = parseMethod(method);
+        this._method = methodParts.get("method");
+        this._stage = methodParts.get("stage");
+        return this;
+    }
+
     public PerformanceBuilder stage(String stage) {
         this._stage = stage;
         return this;

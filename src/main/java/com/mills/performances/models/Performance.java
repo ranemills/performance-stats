@@ -3,13 +3,11 @@ package com.mills.performances.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.bson.types.ObjectId;
-import org.json.JSONArray;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.json.JSONObject;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -127,8 +125,13 @@ public class Performance extends AbstractMongoModel implements AlgoliaModel {
 
     @Override
     public String toString() {
-        return "Date=" + getDate() + ":Location=" + getLocation() + ":Changes=" + getChanges() + ":Method=" +
-               getMethod() + ":Stage=" + getStage() + ":Ringers" + getRingers();
+        return new ToStringBuilder(this).append("date", date)
+            .append("location", location)
+            .append("changes", changes)
+            .append("method", method)
+            .append("stage", stage)
+            .append("ringers", ringers)
+            .build();
     }
 
     @Override

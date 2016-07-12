@@ -3,9 +3,6 @@ package com.mills.bellboard.services;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.mills.bellboard.models.xml.BBPerformance;
-import com.mills.bellboard.models.xml.BBPerformancePlace;
-import com.mills.bellboard.models.xml.BBPerformanceRinger;
-import com.mills.bellboard.models.xml.BBPerformanceTitle;
 import com.mills.bellboard.services.impl.BellBoardServiceImpl;
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -21,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.mills.bellboard.services.BellBoardServiceImplTest.BBPerformanceBuilder.bbPerformanceBuilder;
+import static com.mills.bellboard.models.BBPerformanceBuilder.bbPerformanceBuilder;
 import static com.mills.bellboard.services.BellBoardServiceImplTest.XmlBuilder.inputStreamFromBuilders;
 import static com.mills.bellboard.services.BellBoardServiceImplTest.XmlBuilder.xmlBuilder;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -49,7 +46,7 @@ public class BellBoardServiceImplTest {
     private static final String RINGER_4 = "Sarah Barnes";
     private static final String RINGER_5 = "David Thomas";
     private static final String RINGER_6 = "Matthew Franklin";
-    
+
     @Mock
     private BellBoardHttpService _bellBoardHttpService;
     @InjectMocks
@@ -59,13 +56,6 @@ public class BellBoardServiceImplTest {
     public void canSerializeSinglePerformance()
         throws Exception
     {
-        String ringer1 = "Rebecca Franklin";
-        String ringer2 = "Brian Read";
-        String ringer3 = "Susan Read";
-        String ringer4 = "Sarah Barnes";
-        String ringer5 = "David Thomas";
-        String ringer6 = "Matthew Franklin";
-
         InputStream performanceIS = xmlBuilder().id(ID)
                                                 .association(ASSOCIATION)
                                                 .place(PLACE)
@@ -77,12 +67,12 @@ public class BellBoardServiceImplTest {
                                                 .time("44 mins")
                                                 .changes(String.valueOf(CHANGES))
                                                 .method(METHOD)
-                                                .ringer(1, ringer1)
-                                                .ringer(2, ringer2)
-                                                .ringer(3, ringer3)
-                                                .ringer(4, ringer4)
-                                                .ringer(5, ringer5, true)
-                                                .ringer(6, ringer6)
+                                                .ringer(1, RINGER_1)
+                                                .ringer(2, RINGER_2)
+                                                .ringer(3, RINGER_3)
+                                                .ringer(4, RINGER_4)
+                                                .ringer(5, RINGER_5, true)
+                                                .ringer(6, RINGER_6)
                                                 .buildInputStream();
 
         BBPerformance expectedPerformance = bbPerformanceBuilder().id(ID)
@@ -91,12 +81,12 @@ public class BellBoardServiceImplTest {
                                                                   .dedication(DEDICATION)
                                                                   .county(COUNTY)
                                                                   .date(DATE)
-                                                                  .ringer(1, ringer1)
-                                                                  .ringer(2, ringer2)
-                                                                  .ringer(3, ringer3)
-                                                                  .ringer(4, ringer4)
-                                                                  .ringer(ringer5, 5, true)
-                                                                  .ringer(6, ringer6)
+                                                                  .ringer(1, RINGER_1)
+                                                                  .ringer(2, RINGER_2)
+                                                                  .ringer(3, RINGER_3)
+                                                                  .ringer(4, RINGER_4)
+                                                                  .ringer(5, RINGER_5, true)
+                                                                  .ringer(6, RINGER_6)
                                                                   .changes(CHANGES)
                                                                   .method(METHOD)
                                                                   .build();
@@ -174,7 +164,7 @@ public class BellBoardServiceImplTest {
                                                                   .ringer(2, RINGER_2)
                                                                   .ringer(3, RINGER_3)
                                                                   .ringer(4, RINGER_4)
-                                                                  .ringer(RINGER_5, 5, true)
+                                                                  .ringer(5, RINGER_5, true)
                                                                   .ringer(6, RINGER_6)
                                                                   .changes(CHANGES)
                                                                   .method(METHOD)
@@ -190,7 +180,7 @@ public class BellBoardServiceImplTest {
                                                                    .ringer(2, RINGER_2)
                                                                    .ringer(3, RINGER_3)
                                                                    .ringer(4, RINGER_4)
-                                                                   .ringer(RINGER_5, 5, true)
+                                                                   .ringer(5, RINGER_5, true)
                                                                    .ringer(6, RINGER_6)
                                                                    .changes(changes2)
                                                                    .method(method2)
@@ -206,93 +196,6 @@ public class BellBoardServiceImplTest {
         List<BBPerformance> performances = _bellBoardService.getPerformances(rawUrl, changedSince);
 
         assertThat(performances, hasItems(expectedPerformance, expectedPerformance2));
-    }
-
-    public static class BBPerformanceBuilder {
-        private final ImmutableList.Builder<BBPerformanceRinger> _ringerBuilder = ImmutableList.builder();
-        private final ImmutableMap.Builder<String, String> _placeElementsBuilder = ImmutableMap.builder();
-        private String _id;
-        private String _association;
-        private String _date;
-        private Integer _changes;
-        private String _method;
-
-        static BBPerformanceBuilder bbPerformanceBuilder() {
-            return new BBPerformanceBuilder();
-        }
-
-        BBPerformanceBuilder id(String id) {
-            this._id = id;
-            return this;
-        }
-
-        BBPerformanceBuilder association(String association) {
-            this._association = association;
-            return this;
-        }
-
-        BBPerformanceBuilder date(String date) {
-            this._date = date;
-            return this;
-        }
-
-        BBPerformanceBuilder place(String place) {
-            _placeElementsBuilder.put("place", place);
-            return this;
-        }
-
-        BBPerformanceBuilder dedication(String dedication) {
-            _placeElementsBuilder.put("dedication", dedication);
-            return this;
-        }
-
-        BBPerformanceBuilder county(String county) {
-            _placeElementsBuilder.put("county", county);
-            return this;
-        }
-
-        BBPerformanceBuilder changes(Integer changes) {
-            this._changes = changes;
-            return this;
-        }
-
-        BBPerformanceBuilder method(String method) {
-            this._method = method;
-            return this;
-        }
-
-        BBPerformanceBuilder ringer(String name, int bell, Boolean conductor) {
-            _ringerBuilder.add(new BBPerformanceRinger(name, bell, conductor));
-            return this;
-        }
-
-        BBPerformanceBuilder ringer(int bell, String name) {
-            _ringerBuilder.add(new BBPerformanceRinger(name, bell, null));
-            return this;
-        }
-
-        BBPerformance build()
-        {
-            BBPerformance expectedPerformance = new BBPerformance();
-
-            expectedPerformance.setBellboadId(_id);
-            expectedPerformance.setAssociation(_association);
-            expectedPerformance.setDate(_date);
-
-            BBPerformancePlace performancePlace = new BBPerformancePlace();
-            performancePlace.setPlaceElements(_placeElementsBuilder.build());
-            expectedPerformance.setPlace(performancePlace);
-
-            expectedPerformance.setRingers(_ringerBuilder.build());
-
-            BBPerformanceTitle performanceTitle = new BBPerformanceTitle();
-            performanceTitle.setChanges(_changes);
-            performanceTitle.setMethod(_method);
-
-            expectedPerformance.setTitle(performanceTitle);
-
-            return expectedPerformance;
-        }
     }
 
 
