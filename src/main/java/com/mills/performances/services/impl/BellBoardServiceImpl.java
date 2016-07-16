@@ -33,7 +33,6 @@ public class BellBoardServiceImpl implements BellBoardService {
 
         try {
             for (BBPerformance bbPerformance : _bellBoardService.getPerformances(outUrl, changedSince)) {
-
                 performances.add(fromBBPeformance(bbPerformance).bellboardImport(bbImport).build());
             }
         }

@@ -7,8 +7,8 @@ import com.mills.performances.models.BellBoardImport;
 import com.mills.performances.models.Location;
 import com.mills.performances.models.Performance;
 import com.mills.performances.models.Ringer;
-import com.mills.performances.utils.CustomerUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,86 +40,6 @@ public class PerformanceBuilder {
 
     public static PerformanceBuilder performanceBuilder() {
         return new PerformanceBuilder();
-    }
-
-    public PerformanceBuilder bellboardImport(BellBoardImport bellboardImport) {
-        this._bellboardImport = bellboardImport;
-        return this;
-    }
-
-    public PerformanceBuilder bellboardId(String bellboardId) {
-        this._bellboardId = bellboardId;
-        return this;
-    }
-
-    public PerformanceBuilder date(Date date) {
-        this._date = date;
-        return this;
-    }
-
-    public PerformanceBuilder changes(int changes) {
-        this._changes = changes;
-        return this;
-    }
-
-    public PerformanceBuilder method(String method) {
-        this._method = method;
-        return this;
-    }
-
-    public PerformanceBuilder fromMethodString(String method) {
-        Map<String, String> methodParts = parseMethod(method);
-        this._method = methodParts.get("method");
-        this._stage = methodParts.get("stage");
-        return this;
-    }
-
-    public PerformanceBuilder stage(String stage) {
-        this._stage = stage;
-        return this;
-    }
-
-    public PerformanceBuilder location(Location location) {
-        this._location = location;
-        return this;
-    }
-
-    public PerformanceBuilder location(String locationName) {
-        this._location = new Location();
-        this._location.setName(locationName);
-        return this;
-    }
-
-    public PerformanceBuilder ringer(Ringer ringer) {
-        this._ringers.add(ringer);
-        return this;
-    }
-
-    public PerformanceBuilder ringer(int bell, String name) {
-        this._ringers.add(new Ringer(name, bell));
-        return this;
-    }
-
-    public PerformanceBuilder ringer(int bell, String name, boolean conductor) {
-        this._ringers.add(new Ringer(name, bell, conductor));
-        return this;
-    }
-
-    public Performance build() {
-        Performance performance = new Performance();
-        performance.setDate(_date);
-        performance.setChanges(_changes);
-        performance.setMethod(_method);
-        performance.setStage(_stage);
-        performance.setLocation(_location);
-        performance.setRingers(_ringers);
-        performance.setBellboardId(_bellboardId);
-        if(_bellboardImport != null)
-        {
-            performance.setBellBoardImport(_bellboardImport);
-        }
-
-        return performance;
     }
 
     public static PerformanceBuilder fromBBPeformance(BBPerformance bbPerformance)
@@ -183,6 +103,121 @@ public class PerformanceBuilder {
 
     private static String normaliseBracketedMethodCount(String methodCount) {
         return methodCount.replaceAll("Methods", "m").replaceAll("methods", "m").replaceAll("\\s", "");
+    }
+
+    public static PerformanceBuilder tritonDelightPerformance() {
+        return performanceBuilder().bellboardId("1500")
+                                   .date(new DateTime(2016, 3, 21, 0, 0).toDate())
+                                   .location("Oxford")
+                                   .changes(1440)
+                                   .method("Triton Delight")
+                                   .stage("Royal")
+                                   .ringer(1, "Bernard J Stone")
+                                   .ringer(2, "Robin O Hall", true)
+                                   .ringer(3, "Michele Winter")
+                                   .ringer(4, "Ryan E Mills")
+                                   .ringer(5, "Stephen M Jones")
+                                   .ringer(6, "Stuart F Gibson")
+                                   .ringer(7, "Elizabeth C Frye")
+                                   .ringer(8, "Michael A Williams")
+                                   .ringer(9, "Mark D Tarrant")
+                                   .ringer(10, "Colin M Lee");
+    }
+
+    public static PerformanceBuilder yorkshireMajorPerformance() {
+        return performanceBuilder().bellboardId("101")
+                                   .date(new DateTime(2016, 4, 10, 0, 0).toDate())
+                                   .location("Abingdon")
+                                   .changes(1280)
+                                   .method("Yorkshire Surprise")
+                                   .stage("Major")
+                                   .ringer(1, "Rebecca Franklin")
+                                   .ringer(2, "Brian Read")
+                                   .ringer(3, "Susan Read")
+                                   .ringer(4, "Sarah Barnes")
+                                   .ringer(5, "David Thomas", true)
+                                   .ringer(6, "Matthew Franklin")
+                                   .ringer(7, "Tim Pett")
+                                   .ringer(8, "Ryan Mills");
+    }
+
+    public PerformanceBuilder bellboardImport(BellBoardImport bellboardImport) {
+        this._bellboardImport = bellboardImport;
+        return this;
+    }
+
+    public PerformanceBuilder bellboardId(String bellboardId) {
+        this._bellboardId = bellboardId;
+        return this;
+    }
+
+    public PerformanceBuilder date(Date date) {
+        this._date = date;
+        return this;
+    }
+
+    public PerformanceBuilder changes(int changes) {
+        this._changes = changes;
+        return this;
+    }
+
+    public PerformanceBuilder method(String method) {
+        this._method = method;
+        return this;
+    }
+
+    public PerformanceBuilder fromMethodString(String method) {
+        Map<String, String> methodParts = parseMethod(method);
+        this._method = methodParts.get("method");
+        this._stage = methodParts.get("stage");
+        return this;
+    }
+
+    public PerformanceBuilder stage(String stage) {
+        this._stage = stage;
+        return this;
+    }
+
+    public PerformanceBuilder location(Location location) {
+        this._location = location;
+        return this;
+    }
+
+    public PerformanceBuilder location(String locationName) {
+        Location location = new Location();
+        location.setName(locationName);
+        return location(location);
+    }
+
+    public PerformanceBuilder ringer(Ringer ringer) {
+        this._ringers.add(ringer);
+        return this;
+    }
+
+    public PerformanceBuilder ringer(int bell, String name) {
+        Ringer ringer = new Ringer(name, bell);
+        return ringer(ringer);
+    }
+
+    public PerformanceBuilder ringer(int bell, String name, boolean conductor) {
+        this._ringers.add(new Ringer(name, bell, conductor));
+        return this;
+    }
+
+    public Performance build() {
+        Performance performance = new Performance();
+        performance.setDate(_date);
+        performance.setChanges(_changes);
+        performance.setMethod(_method);
+        performance.setStage(_stage);
+        performance.setLocation(_location);
+        performance.setRingers(_ringers);
+        performance.setBellboardId(_bellboardId);
+        if (_bellboardImport != null) {
+            performance.setBellBoardImport(_bellboardImport);
+        }
+
+        return performance;
     }
 
 

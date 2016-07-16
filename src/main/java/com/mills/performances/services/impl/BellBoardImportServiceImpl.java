@@ -8,7 +8,6 @@ import com.mills.performances.services.AlgoliaService;
 import com.mills.performances.services.AuthUserService;
 import com.mills.performances.services.BellBoardImportService;
 import com.mills.performances.services.BellBoardService;
-import com.mills.performances.utils.CustomerUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

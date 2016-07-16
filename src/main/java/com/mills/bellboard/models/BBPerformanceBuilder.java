@@ -23,6 +23,46 @@ public class BBPerformanceBuilder {
         return new BBPerformanceBuilder();
     }
 
+    public static BBPerformanceBuilder tritonDelightBbPerformance() {
+        return bbPerformanceBuilder().id("1500")
+                                     .association("Oxford Society")
+                                     .place("Oxford")
+                                     .dedication("Christ Church")
+                                     .county("Oxfordshire")
+                                     .date("2016-03-21")
+                                     .changes(1440)
+                                     .method("Triton Delight Royal")
+                                     .ringer(1, "Bernard J Stone")
+                                     .ringer(2, "Robin O Hall", true)
+                                     .ringer(3, "Michele Winter")
+                                     .ringer(4, "Ryan E Mills")
+                                     .ringer(5, "Stephen M Jones")
+                                     .ringer(6, "Stuart F Gibson")
+                                     .ringer(7, "Elizabeth C Frye")
+                                     .ringer(8, "Michael A Williams")
+                                     .ringer(9, "Mark D Tarrant")
+                                     .ringer(10, "Colin M Lee");
+    }
+
+    public static BBPerformanceBuilder yorkshireMajorBbPerformance() {
+        return bbPerformanceBuilder().id("101")
+                                     .association("")
+                                     .place("Abingdon")
+                                     .dedication("St Helen")
+                                     .county("Oxfordshire")
+                                     .date("2016-04-10")
+                                     .changes(1280)
+                                     .method("Yorkshire Surprise Major")
+                                     .ringer(1, "Rebecca Franklin")
+                                     .ringer(2, "Brian Read")
+                                     .ringer(3, "Susan Read")
+                                     .ringer(4, "Sarah Barnes")
+                                     .ringer(5, "David Thomas", true)
+                                     .ringer(6, "Matthew Franklin")
+                                     .ringer(7, "Tim Pett")
+                                     .ringer(8, "Ryan Mills");
+    }
+
     public BBPerformanceBuilder id(String id) {
         this._id = id;
         return this;
