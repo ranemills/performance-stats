@@ -23,7 +23,7 @@ public class BellBoardServiceImpl implements BellBoardService {
     }
 
     @Override
-    public List<Performance> getPerformances(BellBoardImport bbImport)
+    public List<Performance> loadPerformances(BellBoardImport bbImport)
         throws URISyntaxException
     {
         String outUrl = bbImport.getUrl().replace("search.php", "export.php");
@@ -45,7 +45,7 @@ public class BellBoardServiceImpl implements BellBoardService {
     }
 
     @Override
-    public Performance getPerformance(String id)
+    public Performance loadPerformance(String id)
     {
         try
         {

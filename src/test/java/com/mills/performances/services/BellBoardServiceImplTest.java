@@ -5,6 +5,7 @@ import com.mills.performances.AbstractTest;
 import com.mills.performances.models.BellBoardImport;
 import com.mills.performances.models.Performance;
 import com.mills.performances.services.impl.BellBoardServiceImpl;
+import com.mills.bellboard.services.BellBoardService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,10 +21,12 @@ import static com.mills.bellboard.models.BBPerformanceBuilder.yorkshireMajorBbPe
 import static com.mills.performances.builders.PerformanceBuilder.tritonDelightPerformance;
 import static com.mills.performances.builders.PerformanceBuilder.yorkshireMajorPerformance;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.isNull;
 
 /**
  * Created by ryan on 23/04/16.
@@ -40,7 +43,7 @@ public class BellBoardServiceImplTest extends AbstractTest {
     private Performance performance2;
 
     @Mock
-    private com.mills.bellboard.services.BellBoardService bellBoardService;
+    private BellBoardService bellBoardService;
     @InjectMocks
     private BellBoardServiceImpl _bellBoardService;
 
@@ -52,18 +55,29 @@ public class BellBoardServiceImplTest extends AbstractTest {
     }
 
     @Test
-    public void testAddPerformanceGivenId()
+    public void testLoadPerformanceGivenId()
         throws Exception
     {
         given(bellBoardService.getSinglePerformance(ID)).willReturn(BBPERFORMANCE1);
 
-        Performance performance = _bellBoardService.getPerformance(ID);
+        Performance performance = _bellBoardService.loadPerformance(ID);
 
         assertThat(performance, is(performance1));
     }
 
     @Test
-    public void testAddPerformancesWithUrl()
+    public void testLoadPerformanceReturnsNullForException()
+        throws Exception
+    {
+        given(bellBoardService.getSinglePerformance(ID)).willThrow(Exception.class);
+
+        Performance performance = _bellBoardService.loadPerformance(ID);
+
+        assertThat(performance, is(nullValue()));
+    }
+
+    @Test
+    public void testLoadPerformancesWithUrl()
         throws Exception
     {
         String searchUrl = "http://bb.ringingworld.co.uk/search.php?ringer=ryan+mills&length=q-or-p&bells_type=tower";
@@ -74,19 +88,19 @@ public class BellBoardServiceImplTest extends AbstractTest {
         given(bellBoardService.getPerformances(exportUrl, null)).willReturn(performances);
 
         BellBoardImport bellBoardImport = new BellBoardImport(searchUrl);
-        List<Performance> quarters = _bellBoardService.getPerformances(bellBoardImport);
+        List<Performance> quarters = _bellBoardService.loadPerformances(bellBoardImport);
 
         assertThat(quarters, contains(performance1, performance2));
     }
 
     @Test
-    public void testAddPerformancesReturnsEmptyListWithInvalidUrl()
+    public void testLoadPerformancesReturnsEmptyListWithInvalidUrl()
         throws Exception
     {
         String invalidUrl = "thisisnotaurl";
         given(bellBoardService.getPerformances(invalidUrl, null)).willThrow(Exception.class);
         BellBoardImport bellBoardImport = new BellBoardImport(invalidUrl);
-        List<Performance> performances = _bellBoardService.getPerformances(bellBoardImport);
+        List<Performance> performances = _bellBoardService.loadPerformances(bellBoardImport);
         assertThat(performances, hasSize(0));
     }
 

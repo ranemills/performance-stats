@@ -52,7 +52,7 @@ public class BellBoardImportServiceImpl implements BellBoardImportService {
     public List<Performance> runImport(BellBoardImport bbImport)
         throws URISyntaxException
     {
-        List<Performance> res = _bellBoardService.getPerformances(bbImport);
+        List<Performance> res = _bellBoardService.loadPerformances(bbImport);
         _performanceRepository.save(res);
         _algoliaServicce.addPerformances(res);
 

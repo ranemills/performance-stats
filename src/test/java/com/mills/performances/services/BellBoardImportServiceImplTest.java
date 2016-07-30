@@ -91,7 +91,7 @@ public class BellBoardImportServiceImplTest
 
         List<Performance> performanceList = Arrays.asList(performance1, performance2);
 
-        given(_bellBoardService.getPerformances(bbImport)).willReturn(performanceList);
+        given(_bellBoardService.loadPerformances(bbImport)).willReturn(performanceList);
 
         _bellBoardImportService.runImport(bbImport);
 
