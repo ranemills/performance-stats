@@ -4,7 +4,6 @@ import com.mills.performances.models.BellBoardImport;
 import com.mills.performances.models.Performance;
 import com.mills.performances.repositories.BellBoardImportRepository;
 import com.mills.performances.repositories.PerformanceRepository;
-import com.mills.performances.services.AlgoliaService;
 import com.mills.performances.services.AuthUserService;
 import com.mills.performances.services.BellBoardImportService;
 import com.mills.performances.services.BellBoardService;
@@ -29,8 +28,6 @@ public class BellBoardImportServiceImpl implements BellBoardImportService {
     private BellBoardService _bellBoardService;
     @Autowired
     private PerformanceRepository _performanceRepository;
-    @Autowired
-    private AlgoliaService _algoliaServicce;
 
     @Override
     public BellBoardImport addImport(String inUrl)
@@ -54,7 +51,6 @@ public class BellBoardImportServiceImpl implements BellBoardImportService {
     {
         List<Performance> res = _bellBoardService.loadPerformances(bbImport);
         _performanceRepository.save(res);
-        _algoliaServicce.addPerformances(res);
 
         bbImport.setLastImport(DateTime.now().toDate());
         _bellBoardImportRepository.save(bbImport);

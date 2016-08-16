@@ -2,9 +2,7 @@ package com.mills.performances.controllers;
 
 import com.mills.performances.IntegrationTest;
 import com.mills.performances.models.BellBoardImport;
-import com.mills.performances.services.AlgoliaService;
 import org.junit.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.net.URLEncoder;
 import java.util.List;
@@ -12,7 +10,6 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

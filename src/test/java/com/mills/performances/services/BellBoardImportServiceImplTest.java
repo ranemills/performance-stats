@@ -38,8 +38,6 @@ public class BellBoardImportServiceImplTest
     private BellBoardService _bellBoardService;
     @Mock
     private PerformanceRepository _performanceRepository;
-    @Mock
-    private AlgoliaService _algoliaServicce;
     @InjectMocks
     private BellBoardImportServiceImpl _bellBoardImportService;
 
@@ -96,7 +94,6 @@ public class BellBoardImportServiceImplTest
         _bellBoardImportService.runImport(bbImport);
 
         verify(_performanceRepository).save(performanceList);
-        verify(_algoliaServicce).addPerformances(performanceList);
         verify(_bellBoardImportRepository).save(expectedBbImport);
         verify(_authUserService).setCurrentUserAsImported();
     }
