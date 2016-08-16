@@ -32,7 +32,7 @@ public class PerformancesController {
         throws Exception
     {
         PerformanceSearchOptions searchOptions = searchOptions(allRequestParams);
-        _algoliaService.getPerformances(searchOptions);
+//        _algoliaService.getPerformances(searchOptions);
         return _performanceRepository.findPerformances(searchOptions);
     }
 

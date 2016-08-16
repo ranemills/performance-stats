@@ -23,14 +23,14 @@ public class PerformancesControllerTest extends IntegrationTest {
     public void testListAllPerformances()
         throws Exception
     {
-        performanceRepository.save(ImmutableList.<Performance>builder()
+        _performanceRepository.save(ImmutableList.<Performance>builder()
                                    .add(performanceBuilder().changes(5056).method("Cambridge").stage("Major").build())
                                    .add(performanceBuilder().changes(1296).method("Cambridge").stage("Minor").build())
                                    .build());
 
         mockMvc.perform(get("/api/performances/list"))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(contentType))
+               .andExpect(content().contentType(_contentType))
                .andExpect(jsonPath("$", hasSize(2)))
                .andExpect(jsonPath("$[0].changes", equalTo(5056)))
                .andExpect(jsonPath("$[0].method", equalTo("Cambridge")))
@@ -44,14 +44,14 @@ public class PerformancesControllerTest extends IntegrationTest {
     public void testListPerformancesWithStageParameter()
         throws Exception
     {
-        performanceRepository.save(ImmutableList.<Performance>builder()
+        _performanceRepository.save(ImmutableList.<Performance>builder()
                                    .add(performanceBuilder().changes(5056).method("Cambridge").stage("Major").build())
                                    .add(performanceBuilder().changes(1296).method("Cambridge").stage("Minor").build())
                                    .build());
 
         mockMvc.perform(get("/api/performances/list?stage=Major"))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(contentType))
+               .andExpect(content().contentType(_contentType))
                .andExpect(jsonPath("$", hasSize(1)))
                .andExpect(jsonPath("$[0].changes", equalTo(5056)))
                .andExpect(jsonPath("$[0].method", equalTo("Cambridge")))

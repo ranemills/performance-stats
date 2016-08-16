@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.mills.performances.IntegrationTest;
 import com.mills.performances.models.AuthUser;
 import org.junit.Test;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -24,9 +25,9 @@ public class AuthUserRepositoryTest extends IntegrationTest {
 
         Collection<GrantedAuthority> authorities = ImmutableList.<GrantedAuthority>builder().add(new SimpleGrantedAuthority("USER")).build();
         AuthUser expectedUser = new AuthUser(email, "password", authorities);
-        authUserRepository.save(expectedUser);
+        _authUserRepository.save(expectedUser);
 
-        AuthUser foundUser = authUserRepository.getUserByEmail(email);
+        AuthUser foundUser = _authUserRepository.getUserByEmail(email);
         assertThat(foundUser.getUsername(), is(email));
         assertThat(foundUser.getPassword(), is("password"));
     }

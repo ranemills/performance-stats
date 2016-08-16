@@ -33,7 +33,7 @@ public class BellBoardController {
     {
         try {
             BellBoardImport bbImport;
-            if (!StringUtils.isNotEmpty(name)) {
+            if (StringUtils.isNotEmpty(name)) {
                 bbImport = _bellBoardImportService.addImport(name, bbUrl);
             } else {
                 bbImport = _bellBoardImportService.addImport(bbUrl);

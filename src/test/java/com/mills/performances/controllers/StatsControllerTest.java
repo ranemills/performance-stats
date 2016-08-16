@@ -31,7 +31,7 @@ public class StatsControllerTest extends IntegrationTest {
     {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
-        performanceRepository.save(ImmutableList.<Performance>builder()
+        _performanceRepository.save(ImmutableList.<Performance>builder()
                                    .add(performanceBuilder().changes(5056)
                                                             .date(sdf.parse("21-04-2015"))
                                                             .method("Cambridge Surprise")
@@ -62,7 +62,7 @@ public class StatsControllerTest extends IntegrationTest {
     {
         mockMvc.perform(get("/api/stats/methods"))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(contentType))
+               .andExpect(content().contentType(_contentType))
                .andExpect(jsonPath("$", hasSize(2)))
                .andExpect(jsonPath("$[0]", equalTo(filterMatcher("Cambridge Surprise", 2))))
                .andExpect(jsonPath("$[1]", equalTo(filterMatcher("Yorkshire Surprise", 1))));
@@ -74,7 +74,7 @@ public class StatsControllerTest extends IntegrationTest {
     {
         mockMvc.perform(get("/api/stats/methods?stage=Major"))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(contentType))
+               .andExpect(content().contentType(_contentType))
                .andExpect(jsonPath("$", hasSize(2)))
                .andExpect(jsonPath("$", containsInAnyOrder(filterMatcher("Cambridge Surprise", 1),
                                                            filterMatcher("Yorkshire Surprise", 1))));
@@ -86,7 +86,7 @@ public class StatsControllerTest extends IntegrationTest {
     {
         mockMvc.perform(get("/api/stats/stages"))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(contentType))
+               .andExpect(content().contentType(_contentType))
                .andExpect(jsonPath("$", hasSize(2)))
                .andExpect(jsonPath("$[0]", equalTo(filterMatcher("Major", 2))))
                .andExpect(jsonPath("$[1]", equalTo(filterMatcher("Minor", 1))));
@@ -98,7 +98,7 @@ public class StatsControllerTest extends IntegrationTest {
     {
         mockMvc.perform(get("/api/stats/stages?method=Cambridge%20Surprise"))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(contentType))
+               .andExpect(content().contentType(_contentType))
                .andExpect(jsonPath("$", hasSize(2)))
                .andExpect(jsonPath("$", containsInAnyOrder(filterMatcher("Minor", 1),
                                                            filterMatcher("Major", 1))));
@@ -110,7 +110,7 @@ public class StatsControllerTest extends IntegrationTest {
     {
         mockMvc.perform(get("/api/stats/stages?ringer=Claire"))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(contentType))
+               .andExpect(content().contentType(_contentType))
                .andExpect(jsonPath("$", hasSize(1)))
                .andExpect(jsonPath("$[0]", equalTo(filterMatcher("Major", 1))));
     }
@@ -121,7 +121,7 @@ public class StatsControllerTest extends IntegrationTest {
     {
         mockMvc.perform(get("/api/stats/ringers"))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(contentType))
+               .andExpect(content().contentType(_contentType))
                .andExpect(jsonPath("$", hasSize(3)))
                .andExpect(jsonPath("$[0]", equalTo(filterMatcher("Ryan Mills", 3))))
                .andExpect(jsonPath("$[1]", equalTo(filterMatcher("Lydia", 2))))
@@ -134,7 +134,7 @@ public class StatsControllerTest extends IntegrationTest {
     {
         mockMvc.perform(get("/api/stats/ringers?stage=Major"))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(contentType))
+               .andExpect(content().contentType(_contentType))
                .andExpect(jsonPath("$[0]", equalTo(filterMatcher("Ryan Mills", 2))))
                .andExpect(jsonPath("$[1]", anyOf(equalTo(filterMatcher("Lydia", 1)),
                                                  equalTo(filterMatcher("Claire", 1)))))
@@ -155,7 +155,7 @@ public class StatsControllerTest extends IntegrationTest {
                                                   .build();
         mockMvc.perform(get("/api/stats/available"))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(contentType))
+               .andExpect(content().contentType(_contentType))
                .andExpect(jsonPath("$", equalTo(expectedFilters)));
     }
 
@@ -165,7 +165,7 @@ public class StatsControllerTest extends IntegrationTest {
     {
         mockMvc.perform(get("/api/stats/filters"))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(contentType))
+               .andExpect(content().contentType(_contentType))
                .andExpect(jsonPath("$['method']", hasSize(2)))
                .andExpect(jsonPath("$['method'][0]", equalTo(filterMatcher("Cambridge Surprise", 2))))
                .andExpect(jsonPath("$['method'][1]", equalTo(filterMatcher("Yorkshire Surprise", 1))))
@@ -184,7 +184,7 @@ public class StatsControllerTest extends IntegrationTest {
     {
         mockMvc.perform(get("/api/stats/filters?stage=Major"))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(contentType))
+               .andExpect(content().contentType(_contentType))
                .andExpect(jsonPath("$['method']", hasSize(2)))
                .andExpect(jsonPath("$['method'][0]", anyOf(equalTo(filterMatcher("Cambridge Surprise", 1)),
                                                            equalTo(filterMatcher("Yorkshire Surprise", 1)))))
@@ -205,7 +205,7 @@ public class StatsControllerTest extends IntegrationTest {
     {
         mockMvc.perform(get("/api/stats/filters?method=Cambridge%20Surprise"))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(contentType))
+               .andExpect(content().contentType(_contentType))
                .andExpect(jsonPath("$['method']", hasSize(1)))
                .andExpect(jsonPath("$['method'][0]", equalTo(filterMatcher("Cambridge Surprise", 2))))
                .andExpect(jsonPath("$['stage']", hasSize(2)))
@@ -226,7 +226,7 @@ public class StatsControllerTest extends IntegrationTest {
     {
         mockMvc.perform(get("/api/stats/filters?ringer=Lydia"))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(contentType))
+               .andExpect(content().contentType(_contentType))
                .andExpect(jsonPath("$['method']", hasSize(1)))
                .andExpect(jsonPath("$['method'][0]", equalTo(filterMatcher("Cambridge Surprise", 2))))
                .andExpect(jsonPath("$['stage']", hasSize(2)))
@@ -247,7 +247,7 @@ public class StatsControllerTest extends IntegrationTest {
     {
         mockMvc.perform(get("/api/stats/filters?ringer=Lydia&stage=Major"))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(contentType))
+               .andExpect(content().contentType(_contentType))
                .andExpect(jsonPath("$['method']", hasSize(1)))
                .andExpect(jsonPath("$['method'][0]", equalTo(filterMatcher("Cambridge Surprise", 1))))
                .andExpect(jsonPath("$['stage']", hasSize(1)))
@@ -265,7 +265,7 @@ public class StatsControllerTest extends IntegrationTest {
     {
         mockMvc.perform(get("/api/stats/filters?date=21-04-2012"))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(contentType))
+               .andExpect(content().contentType(_contentType))
                .andExpect(jsonPath("$['method']", hasSize(2)))
                .andExpect(jsonPath("$['stage']", hasSize(2)))
                .andExpect(jsonPath("$['ringer']", hasSize(3)))
