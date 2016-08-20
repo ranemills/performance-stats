@@ -2,6 +2,7 @@ package com.mills.performances.repositories.impl;
 
 import com.mills.performances.models.Performance;
 import com.mills.performances.models.temp.DateTempCount;
+import com.mills.performances.models.temp.IntegerTempCount;
 import com.mills.performances.models.temp.PerformanceSearchOptions;
 import com.mills.performances.models.temp.StringTempCount;
 import com.mills.performances.models.temp.TempCount;
@@ -21,6 +22,7 @@ import java.util.List;
 import static com.mills.performances.MongoConfiguration.DOCUMENT_PERFORMANCE;
 import static com.mills.performances.utils.CustomerUtils.customerCriteria;
 import static org.springframework.data.domain.Sort.Direction.DESC;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.bind;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.match;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
@@ -76,6 +78,19 @@ public class PerformanceRepositoryImpl implements PerformanceCustomRepository {
     @Override
     public List<DateTempCount> findDateCounts(PerformanceSearchOptions searchOptions) {
         return propertyCount("date", searchOptions, DateTempCount.class);
+    }
+
+    @Override
+    public List<IntegerTempCount> findYearCounts(PerformanceSearchOptions searchOptions) {
+        Aggregation agg = newAggregation(
+            match(criteriaFromSearchOptions(searchOptions)),
+            project().andExpression("year($date)").as("year"),
+            group("year").count().as("count"),
+            project("count").and("property").previousOperation(),
+            sort(DESC, "property")
+        );
+        AggregationResults<IntegerTempCount> results = mongoTemplate.aggregate(agg, DOCUMENT_PERFORMANCE, IntegerTempCount.class);
+        return results.getMappedResults();
     }
 
     @Override

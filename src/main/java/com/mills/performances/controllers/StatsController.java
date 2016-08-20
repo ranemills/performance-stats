@@ -2,6 +2,7 @@ package com.mills.performances.controllers;
 
 import com.google.common.collect.ImmutableMap;
 import com.mills.performances.models.temp.DateTempCount;
+import com.mills.performances.models.temp.IntegerTempCount;
 import com.mills.performances.models.temp.PerformanceSearchOptions;
 import com.mills.performances.models.temp.StringTempCount;
 import com.mills.performances.models.temp.TempCount;
@@ -71,12 +72,14 @@ public class StatsController {
         List<StringTempCount> stages = _performanceRepository.findStageCounts(searchOptions);
         List<StringTempCount> methods = _performanceRepository.findMethodCounts(searchOptions);
         List<DateTempCount> dates = _performanceRepository.findDateCounts(searchOptions);
+        List<IntegerTempCount> years = _performanceRepository.findYearCounts(searchOptions);
 
         Map<String, List<? extends TempCount>> filters = new HashMap<>();
         filters.put("method", methods);
         filters.put("stage", stages);
         filters.put("ringer", ringers);
         filters.put("date", dates);
+        filters.put("year", years);
         return filters;
     }
 

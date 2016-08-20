@@ -175,7 +175,9 @@ public class StatsControllerTest extends IntegrationTest {
                .andExpect(jsonPath("$['ringer']", hasSize(3)))
                .andExpect(jsonPath("$['ringer'][0]", equalTo(filterMatcher("Ryan Mills", 3))))
                .andExpect(jsonPath("$['ringer'][1]", equalTo(filterMatcher("Lydia", 2))))
-               .andExpect(jsonPath("$['ringer'][2]", equalTo(filterMatcher("Claire", 1))));
+               .andExpect(jsonPath("$['ringer'][2]", equalTo(filterMatcher("Claire", 1))))
+               .andExpect(jsonPath("$['year'][0]", equalTo(filterMatcher(2015, 1))))
+               .andExpect(jsonPath("$['year'][1]", equalTo(filterMatcher(2012, 2))));
     }
 
     @Test
@@ -274,7 +276,7 @@ public class StatsControllerTest extends IntegrationTest {
     }
 
 
-    private Map<String, Object> filterMatcher(String property, int count) {
+    private Map<String, Object> filterMatcher(Object property, int count) {
         return ImmutableMap.<String, Object>builder()
                    .put("count", count)
                    .put("property", property)
