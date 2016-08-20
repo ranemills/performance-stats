@@ -6,5 +6,6 @@ package com.mills.performances.services;
 public interface AuthUserService {
     void setCurrentUserAsImported();
 
-    void addUser(String email, String password);
+    void addUser(String email, String password)
+        throws IllegalArgumentException;
 }
