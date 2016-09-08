@@ -2,6 +2,7 @@ package com.mills.performances.builders;
 
 import com.mills.performances.AbstractTest;
 import com.mills.performances.models.Performance;
+import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -21,43 +22,50 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class PerformanceBuilderTimeTest
 extends AbstractTest{
 
-    @Parameters(name = "{index}: {0} => {1} {2}")
+    @Parameters(name = "{index}: {0} => {1}")
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {
-            { "Spliced Triples (4 Methods)", "Spliced (4m)", "Triples" },
-            { "Spliced Triples (4 methods)", "Spliced (4m)", "Triples" },
-            { "Spliced Triples (4m)", "Spliced (4m)", "Triples" },
-            { "Stedman Caters", "Stedman", "Caters" },
-            { "Doubles (3m/3v)", "(3m/3v)", "Doubles" },
-            { "Triples (4 Methods)", "(4m)", "Triples" },
-            { "Triples (4 methods)", "(4m)", "Triples" },
-            { "Triples (4m)", "(4m)", "Triples" },
-            { "Spliced Surprise Major (4 Methods)", "Spliced Surprise (4m)", "Major" },
-            { "Spliced Surprise Major (4 methods)", "Spliced Surprise (4m)", "Major" },
-            { "Spliced Surprise Major (4m)", "Spliced Surprise (4m)", "Major" },
-            { "Surprise Major (4 Methods)", "Surprise (4m)", "Major" },
-            { "Surprise Major (4 methods)", "Surprise (4m)", "Major" },
-            { "Surprise Major (4m)", "Surprise (4m)", "Major" }
+            { "45", 45 },
+            { "37 m", 37 },
+            { "37m", 37 },
+            { "5 mins", 5 },
+            { "36mins", 36 },
+            { "36 minutes", 36 },
+            { "1h", 60 },
+            { "0h53", 53 },
+            { "2h06", 126 },
+            { "2h6", 126 },
+            { "2h35", 155 },
+            { "2h56m", 176 },
+            { "1hr", 60 },
+            { "1hr 6min", 66 },
+            { "1hrs 6min", 66 },
+            { "1hrs 6min.", 66 },
+            { "1 hr 6 min", 66 },
+            { "1hr6min", 66 },
+            { "1 Hour 4 mins", 64},
+            { "1 hour 4 mins", 64},
+            { "2 hours 4 mins", 124},
+            { "2:41", 161},
+            { "foobar", null}
         });
     }
 
     private String inputString;
-    private String expectedMethod;
-    private String expectedStage;
+    private Integer expected;
 
-    public PerformanceBuilderTimeTest(String input, String method, String stage) {
+    public PerformanceBuilderTimeTest(String input, Integer expectedTime) {
         inputString = input;
-        expectedMethod = method;
-        expectedStage = stage;
+        expected = expectedTime;
     }
 
     @Test
     public void canConvertMethod() {
-        Performance performance = performanceBuilder().fromMethodString(inputString)
+        Performance performance = performanceBuilder().time(inputString)
+                                                      .date(new DateTime(2016, 4, 10, 0, 0).toDate())
                                                       .build();
 
-        assertThat(performance.getMethod(), is(expectedMethod));
-        assertThat(performance.getStage(), is(expectedStage));
+        assertThat(performance.getTime(), is(expected));
     }
 
 }

@@ -28,12 +28,30 @@ public class Performance extends AbstractMongoModel implements AlgoliaModel {
     private Location location;
     private List<Ringer> ringers;
     private String bellboardId;
+    private Integer time;
+    private Integer year;
     @DBRef
     private BellBoardImport bellBoardImport;
 
     public Performance()
     {
         super();
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public Integer getTime() {
+        return time;
+    }
+
+    public void setTime(Integer time) {
+        this.time = time;
     }
 
     public BellBoardImport getBellBoardImport() {
@@ -126,12 +144,12 @@ public class Performance extends AbstractMongoModel implements AlgoliaModel {
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("date", date)
-            .append("location", location)
-            .append("changes", changes)
-            .append("method", method)
-            .append("stage", stage)
-            .append("ringers", ringers)
-            .build();
+                                        .append("location", location)
+                                        .append("changes", changes)
+                                        .append("method", method)
+                                        .append("stage", stage)
+                                        .append("ringers", ringers)
+                                        .build();
     }
 
     @Override

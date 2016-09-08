@@ -14,6 +14,7 @@ public class PerformanceSearchOptions {
     private String method;
     private String ringer;
     private Date date;
+    private Integer year;
 
     private PerformanceSearchOptions() {
     }
@@ -27,6 +28,9 @@ public class PerformanceSearchOptions {
 
         if (requestParams.get("date") != null) {
             searchOptions.date(requestParams.get("date"));
+        }
+        if (requestParams.get("year") != null) {
+            searchOptions.year(Integer.valueOf(requestParams.get("year")));
         }
         return searchOptions;
     }
@@ -45,6 +49,10 @@ public class PerformanceSearchOptions {
 
     public String getRinger() {
         return ringer;
+    }
+
+    public Integer getYear() {
+        return year;
     }
 
     public PerformanceSearchOptions ringer(String ringer) {
@@ -67,6 +75,12 @@ public class PerformanceSearchOptions {
     {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         this.date = sdf.parse(date);
+        return this;
+    }
+
+    public PerformanceSearchOptions year(Integer year)
+    {
+        this.year = year;
         return this;
     }
 }

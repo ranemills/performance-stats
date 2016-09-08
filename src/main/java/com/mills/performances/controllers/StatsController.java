@@ -38,6 +38,7 @@ public class StatsController {
                    .put("stage", "Stages")
                    .put("ringer", "Ringers")
                    .put("date", "Dates")
+                   .put("year", "Years")
                    .build();
     }
 

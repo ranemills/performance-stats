@@ -54,6 +54,9 @@ public class PerformanceRepositoryImpl implements PerformanceCustomRepository {
             if (searchOptions.getRinger() != null) {
                 criteria.and("ringers.name").is(URLDecoder.decode(searchOptions.getRinger(), "UTF-8"));
             }
+            if (searchOptions.getYear() != null) {
+                criteria.and("year").is(searchOptions.getYear());
+            }
         } catch (UnsupportedEncodingException ignored) {
         }
 

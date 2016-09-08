@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static com.mills.performances.builders.PerformanceBuilder.fromBBPeformance;
 

@@ -7,7 +7,6 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Root(name = "performance", strict = false)
@@ -23,8 +22,14 @@ public class BBPerformance {
     private BBPerformanceTitle title;
     @Element
     private BBPerformancePlace place;
+    @Element(required=false)
+    private String duration;
     @ElementList
     private List<BBPerformanceRinger> ringers;
+
+    public String getDuration() {
+        return duration;
+    }
 
     public String getBellboadId() {
         return bellboadId;
@@ -52,6 +57,10 @@ public class BBPerformance {
 
     public BBPerformanceTitle getTitle() {
         return title;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 
     public void setTitle(BBPerformanceTitle title) {
@@ -92,6 +101,7 @@ public class BBPerformance {
                    .append(getPlace(), rhs.getPlace())
                    .append(getRingers(), rhs.getRingers())
                    .append(getTitle(), rhs.getTitle())
+                   .append(getDuration(), rhs.getDuration())
                    .isEquals();
     }
 
@@ -103,6 +113,7 @@ public class BBPerformance {
                                         .append("place", place)
                                         .append("ringers", ringers)
                                         .append("title", title)
+                                        .append("duration", duration)
                                         .build();
     }
 }

@@ -46,6 +46,7 @@ public class BellBoardServiceImplTest {
     private static final String RINGER_4 = "Sarah Barnes";
     private static final String RINGER_5 = "David Thomas";
     private static final String RINGER_6 = "Matthew Franklin";
+    public static final String DURATION = "44 mins";
 
     @Mock
     private BellBoardHttpService _bellBoardHttpService;
@@ -64,7 +65,7 @@ public class BellBoardServiceImplTest {
                                                 .ringType("tower")
                                                 .ringTenor("16-0-0 in F")
                                                 .date(DATE)
-                                                .time("44 mins")
+                                                .time(DURATION)
                                                 .changes(String.valueOf(CHANGES))
                                                 .method(METHOD)
                                                 .ringer(1, RINGER_1)
@@ -81,6 +82,7 @@ public class BellBoardServiceImplTest {
                                                                   .dedication(DEDICATION)
                                                                   .county(COUNTY)
                                                                   .date(DATE)
+                                                                  .duration(DURATION)
                                                                   .ringer(1, RINGER_1)
                                                                   .ringer(2, RINGER_2)
                                                                   .ringer(3, RINGER_3)
@@ -125,7 +127,6 @@ public class BellBoardServiceImplTest {
                                                .ringType("tower")
                                                .ringTenor("16-0-0 in F")
                                                .date(DATE)
-                                               .time("44 mins")
                                                .changes(String.valueOf(CHANGES))
                                                .method(METHOD)
                                                .ringer(1, RINGER_1)
@@ -143,7 +144,7 @@ public class BellBoardServiceImplTest {
                                                 .ringType("tower")
                                                 .ringTenor("16-0-0 in F")
                                                 .date(date2)
-                                                .time("44 mins")
+                                                .time(DURATION)
                                                 .changes(String.valueOf(changes2))
                                                 .method(method2)
                                                 .ringer(1, RINGER_1)
@@ -176,6 +177,7 @@ public class BellBoardServiceImplTest {
                                                                    .dedication(dedication2)
                                                                    .county(county2)
                                                                    .date(date2)
+                                                                   .duration(DURATION)
                                                                    .ringer(1, RINGER_1)
                                                                    .ringer(2, RINGER_2)
                                                                    .ringer(3, RINGER_3)
@@ -209,7 +211,7 @@ public class BellBoardServiceImplTest {
         private String ringType = "tower";
         private String ringTenor = "12-2-12";
         private String date = "2009-12-02";
-        private String time = "5h 21m";
+        private String time;
         private String changes = "10080";
         private String method = "Stedman Triples";
         private String composer = "R W Pipe (7 Part)";
@@ -337,11 +339,15 @@ public class BellBoardServiceImplTest {
                          "    <place-name type=\"county\">" + county + "</place-name>\n" +
                          "    <ring type=\"" + ringType + "\" tenor=\"" + ringTenor + "\" />\n" +
                          "  </place>\n" +
-                         "  <date>" + date + "</date>\n" +
-                         "  <duration>" + time + "</duration>\n" +
-                         "  <title><changes>" + changes + "</changes> <method>" + method + "</method></title>\n" +
-                         "  <composer>" + composer + "</composer>\n" +
-                         "  <ringers>\n";
+                         "  <date>" + date + "</date>\n";
+            if(time != null) {
+                xml += "  <duration>" + time + "</duration>\n";
+            }
+            xml +=
+                "  <title><changes>" + changes + "</changes> <method>" + method + "</method></title>\n" +
+                "  <composer>" + composer + "</composer>\n" +
+                "  <ringers>\n";
+
             for (Map.Entry<Integer, String> ringer : ringers.entrySet()) {
                 xml = xml + "<ringer bell=\"" + ringer.getKey() + "\"";
                 if (conductors.contains(ringer.getKey())) {

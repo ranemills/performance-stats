@@ -33,6 +33,7 @@ public class PerformanceBuilder {
     private List<Ringer> _ringers;
     private String _bellboardId;
     private BellBoardImport _bellboardImport;
+    private Integer _time;
 
     private PerformanceBuilder() {
         _ringers = new ArrayList<>();
@@ -69,6 +70,8 @@ public class PerformanceBuilder {
                 builder.ringer(ringer.getBell(), ringer.getName());
             }
         }
+
+        builder.time(parseTime(bbPerformance.getDuration()));
 
         return builder;
     }
@@ -112,6 +115,7 @@ public class PerformanceBuilder {
                                    .changes(1440)
                                    .method("Triton Delight")
                                    .stage("Royal")
+                                   .time(55)
                                    .ringer(1, "Bernard J Stone")
                                    .ringer(2, "Robin O Hall", true)
                                    .ringer(3, "Michele Winter")
@@ -131,6 +135,7 @@ public class PerformanceBuilder {
                                    .changes(1280)
                                    .method("Yorkshire Surprise")
                                    .stage("Major")
+                                   .time(45)
                                    .ringer(1, "Rebecca Franklin")
                                    .ringer(2, "Brian Read")
                                    .ringer(3, "Susan Read")
@@ -139,6 +144,40 @@ public class PerformanceBuilder {
                                    .ringer(6, "Matthew Franklin")
                                    .ringer(7, "Tim Pett")
                                    .ringer(8, "Ryan Mills");
+    }
+
+    private static Integer parseTime(String time)
+    {
+        try {
+            Integer output = 0;
+            time = time.trim();
+
+            String pattern = "(\\d*)";
+            Pattern r = Pattern.compile(pattern);
+
+            Matcher m = r.matcher(time);
+
+            if (time.contains("h") || time.contains("H") || time.contains(":")) {
+                if (m.find()) {
+                    String minutes = m.group(0);
+                    output += Integer.decode(minutes)*60;
+                }
+            }
+
+            while (m.find()) {
+                if(StringUtils.isNotEmpty(m.group(0)) )
+                output += Integer.decode(m.group(0));
+            }
+
+            if(output == 0) {
+                return null;
+            }
+
+            return output;
+
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 
     public PerformanceBuilder bellboardImport(BellBoardImport bellboardImport) {
@@ -204,6 +243,23 @@ public class PerformanceBuilder {
         return this;
     }
 
+    public PerformanceBuilder time(Integer hours, Integer minutes)
+    {
+        this._time = hours * 60 + minutes;
+        return this;
+    }
+
+    public PerformanceBuilder time(Integer minutes)
+    {
+        this._time = minutes;
+        return this;
+    }
+
+    public PerformanceBuilder time(String time)
+    {
+        return time(parseTime(time));
+    }
+
     public Performance build() {
         Performance performance = new Performance();
         performance.setDate(_date);
@@ -213,6 +269,8 @@ public class PerformanceBuilder {
         performance.setLocation(_location);
         performance.setRingers(_ringers);
         performance.setBellboardId(_bellboardId);
+        performance.setTime(_time);
+        performance.setYear(_date.getYear());
         if (_bellboardImport != null) {
             performance.setBellBoardImport(_bellboardImport);
         }

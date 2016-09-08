@@ -18,6 +18,7 @@ public class BBPerformanceBuilder {
     private String _date;
     private Integer _changes;
     private String _method;
+    private String _duration;
 
     public static BBPerformanceBuilder bbPerformanceBuilder() {
         return new BBPerformanceBuilder();
@@ -31,6 +32,7 @@ public class BBPerformanceBuilder {
                                      .county("Oxfordshire")
                                      .date("2016-03-21")
                                      .changes(1440)
+                                     .duration("55 mins")
                                      .method("Triton Delight Royal")
                                      .ringer(1, "Bernard J Stone")
                                      .ringer(2, "Robin O Hall", true)
@@ -52,6 +54,7 @@ public class BBPerformanceBuilder {
                                      .county("Oxfordshire")
                                      .date("2016-04-10")
                                      .changes(1280)
+                                     .duration("45 mins")
                                      .method("Yorkshire Surprise Major")
                                      .ringer(1, "Rebecca Franklin")
                                      .ringer(2, "Brian Read")
@@ -113,6 +116,11 @@ public class BBPerformanceBuilder {
         return this;
     }
 
+    public BBPerformanceBuilder duration(String duration) {
+        this._duration = duration;
+        return this;
+    }
+
     public BBPerformance build()
     {
         BBPerformance expectedPerformance = new BBPerformance();
@@ -132,6 +140,8 @@ public class BBPerformanceBuilder {
         performanceTitle.setMethod(_method);
 
         expectedPerformance.setTitle(performanceTitle);
+
+        expectedPerformance.setDuration(_duration);
 
         return expectedPerformance;
     }
