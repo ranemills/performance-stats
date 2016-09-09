@@ -219,11 +219,6 @@
                         <goals>
                             <goal>install-node-and-npm</goal>
                         </goals>
-                        <configuration>
-                            <environmentVariables>
-                                <OUTPUT_DIR>${OPENSHIFT_DATA_DIR}</OUTPUT_DIR>
-                            </environmentVariables>
-                        </configuration>
                     </execution>
                     <execution>
                         <id>npm install</id>
