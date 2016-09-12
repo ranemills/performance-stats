@@ -225,11 +225,6 @@
                         <goals>
                             <goal>npm</goal>
                         </goals>
-                        <configuration>
-                            <environmentVariables>
-                                <OUTPUT_DIR>${OPENSHIFT_LOG_DIR}</OUTPUT_DIR>
-                            </environmentVariables>
-                        </configuration>
                     </execution>
                     <execution>
                         <id>bower install</id>
