@@ -149,9 +149,10 @@ public class StatsControllerTest extends IntegrationTest {
     {
         Map<String, String> expectedFilters = ImmutableMap.<String, String>builder()
                                                   .put("method", "Methods")
-                                                  .put("ringer", "Ringers")
                                                   .put("stage", "Stages")
+                                                  .put("ringer", "Ringers")
                                                   .put("date", "Dates")
+                                                  .put("year", "Years")
                                                   .build();
         mockMvc.perform(get("/api/stats/available"))
                .andExpect(status().isOk())

@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
  */
 public class PerformanceBuilder {
 
-    private Date _date;
+    private Date _date = DateTime.now().toDate();
     private Integer _changes;
     private String _method;
     private String _stage;
@@ -176,6 +176,8 @@ public class PerformanceBuilder {
             return output;
 
         } catch (NumberFormatException e) {
+            return null;
+        } catch (NullPointerException e) {
             return null;
         }
     }
