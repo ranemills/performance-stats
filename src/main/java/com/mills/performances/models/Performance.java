@@ -12,13 +12,12 @@ import java.util.Date;
 import java.util.List;
 
 import static com.mills.performances.MongoConfiguration.DOCUMENT_PERFORMANCE;
-import static com.mills.performances.builders.JSONObjectBuilder.jsonObjectBuilder;
 
 /**
  * Created by ryan on 12/04/16.
  */
 @Document(collection = DOCUMENT_PERFORMANCE)
-public class Performance extends AbstractMongoModel implements AlgoliaModel {
+public class Performance extends AbstractMongoModel {
 
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date date;
@@ -151,33 +150,4 @@ public class Performance extends AbstractMongoModel implements AlgoliaModel {
                                         .append("ringers", ringers)
                                         .build();
     }
-
-    @Override
-    public JSONObject toJSONObject() {
-        return jsonObjectBuilder().id(getId())
-                                  .put("customer_id", getCustomer().getId())
-                                  .put("date", getDate())
-                                  .put("method", getMethod())
-                                  .put("stage", getStage())
-                                  .put("changes", getChanges())
-                                  .put("location", getLocation())
-                                  .put("ringers", ringers)
-                                  .build();
-    }
-
-//    @Override
-//    public Performance fromJSONObject(JSONObject jsonObject) {
-//        id(new ObjectId((String) jsonObject.get("id")));
-//        setDate(new Date((String) jsonObject.get("date")));
-//        setMethod((String) jsonObject.get("method"));
-//        setStage((String) jsonObject.get("stage"));
-//        setChanges((Integer) jsonObject.get("changes"));
-//        setLocation(new Location().fromJSONObject((JSONObject) jsonObject.get("location")));
-//        JSONArray jsonRingers = (JSONArray) jsonObject.get("ringers");
-//        List<Ringer> ringers = new ArrayList<>();
-//        for (int i = 0; i < jsonRingers.length(); i++) {
-//            ringers.add(new Ringer().fromJSONObject((JSONObject) jsonRingers.get(i));
-//        }
-//        setRingers(ringers);
-//    }
 }

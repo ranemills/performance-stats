@@ -1,14 +1,11 @@
 package com.mills.performances.models;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.json.JSONObject;
-
-import static com.mills.performances.builders.JSONObjectBuilder.jsonObjectBuilder;
 
 /**
  * Created by ryan on 14/04/16.
  */
-public class Location extends AbstractMongoModel implements AlgoliaModel {
+public class Location extends AbstractMongoModel {
 
     private String name;
 
@@ -40,11 +37,5 @@ public class Location extends AbstractMongoModel implements AlgoliaModel {
     @Override
     public String toString() {
         return name;
-    }
-
-    @Override
-    public JSONObject toJSONObject() {
-        return jsonObjectBuilder().put("name", getName())
-                                  .build();
     }
 }

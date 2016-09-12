@@ -1,14 +1,11 @@
 package com.mills.performances.models;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.json.JSONObject;
-
-import static com.mills.performances.builders.JSONObjectBuilder.jsonObjectBuilder;
 
 /**
  * Created by ryan on 14/04/16.
  */
-public class Ringer extends AbstractMongoModel implements AlgoliaModel {
+public class Ringer extends AbstractMongoModel {
 
     private Integer towerBell;
     private Integer methodBell;
@@ -69,11 +66,5 @@ public class Ringer extends AbstractMongoModel implements AlgoliaModel {
     public String toString() {
         return "Name=" + getName() + ":towerBell=" + getTowerBell() + ":methodBell=" + getMethodBell() +
                ":Conductor=" + getConductor();
-    }
-
-    @Override
-    public JSONObject toJSONObject() {
-        return jsonObjectBuilder().put("name", getName())
-                                  .build();
     }
 }
