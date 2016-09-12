@@ -1,0 +1,10 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        {{ heading }}
+    </div>
+    <div class="panel-body">
+        <select ng-options="o[itemType] as (o.count + ' ' + o[itemType]) for o in options" ng-model="selected" ng-change="update()">
+            <option value="">None</option>
+        </select>
+    </div>
+</div>

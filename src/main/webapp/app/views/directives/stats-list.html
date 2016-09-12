@@ -1,0 +1,14 @@
+<div class="panel panel-body">
+<div class="input-group">
+    <span class="input-group-addon" id="basic-addon1">@</span>
+    <input type="text" class="form-control" placeholder="Search..." ng-model="searchText">
+</div>
+</div>
+<ul class="list-group">
+    <a class="list-group-item"
+       ng-repeat="item in items | filter: searchText | orderBy: item.count | limitTo: maxDisplayed"
+       ng-click="select(item.property)" ng-class="active(item.property) ? 'active' : ''" ng-if="show(item.property)">
+        <span class="badge">{{item.count}}</span> {{item.property}}
+    </a>
+    <a class="list-group-item" ng-if="items.length > maxDisplayed" ng-click="increaseMaxDisplayed()">Show more...</a>
+</ul>

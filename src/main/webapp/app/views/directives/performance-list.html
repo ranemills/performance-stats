@@ -1,0 +1,32 @@
+<table class="table table-striped table-bordered">
+    <tr>
+        <th>Date</th>
+        <th>Changes</th>
+        <th>Method</th>
+        <th>Stage</th>
+        <th>Location</th>
+    </tr>
+    <tr ng-repeat-start="quarter in performances" ng-click="expand($index)">
+        <td>{{quarter.date | amParse: 'DD-MM-YYYY' | amDateFormat: 'Do MMMM YYYY' }}</td>
+        <td>{{quarter.changes}}</td>
+        <td>{{quarter.method}}</td>
+        <td>{{quarter.stage}}</td>
+        <td>{{quarter.location.name}}</td>
+    </tr>
+    <tr ng-repeat-end ng-show="isExpanded($index)">
+        <td colspan="5" class="">
+            <div class="col col-xs-2"></div>
+            <div class="col col-xs-8">
+                <p>{{quarter.location.name}}</p>
+                <p>{{quarter.date | amParse: 'DD-MM-YYYY' | amDateFormat: 'dddd Do MMMM YYYY' }}</p>
+                <p>{{quarter.changes}} {{quarter.method}} {{quarter.stage}}</p>
+                <ol>
+                    <li ng-repeat="ringer in quarter.ringers | orderBy: ringer.methodBell">
+                        {{ringer.name}}
+                    </li>
+                </ol>
+            </div>
+            <div class="col col-xs-2"></div>
+        </td>
+    </tr>
+</table>

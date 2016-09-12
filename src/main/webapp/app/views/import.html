@@ -1,0 +1,32 @@
+<div class="panel panel-body">
+    <div class="row">
+        <div class="col col-xs-12">
+            Please enter the <a href="http://bb.ringingworld.co.uk/search.php" target="_blank">BellBoard</a> search for
+            the performances
+            which you would like to explore. (Note: handbell performances are not supported) E.g.
+            <div class="well well-sm">
+                http://bb.ringingworld.co.uk/search.php?ringer=ryan+mills&length=peal&bells_type=tower
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-xs-12">
+            <form role="form" ng-submit="importCtrl.import()">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">Bellboard Search URL</span>
+                    <input type="text" class="form-control" id="bbUrl" name="bbUrl" ng-model="importCtrl.bbUrl"/>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">Go!</button>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-xs-12">
+            <div class="alert alert-danger" ng-show="importCtrl.error">
+                There was a problem importing. Please check that you're using a valid BellBoard search URL.
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,6 @@
+<ul class="list-group">
+    <a ng-click="onSelect(key)" class="list-group-item" ng-repeat="(key, name) in filters" ng-class="active(key) ? 'active' : ''">
+        <span class="list-group-item-heading">{{name}}</span>
+        <span class="list-group-item-text pull-right text-muted">{{select[key] || 'None'}}</span>
+    </a>
+</ul>

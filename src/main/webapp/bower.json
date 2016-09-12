@@ -1,0 +1,29 @@
+{
+  "name": "webapp",
+  "version": "0.0.0",
+  "dependencies": {
+    "angular": "^1.4.0",
+    "bootstrap": "^3.2.0",
+    "angular-moment": "^0.10.3",
+    "angular-ui-router": "^0.3.1",
+    "nvd3": "^1.8.4",
+    "angular-nvd3": "^1.0.9"
+  },
+  "devDependencies": {
+    "angular-mocks": "^1.4.0"
+  },
+  "appPath": "app",
+  "moduleName": "PerformanceDashboard",
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "less/bootstrap.less",
+        "dist/css/bootstrap.css",
+        "dist/js/bootstrap.js"
+      ]
+    }
+  },
+  "resolutions": {
+    "angular": "^1.4.0"
+  }
+}

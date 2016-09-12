@@ -1,0 +1,24 @@
+<div class="panel panel-body">
+    <div class="row">
+        <div class="col col-xs-12">
+            <div class="alert alert-danger" ng-show="loginCtrl.error">
+                There was a problem logging in. Please try again.
+            </div>
+            <form role="form" ng-submit="">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text"
+                                                                   class="form-control" id="username" name="username"
+                                                                   ng-model="loginCtrl.credentials.username"/>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label> <input type="password"
+                                                                   class="form-control" id="password" name="password"
+                                                                   ng-model="loginCtrl.credentials.password"/>
+                </div>
+                <button type="button" ng-click="loginCtrl.login()" class="btn btn-primary">Submit</button>
+                <button type="button" ng-click="loginCtrl.register()" class="btn btn-default">Register</button>
+            </form>
+        </div>
+    </div>
+</div>
