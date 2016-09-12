@@ -54,37 +54,13 @@ public class Application extends SpringBootServletInitializer {
         };
     }
 
-    @Bean
-    public MongoTemplate mongoTemplate()
-        throws Exception
-    {
-
-        if (System.getenv("OPENSHIFT_MONGODB_DB_HOST") != null) {
-            String openshiftMongoDbHost = System.getenv("OPENSHIFT_MONGODB_DB_HOST");
-            int openshiftMongoDbPort = Integer.parseInt(System.getenv("OPENSHIFT_MONGODB_DB_PORT"));
-            String username = System.getenv("OPENSHIFT_MONGODB_DB_USERNAME");
-            String password = System.getenv("OPENSHIFT_MONGODB_DB_PASSWORD");
-            String databaseName = System.getenv("OPENSHIFT_APP_NAME");
-
-            // Set credentials
-            MongoCredential credential = MongoCredential.createCredential(username,
-                                                                          databaseName,
-                                                                          password.toCharArray());
-            ServerAddress serverAddress = new ServerAddress(openshiftMongoDbHost, openshiftMongoDbPort);
-
-            // Mongo Client
-            MongoClient mongoClient = new MongoClient(serverAddress, Collections.singletonList(credential));
-
-            // Mongo DB Factory
-            MongoDbFactory mongoDbFactory = new SimpleMongoDbFactory(mongoClient, databaseName);
-
-            return new MongoTemplate(mongoDbFactory);
-
-        } else {
-            String databaseName = "performances";
-            return new MongoTemplate(new SimpleMongoDbFactory(new MongoClient(), databaseName));
-        }
-    }
+//    @Bean
+//    public MongoTemplate mongoTemplate()
+//        throws Exception
+//    {
+//        String databaseName = "performances";
+//        return new MongoTemplate(new SimpleMongoDbFactory(new MongoClient(), databaseName));
+//    }
 
     @Configuration
     @EnableWebSecurity

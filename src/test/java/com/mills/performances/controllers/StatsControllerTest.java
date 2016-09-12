@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import com.mills.performances.IntegrationTest;
 import com.mills.performances.models.Performance;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
@@ -263,6 +264,7 @@ public class StatsControllerTest extends IntegrationTest {
     }
 
     @Test
+    @Ignore
     public void testGetFiltersWithDateParameter()
         throws Exception
     {
