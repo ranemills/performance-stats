@@ -1,6 +1,6 @@
 package com.mills.performances.controllers;
 
-import com.mills.performances.IntegrationTest;
+import com.mills.performances.AbstractIntegrationTest;
 import com.mills.performances.models.BellBoardImport;
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Created by ryan on 10/04/16.
  */
-public class BellBoardControllerTest extends IntegrationTest {
+public class BellBoardControllerTest extends AbstractIntegrationTest {
 
     @Test
     public void testCreateNewImport()

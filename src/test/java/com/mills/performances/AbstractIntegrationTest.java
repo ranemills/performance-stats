@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,9 +29,9 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
  * Created by ryan on 12/04/16.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringBootTest
 @WebAppConfiguration
-public abstract class IntegrationTest extends AbstractTest {
+public abstract class AbstractIntegrationTest extends AbstractTest {
 
 
     protected final MediaType _contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),

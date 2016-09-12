@@ -1,7 +1,7 @@
 package com.mills.performances.controllers;
 
 import com.google.common.collect.ImmutableList;
-import com.mills.performances.IntegrationTest;
+import com.mills.performances.AbstractIntegrationTest;
 import com.mills.performances.models.Performance;
 import org.junit.Test;
 
@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Created by ryan on 10/04/16.
  */
-public class PerformancesControllerTest extends IntegrationTest {
+public class PerformancesControllerTest extends AbstractIntegrationTest {
 
 
     @Test

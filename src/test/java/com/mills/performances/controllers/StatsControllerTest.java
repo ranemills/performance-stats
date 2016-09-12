@@ -2,10 +2,9 @@ package com.mills.performances.controllers;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.mills.performances.IntegrationTest;
+import com.mills.performances.AbstractIntegrationTest;
 import com.mills.performances.models.Performance;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
@@ -24,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Created by ryan on 12/04/16.
  */
-public class StatsControllerTest extends IntegrationTest {
+public class StatsControllerTest extends AbstractIntegrationTest {
 
     @Before
     public void addTestData()
@@ -264,7 +263,6 @@ public class StatsControllerTest extends IntegrationTest {
     }
 
     @Test
-    @Ignore
     public void testGetFiltersWithDateParameter()
         throws Exception
     {

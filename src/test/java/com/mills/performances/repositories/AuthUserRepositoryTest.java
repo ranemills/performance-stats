@@ -1,10 +1,9 @@
 package com.mills.performances.repositories;
 
 import com.google.common.collect.ImmutableList;
-import com.mills.performances.IntegrationTest;
+import com.mills.performances.AbstractIntegrationTest;
 import com.mills.performances.models.AuthUser;
 import org.junit.Test;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -16,7 +15,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Created by ryan on 02/05/16.
  */
-public class AuthUserRepositoryTest extends IntegrationTest {
+public class AuthUserRepositoryTest extends AbstractIntegrationTest {
 
 
     @Test

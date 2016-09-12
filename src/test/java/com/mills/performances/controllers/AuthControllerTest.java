@@ -1,7 +1,7 @@
 package com.mills.performances.controllers;
 
 import com.google.common.collect.ImmutableMap;
-import com.mills.performances.IntegrationTest;
+import com.mills.performances.AbstractIntegrationTest;
 import com.mills.performances.models.AuthUser;
 import com.mills.performances.services.AuthUserService;
 import org.junit.Test;
@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Created by ryan on 10/04/16.
  */
-public class AuthControllerTest extends IntegrationTest {
+public class AuthControllerTest extends AbstractIntegrationTest {
 
     @Autowired
     AuthUserService _authUserService;
