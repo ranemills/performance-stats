@@ -2,9 +2,9 @@ package com.mills.performances.models;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.mills.performances.enums.PerformanceProperty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.json.JSONObject;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 import static com.mills.performances.MongoConfiguration.DOCUMENT_PERFORMANCE;
+import static javax.swing.text.html.HTML.Tag.P;
 
 /**
  * Created by ryan on 12/04/16.
@@ -149,5 +150,17 @@ public class Performance extends AbstractMongoModel {
                                         .append("stage", stage)
                                         .append("ringers", ringers)
                                         .build();
+    }
+
+    public Object getProperty(PerformanceProperty property) {
+        switch(property) {
+            case STAGE:
+                return getStage();
+            case LOCATION:
+                return getLocation();
+            case METHOD:
+                return getMethod();
+        }
+        throw new IllegalArgumentException("No handling for property in Performance" + property);
     }
 }

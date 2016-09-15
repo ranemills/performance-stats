@@ -2,7 +2,57 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="90513f51-9e10-411c-b56f-7fcb7c082553" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/quarters-viewer" afterPath="$PROJECT_DIR$/quarters-viewer" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/favicon.ico" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/images/yeoman.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../resources/static/favicon.ico" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../resources/static/fonts/glyphicons-halflings-regular.eot" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../resources/static/fonts/glyphicons-halflings-regular.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../resources/static/fonts/glyphicons-halflings-regular.woff" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../resources/static/fonts/glyphicons-halflings-regular.woff2" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../resources/static/images/yeoman.8cb970fb.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.bowerrc" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.editorconfig" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitattributes" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/performance-dashboard.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.jscsrc" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.jshintrc" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.yo-rc.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Gruntfile.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/404.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/robots.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/scripts/app.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/scripts/controllers/main.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/styles/main.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/directives/filter-dropdown.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/directives/filter-selector.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/directives/performance-list.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/directives/stats-list.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/explore.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/import.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/login.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/query.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bower.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/package.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/.jshintrc" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/karma.conf.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/spec/controllers/main.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../resources/static/404.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../resources/static/fonts/glyphicons-halflings-regular.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../resources/static/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../resources/static/robots.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../resources/static/scripts/scripts.3d7d87f0.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../resources/static/scripts/vendor.9ba2ae83.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../resources/static/styles/main.a042c925.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../resources/static/styles/vendor.c95a3b87.css" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/quarters-viewer" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../pom.xml" afterPath="$PROJECT_DIR$/../../../pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../java/com/mills/performances/Application.java" afterPath="$PROJECT_DIR$/../java/com/mills/performances/Application.java" />
     </list>
     <ignored path="performance-dashboard.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -43,7 +93,6 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1280" />
     <option name="y" value="26" />
     <option name="width" value="1920" />
     <option name="height" value="1054" />
@@ -172,7 +221,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1280" y="26" width="1920" height="1054" extended-state="6" />
+    <frame x="0" y="26" width="1920" height="1054" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13811281" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />

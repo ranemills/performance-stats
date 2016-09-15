@@ -7,4 +7,5 @@ public abstract class MongoConfiguration {
     public static final String DOCUMENT_PERFORMANCE = "performances";
     public static final String DOCUMENT_BELLBOARDIMPORT = "bellboard_import";
     public static final String DOCUMENT_AUTHUSER = "user";
+    public static final String DOCUMENT_MILESTONES = "milestone_facets";
 }

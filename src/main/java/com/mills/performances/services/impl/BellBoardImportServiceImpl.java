@@ -49,14 +49,14 @@ public class BellBoardImportServiceImpl implements BellBoardImportService {
     public List<Performance> runImport(BellBoardImport bbImport)
         throws URISyntaxException
     {
-        List<Performance> res = _bellBoardService.loadPerformances(bbImport);
-        _performanceRepository.save(res);
+        List<Performance> performances = _bellBoardService.loadPerformances(bbImport);
+        _performanceRepository.save(performances);
 
         bbImport.setLastImport(DateTime.now().toDate());
         _bellBoardImportRepository.save(bbImport);
 
         _authUserService.setCurrentUserAsImported();
 
-        return res;
+        return performances;
     }
 }
