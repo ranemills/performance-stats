@@ -8,7 +8,7 @@
  * Controller of the PerformanceDashboard
  */
 angular.module('PerformanceDashboard')
-  .controller('ExploreController', function ($scope, _, QuartersApi) {
+  .controller('ExploreController', function ($scope, _, d3, QuartersApi) {
     var exploreCtrl = this;
 
     // Store the currently available filter names
@@ -38,7 +38,7 @@ angular.module('PerformanceDashboard')
         exploreCtrl.filters = response.data;
 
         exploreCtrl.maxDisplayed = _.transform(exploreCtrl.filters, function(result, value, key) {
-          return result[key] = 10;
+          result[key] = 10;
         }, {});
 
         exploreCtrl.chartsData = _.transform(exploreCtrl.filters, function (result, value, key) {
@@ -68,7 +68,7 @@ angular.module('PerformanceDashboard')
       else {
         _.set(exploreCtrl.select, filter, value);
       }
-      update()
+      update();
     };
 
     exploreCtrl.reset = function () {
@@ -134,8 +134,6 @@ angular.module('PerformanceDashboard')
       return baseChartOptions;
     };
 
-    exploreCtrl.maxDisplayed = {
+    exploreCtrl.maxDisplayed = {};
 
-    }
-
-  })
+  });

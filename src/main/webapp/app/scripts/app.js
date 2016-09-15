@@ -20,79 +20,78 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3'])
         // }
         return $http.get(JavaHost + '/api/stats/filters', {params: params});
       }
-    }
+    };
   })
 
   .service('ImportApi', function ($http, JavaHost) {
     return {
       import: function (bbUrl) {
-        return $http.get(JavaHost + '/api/bellboard/import', {params: {bbUrl: bbUrl}})
+        return $http.get(JavaHost + '/api/bellboard/import', {params: {bbUrl: bbUrl}});
       }
-    }
+    };
   })
 
   .service('AuthService', function ($http, $rootScope, JavaHost) {
     var authenticate = function (credentials, callback) {
       var headers = credentials ? {
-        authorization: "Basic "
-        + btoa(credentials.username + ":" + credentials.password)
+        authorization: 'Basic ' + btoa(credentials.username + ':' + credentials.password)
       } : {};
 
       $http.get(JavaHost + '/api/auth/user', {headers: headers}).then(function (response) {
         $rootScope.authenticated = !!response.data.name;
-        callback && callback(response.data);
+        callback(response.data);
       }, function () {
         $rootScope.authenticated = false;
-        callback && callback();
+        callback();
       });
     };
 
     var register = function (credentials, callback) {
       $http.get(JavaHost + '/api/auth/register', {params: credentials}).then(function () {
-        callback && callback(true);
+        callback(true);
       }, function () {
-        callback && callback(false);
+        callback(false);
       });
     };
 
     return {
       authenticate: authenticate,
       register: register
-    }
+    };
   })
 
   .config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise("/explore");
+    $urlRouterProvider.otherwise('/explore');
 
     $stateProvider
       .state('explore', {
-        url: "/explore",
+        url: '/explore',
         templateUrl: 'views/explore.html',
         controller: 'ExploreController as exploreCtrl'
       })
       .state('login', {
-        url: "/login",
+        url: '/login',
         controller: 'LoginController as loginCtrl',
         templateUrl: 'views/login.html'
       })
       .state('import', {
-        url: "/import",
+        url: '/import',
         controller: 'ImportController as importCtrl',
         templateUrl: 'views/import.html'
       });
 
-    $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
+    $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
   })
 
   .run(function ($rootScope, $state, $http, JavaHost) {
     $rootScope.logout = function () {
       $http.post(JavaHost + '/logout', {}).finally(function () {
         $rootScope.authenticated = false;
-        $state.go("login");
+        $state.go('login');
       });
     };
 
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
+    $rootScope.$on('$stateChangeStart', function (event, toState) {
       if (!$rootScope.authenticated && toState.name !== 'login') {
         event.preventDefault();
         $state.go('login');
@@ -118,9 +117,9 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3'])
         };
         $scope.active = function (filterKey) {
           return $scope.activeKey === filterKey;
-        }
+        };
       }
-    }
+    };
   })
 
   .directive('performanceList', function () {
@@ -145,10 +144,10 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3'])
           return expanded === id;
         };
       }
-    }
+    };
   })
 
-  .directive('statsList', function () {
+  .directive('statsList', function (_) {
     return {
       restrict: 'E',
       templateUrl: 'views/directives/stats-list.html',
@@ -172,13 +171,13 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3'])
           $scope.updateFn();
         };
         $scope.show = function (item) {
-          return _.isNull($scope.selectorObj[$scope.selectorKey])
-            || _.isUndefined($scope.selectorObj[$scope.selectorKey])
-            || $scope.selectorObj[$scope.selectorKey] === item;
+          return _.isNull($scope.selectorObj[$scope.selectorKey]) ||
+            _.isUndefined($scope.selectorObj[$scope.selectorKey]) ||
+            $scope.selectorObj[$scope.selectorKey] === item;
         };
         $scope.increaseMaxDisplayed = function() {
           $scope.maxDisplayed = $scope.maxDisplayed + 10;
-        }
+        };
       }
-    }
+    };
   });

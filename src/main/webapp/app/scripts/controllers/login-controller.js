@@ -18,15 +18,15 @@ angular.module('PerformanceDashboard')
       AuthService.authenticate(self.credentials, function (user) {
         if ($rootScope.authenticated) {
           if (!user.hasImported) {
-            $state.go("import");
+            $state.go('import');
           }
           else {
-            $state.go("explore");
+            $state.go('explore');
           }
 
           self.error = false;
         } else {
-          $state.go("login");
+          $state.go('login');
           self.error = true;
         }
       });
@@ -36,8 +36,8 @@ angular.module('PerformanceDashboard')
       AuthService.register(self.credentials, function (success) {
         self.error = !success;
         if (success) {
-          self.login()
+          self.login();
         }
       });
     };
-  })
+  });
