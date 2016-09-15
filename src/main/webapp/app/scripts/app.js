@@ -2,7 +2,9 @@
 
 angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3'])
 
-  .constant('JavaHost', '')//'http://quarters-rmills.rhcloud.com/')
+  .constant('JavaHost', '')
+
+  .constant('_', window._)
 
   .service('QuartersApi', function ($http, $q, JavaHost) {
     return {

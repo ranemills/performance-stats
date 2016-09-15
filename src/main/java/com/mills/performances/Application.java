@@ -86,7 +86,7 @@ public class Application extends SpringBootServletInitializer {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**", "/api/auth/register*").permitAll()
+                .antMatchers("/#/**", "/api/auth/register*").permitAll()
                 .antMatchers("/api/**").authenticated()
                 .and()
                 .addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
