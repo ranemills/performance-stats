@@ -9,6 +9,8 @@
 
 module.exports = function (grunt) {
 
+  grunt.loadNpmTasks('grunt-bootlint');
+
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
@@ -423,6 +425,20 @@ module.exports = function (grunt) {
         configFile: 'test/karma.conf.js',
         singleRun: true
       }
+    },
+
+    bootlint: {
+      options: {
+        stoponerror: false,
+        relaxerror: {
+          'E001': ['app/views/*.html', 'app/views/**/*.html'],
+          'W001': ['app/views/*.html', 'app/views/**/*.html'],
+          'W002': [],
+          'W003': [],
+          'W005': []
+        }
+      },
+      files: ['app/views/*.html', 'app/views/**/*.html', 'app/*.html']
     }
   });
 

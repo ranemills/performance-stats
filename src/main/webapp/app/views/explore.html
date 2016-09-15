@@ -1,4 +1,4 @@
-<div class="panel panel-default has-inner-drawer">
+<div class="panel panel-default">
 
   <div class="panel-heading">
     <h4>Explore</h4>
@@ -19,39 +19,44 @@
         </div>
       </div>
     </nav>
-
-    <div class="row">
-      <div class="col col-xs-3" ng-repeat="(filterName, filterObj) in exploreCtrl.newFilters"
-           ng-init="exploreCtrl.view[$index] = 'chart'">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <div class="row">
-              <span class="pull-left col col-xs-8">{{ filterName }}</span>
-              <span class="pull-right col col-xs-4">
-                <button class="btn btn-default" ng-click="exploreCtrl.view[$index] = 'chart'">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col col-xs-3" ng-repeat="(filterName, filterObj) in exploreCtrl.newFilters"
+             ng-init="exploreCtrl.view[$index] = 'chart'">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <div class="row">
+                <span class="pull-left col col-xs-8">{{ filterName }}</span>
+                <span class="pull-right col col-xs-4">
+                <button type="button" class="btn btn-default" ng-click="exploreCtrl.view[$index] = 'chart'">
                   <i class="glyphicon glyphicon-stats"></i>
                 </button>
-                <button class="btn btn-default" ng-click="exploreCtrl.view[$index] = 'list'">
+                <button type="button" class="btn btn-default" ng-click="exploreCtrl.view[$index] = 'list'">
                   <i class="glyphicon glyphicon-list"></i>
                 </button>
               </span>
+              </div>
             </div>
-          </div>
-          <div class="panel-body">
-            <stats-list ng-show="exploreCtrl.view[$index] === 'list'"
-                        items="filterObj.listData" selector="exploreCtrl.select"
-                        max-displayed="exploreCtrl.maxDisplayed[filterName]"
-                        selector-key="filterName" update="exploreCtrl.selectFilter">
-            </stats-list>
-            <nvd3 ng-show="exploreCtrl.view[$index] === 'chart'" options="exploreCtrl.chartOptions(filterName)" data="filterObj.chartData"></nvd3>
+            <div class="panel-body">
+              <stats-list ng-show="exploreCtrl.view[$index] === 'list'"
+                          items="filterObj.listData" selector="exploreCtrl.select"
+                          max-displayed="exploreCtrl.maxDisplayed[filterName]"
+                          selector-key="filterName" update="exploreCtrl.selectFilter">
+              </stats-list>
+              <nvd3 ng-show="exploreCtrl.view[$index] === 'chart'" options="exploreCtrl.chartOptions(filterName)"
+                    data="filterObj.chartData"></nvd3>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col col-xs-12">
-        <div class="panel panel-body panel-default">
-          <performance-list performances="exploreCtrl.performances"></performance-list>
+
+      <div class="row">
+        <div class="col col-xs-12">
+          <div class="panel">
+            <div class="panel-body panel-default">
+              <performance-list performances="exploreCtrl.performances"></performance-list>
+            </div>
+          </div>
         </div>
       </div>
     </div>

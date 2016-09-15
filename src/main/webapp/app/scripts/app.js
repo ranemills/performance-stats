@@ -70,11 +70,6 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3'])
         templateUrl: 'views/explore.html',
         controller: 'ExploreController as exploreCtrl'
       })
-      .state('query', {
-        url: "/query",
-        controller: 'QueryController as queryCtrl',
-        templateUrl: 'views/query.html'
-      })
       .state('login', {
         url: "/login",
         controller: 'LoginController as loginCtrl',
@@ -104,10 +99,6 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3'])
       }
     });
   })
-
-
-
-
 
   //TODO: Add collapse functionality to this onSelect
   .directive('filterSelector', function () {

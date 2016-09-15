@@ -17,8 +17,7 @@
     </tr>
     <tr ng-repeat-end ng-show="isExpanded($index)">
         <td colspan="6" class="">
-            <div class="col col-xs-2"></div>
-            <div class="col col-xs-8">
+            <div>
                 <p>{{quarter.location.name}}</p>
                 <p>{{quarter.date | amParse: 'DD-MM-YYYY' | amDateFormat: 'dddd Do MMMM YYYY' }}</p>
                 <p>{{quarter.changes}} {{quarter.method}} {{quarter.stage}}</p>
@@ -28,7 +27,6 @@
                     </li>
                 </ol>
             </div>
-            <div class="col col-xs-2"></div>
         </td>
     </tr>
 </table>
