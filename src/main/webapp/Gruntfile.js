@@ -10,6 +10,7 @@
 module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-bootlint');
+  grunt.loadNpmTasks('grunt-express-server');
 
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
@@ -66,6 +67,13 @@ module.exports = function (grunt) {
           '.tmp/styles/{,*/}*.css',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
+      },
+      express: {
+        files: ['mock-server.js'],
+        tasks: ['express:mock'],
+        options: {
+          spawn: false
+        }
       }
     },
 
@@ -439,6 +447,14 @@ module.exports = function (grunt) {
         }
       },
       files: ['app/views/*.html', 'app/views/**/*.html', 'app/*.html']
+    },
+
+    express: {
+      mock: {
+        options: {
+          script: './mock-server.js'
+        }
+      }
     }
   });
 
@@ -454,6 +470,7 @@ module.exports = function (grunt) {
       'concurrent:server',
       'postcss:server',
       'connect:livereload',
+      'express:mock',
       'watch'
     ]);
   });
