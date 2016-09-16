@@ -81,10 +81,10 @@ final public class MilestoneFacet extends AbstractMongoModel {
         if (obj.getClass() != getClass()) {
             return false;
         }
-        Performance rhs = (Performance) obj;
+        MilestoneFacet rhs = (MilestoneFacet) obj;
         return new EqualsBuilder()
-                   .append(getProperties(), getProperties())
-                   .append(getCount(), getCount())
+                   .append(getProperties(), rhs.getProperties())
+                   .append(getCount(), rhs.getCount())
                    .isEquals();
     }
 }

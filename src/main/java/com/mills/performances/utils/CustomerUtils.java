@@ -17,7 +17,6 @@ public abstract class CustomerUtils {
 
     public static AuthUser getCurrentUser()
     {
-
         User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AuthUser user;
         if (principal instanceof AuthUser) {

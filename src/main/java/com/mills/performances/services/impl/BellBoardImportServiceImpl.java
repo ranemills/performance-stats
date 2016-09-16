@@ -7,6 +7,7 @@ import com.mills.performances.repositories.PerformanceRepository;
 import com.mills.performances.services.AuthUserService;
 import com.mills.performances.services.BellBoardImportService;
 import com.mills.performances.services.BellBoardService;
+import com.mills.performances.services.MilestoneService;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,29 +29,34 @@ public class BellBoardImportServiceImpl implements BellBoardImportService {
     private BellBoardService _bellBoardService;
     @Autowired
     private PerformanceRepository _performanceRepository;
+    @Autowired
+    private MilestoneService _milestoneService;
 
     @Override
-    public BellBoardImport addImport(String inUrl)
-    {
+    public BellBoardImport addImport(String inUrl) {
         return addImport("bellboard", inUrl);
     }
 
     @Override
-    public BellBoardImport addImport(String name, String inUrl)
-    {
+    public BellBoardImport addImport(String name, String inUrl) {
         String outUrl = inUrl.replace("search.php", "export.php");
 
         BellBoardImport bbImport = new BellBoardImport(outUrl);
         bbImport.setName(name);
+
+        _milestoneService.createInitialMilestoneFacets();
+
         return _bellBoardImportRepository.save(bbImport);
     }
 
     @Override
     public List<Performance> runImport(BellBoardImport bbImport)
-        throws URISyntaxException
+            throws URISyntaxException
     {
         List<Performance> performances = _bellBoardService.loadPerformances(bbImport);
         _performanceRepository.save(performances);
+
+        _milestoneService.updateMilestones(performances);
 
         bbImport.setLastImport(DateTime.now().toDate());
         _bellBoardImportRepository.save(bbImport);

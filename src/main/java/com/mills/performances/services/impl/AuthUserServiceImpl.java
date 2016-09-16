@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.mills.performances.models.AuthUser;
 import com.mills.performances.repositories.AuthUserRepository;
 import com.mills.performances.services.AuthUserService;
+import com.mills.performances.services.MilestoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
