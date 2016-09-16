@@ -1,8 +1,11 @@
 package com.mills.performances.models.temp;
 
+import com.mills.performances.enums.PerformanceProperty;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -82,5 +85,28 @@ public class PerformanceSearchOptions {
     {
         this.year = year;
         return this;
+    }
+
+    public Map<PerformanceProperty, Object> toPerformanceProperties() {
+        Map<PerformanceProperty, Object> properties = new HashMap<>();
+        if(getMethod() != null) {
+            properties.put(PerformanceProperty.METHOD, getMethod());
+        }
+        if(getStage() != null) {
+            properties.put(PerformanceProperty.STAGE, getStage());
+        }
+        return properties;
+    }
+
+    public static PerformanceSearchOptions fromPerformanceProperties(Map<PerformanceProperty, Object> properties)
+    {
+        PerformanceSearchOptions searchOptions = new PerformanceSearchOptions();
+        if(properties.containsKey(PerformanceProperty.STAGE)) {
+            searchOptions.stage((String) properties.get(PerformanceProperty.STAGE));
+        }
+        if(properties.containsKey(PerformanceProperty.METHOD)) {
+            searchOptions.method((String) properties.get(PerformanceProperty.METHOD));
+        }
+        return searchOptions;
     }
 }

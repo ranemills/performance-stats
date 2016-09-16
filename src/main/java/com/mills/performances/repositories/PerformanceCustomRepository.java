@@ -5,6 +5,7 @@ import com.mills.performances.models.temp.DateTempCount;
 import com.mills.performances.models.temp.IntegerTempCount;
 import com.mills.performances.models.temp.PerformanceSearchOptions;
 import com.mills.performances.models.temp.StringTempCount;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,6 +17,8 @@ import java.util.List;
 public interface PerformanceCustomRepository {
 
     List<Performance> findPerformances(PerformanceSearchOptions searchOptions);
+
+    List<Performance> findPerformances(PerformanceSearchOptions searchOptions, Sort sort);
 
     List<StringTempCount> findMethodCounts(PerformanceSearchOptions searchOptions);
 

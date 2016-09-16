@@ -4,10 +4,13 @@ import com.mills.performances.enums.PerformanceProperty;
 import com.mills.performances.models.BellBoardImport;
 import com.mills.performances.models.MilestoneFacet;
 import com.mills.performances.models.Performance;
+import com.mills.performances.models.temp.PerformanceSearchOptions;
 import com.mills.performances.repositories.MilestoneFacetRepository;
+import com.mills.performances.repositories.PerformanceRepository;
 import com.mills.performances.services.MilestoneService;
 import com.mills.performances.services.PerformanceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -24,6 +27,15 @@ public class MilestoneServiceImpl implements MilestoneService {
 
     @Autowired
     private PerformanceService _performanceService;
+
+    @Override
+    public MilestoneFacet initialiseMilestoneFacet(MilestoneFacet facet) {
+        List<Performance> performances = _performanceService.findByProperties(facet.getProperties(), new Sort(Sort.Direction.DESC, "date"));
+        for(Performance performance : performances) {
+            incrementCount(facet, performance, false);
+        }
+        return _milestoneFacetRepository.save(facet);
+    }
 
     @Override
     public void updateMilestones(List<Performance> performances) {

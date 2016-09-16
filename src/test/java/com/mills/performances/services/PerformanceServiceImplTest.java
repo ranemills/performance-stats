@@ -44,18 +44,6 @@ public class PerformanceServiceImplTest extends AbstractTest {
     }
 
     @Test
-    public void comparesMatchingLocationForPerformance() {
-        Boolean result = _performanceService.propertiesMatch(_performance, PerformanceProperty.LOCATION, _performance.getLocation());
-        assertThat(result, is(true));
-    }
-
-    @Test
-    public void comparesNonMatchingLocationForPerformance() {
-        Boolean result = _performanceService.propertiesMatch(_performance, PerformanceProperty.LOCATION, new Location());
-        assertThat(result, is(false));
-    }
-
-    @Test
     public void comparesMatchingStageForPerformance() {
         Boolean result = _performanceService.propertiesMatch(_performance, PerformanceProperty.STAGE, "Royal");
         assertThat(result, is(true));

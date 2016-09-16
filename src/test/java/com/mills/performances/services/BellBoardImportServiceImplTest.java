@@ -38,6 +38,8 @@ public class BellBoardImportServiceImplTest
     private BellBoardService _bellBoardService;
     @Mock
     private PerformanceRepository _performanceRepository;
+    @Mock
+    private MilestoneService _milestoneService;
     @InjectMocks
     private BellBoardImportServiceImpl _bellBoardImportService;
 

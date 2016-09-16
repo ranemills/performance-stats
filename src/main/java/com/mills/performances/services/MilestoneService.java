@@ -11,6 +11,8 @@ import java.util.List;
  */
 public interface MilestoneService {
 
+    MilestoneFacet initialiseMilestoneFacet(MilestoneFacet facet);
+
     void updateMilestones(List<Performance> performances);
 
     void createInitialMilestoneFacets(BellBoardImport bellBoardImport);

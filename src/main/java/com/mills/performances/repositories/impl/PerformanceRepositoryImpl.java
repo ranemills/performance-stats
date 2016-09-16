@@ -8,6 +8,7 @@ import com.mills.performances.models.temp.StringTempCount;
 import com.mills.performances.models.temp.TempCount;
 import com.mills.performances.repositories.PerformanceCustomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
@@ -66,6 +67,11 @@ public class PerformanceRepositoryImpl implements PerformanceCustomRepository {
     @Override
     public List<Performance> findPerformances(PerformanceSearchOptions searchOptions) {
         return mongoTemplate.find(new Query().addCriteria(criteriaFromSearchOptions(searchOptions)), Performance.class);
+    }
+
+    @Override
+    public List<Performance> findPerformances(PerformanceSearchOptions searchOptions, Sort sort) {
+        return mongoTemplate.find(new Query().addCriteria(criteriaFromSearchOptions(searchOptions)).with(sort), Performance.class);
     }
 
     @Override

@@ -151,16 +151,4 @@ public class Performance extends AbstractMongoModel {
                                         .append("ringers", ringers)
                                         .build();
     }
-
-    public Object getProperty(PerformanceProperty property) {
-        switch(property) {
-            case STAGE:
-                return getStage();
-            case LOCATION:
-                return getLocation();
-            case METHOD:
-                return getMethod();
-        }
-        throw new IllegalArgumentException("No handling for property in Performance" + property);
-    }
 }
