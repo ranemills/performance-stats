@@ -1,7 +1,9 @@
 package com.mills.performances.services;
 
 import com.mills.performances.AbstractTest;
+import com.mills.performances.enums.MilestoneValue;
 import com.mills.performances.enums.PerformanceProperty;
+import com.mills.performances.models.BellBoardImport;
 import com.mills.performances.models.MilestoneFacet;
 import com.mills.performances.models.Performance;
 import com.mills.performances.repositories.MilestoneFacetRepository;
@@ -46,77 +48,132 @@ public class MilestoneServiceImplTest extends AbstractTest {
 
     @Test
     public void updatesCountForNullMilestoneFacet() {
-        MilestoneFacet facet = milestoneFacetBuilder().build();
+        MilestoneFacet facet = milestoneFacetBuilder(null).build();
         given(_milestoneFacetRepository.findAll()).willReturn(Collections.singletonList(facet));
 
         _milestoneService.updateMilestones(Collections.singletonList(_performance1));
 
-        MilestoneFacet expectedFacet = milestoneFacetBuilder().build();
+        MilestoneFacet expectedFacet = milestoneFacetBuilder(null).build();
         expectedFacet.incrementCount();
+        expectedFacet.addMilestone(MilestoneValue.ONE, _performance1);
 
         verify(_milestoneFacetRepository).save(Collections.singletonList(expectedFacet));
     }
 
     @Test
     public void updatesCountForMethodMilestoneFacet() {
-        MilestoneFacet facet = milestoneFacetBuilder().addPropertyValue(PerformanceProperty.METHOD, "Triton Delight").build();
+        MilestoneFacet facet = milestoneFacetBuilder(null).addPropertyValue(PerformanceProperty.METHOD, "Triton Delight")
+                                                      .build();
         given(_milestoneFacetRepository.findAll()).willReturn(Collections.singletonList(facet));
-        given(_performanceService.propertiesMatch(_performance1, PerformanceProperty.METHOD, "Triton Delight")).willReturn(false);
-        given(_performanceService.propertiesMatch(_performance2, PerformanceProperty.METHOD, "Triton Delight")).willReturn(true);
+        given(_performanceService.propertiesMatch(_performance1, PerformanceProperty.METHOD, "Triton Delight"))
+            .willReturn(false);
+        given(_performanceService.propertiesMatch(_performance2, PerformanceProperty.METHOD, "Triton Delight"))
+            .willReturn(true);
 
         _milestoneService.updateMilestones(Arrays.asList(_performance1, _performance2));
 
-        MilestoneFacet expectedFacet = milestoneFacetBuilder().addPropertyValue(PerformanceProperty.METHOD, "Triton Delight").build();
+        MilestoneFacet expectedFacet = milestoneFacetBuilder(null).addPropertyValue(PerformanceProperty.METHOD, "Triton " +
+                                                                                                            "Delight").build();
         expectedFacet.incrementCount();
+        expectedFacet.addMilestone(MilestoneValue.ONE, _performance2);
 
         verify(_milestoneFacetRepository).save(Collections.singletonList(expectedFacet));
     }
 
     @Test
     public void updatesCountForCombinedMilestoneFacet() {
-        MilestoneFacet facet = milestoneFacetBuilder().addPropertyValue(PerformanceProperty.METHOD, "Triton Delight")
-                .addPropertyValue(PerformanceProperty.STAGE, "Royal")
-                .build();
+        MilestoneFacet facet = milestoneFacetBuilder(null).addPropertyValue(PerformanceProperty.METHOD, "Triton Delight")
+                                                      .addPropertyValue(PerformanceProperty.STAGE, "Royal")
+                                                      .build();
         given(_milestoneFacetRepository.findAll()).willReturn(Collections.singletonList(facet));
-        given(_performanceService.propertiesMatch(_performance1, PerformanceProperty.METHOD, "Triton Delight")).willReturn(false);
+        given(_performanceService.propertiesMatch(_performance1, PerformanceProperty.METHOD, "Triton Delight"))
+            .willReturn(false);
         given(_performanceService.propertiesMatch(_performance1, PerformanceProperty.STAGE, "Royal")).willReturn(false);
-        given(_performanceService.propertiesMatch(_performance2, PerformanceProperty.METHOD, "Triton Delight")).willReturn(true);
+        given(_performanceService.propertiesMatch(_performance2, PerformanceProperty.METHOD, "Triton Delight"))
+            .willReturn(true);
         given(_performanceService.propertiesMatch(_performance2, PerformanceProperty.STAGE, "Royal")).willReturn(true);
 
         _milestoneService.updateMilestones(Arrays.asList(_performance1, _performance2));
 
-        MilestoneFacet expectedFacet = milestoneFacetBuilder().addPropertyValue(PerformanceProperty.METHOD, "Triton Delight")
-                .addPropertyValue(PerformanceProperty.STAGE, "Royal")
-                .build();
+        MilestoneFacet expectedFacet = milestoneFacetBuilder(null).addPropertyValue(PerformanceProperty.METHOD, "Triton " +
+                                                                                                            "Delight")
+                                                              .addPropertyValue(PerformanceProperty.STAGE, "Royal")
+                                                              .build();
         expectedFacet.incrementCount();
+        expectedFacet.addMilestone(MilestoneValue.ONE, _performance2);
 
         verify(_milestoneFacetRepository).save(Collections.singletonList(expectedFacet));
     }
 
     @Test
     public void doesNotUpdateCountForPartialMatchingCombinedMilestoneFacet() {
-        MilestoneFacet facet = milestoneFacetBuilder().addPropertyValue(PerformanceProperty.METHOD, "Triton Delight")
-                .addPropertyValue(PerformanceProperty.STAGE, "Royal")
-                .build();
+        MilestoneFacet facet = milestoneFacetBuilder(null).addPropertyValue(PerformanceProperty.METHOD, "Triton Delight")
+                                                      .addPropertyValue(PerformanceProperty.STAGE, "Royal")
+                                                      .build();
         given(_milestoneFacetRepository.findAll()).willReturn(Collections.singletonList(facet));
-        given(_performanceService.propertiesMatch(_performance2, PerformanceProperty.METHOD, "Triton Delight")).willReturn(false);
+        given(_performanceService.propertiesMatch(_performance2, PerformanceProperty.METHOD, "Triton Delight"))
+            .willReturn(false);
         given(_performanceService.propertiesMatch(_performance2, PerformanceProperty.STAGE, "Royal")).willReturn(true);
 
         _milestoneService.updateMilestones(Collections.singletonList(_performance2));
 
-        MilestoneFacet expectedFacet = milestoneFacetBuilder().addPropertyValue(PerformanceProperty.METHOD, "Triton Delight")
-                .addPropertyValue(PerformanceProperty.STAGE, "Royal")
-                .build();
+        MilestoneFacet expectedFacet = milestoneFacetBuilder(null).addPropertyValue(PerformanceProperty.METHOD, "Triton " +
+                                                                                                            "Delight")
+                                                              .addPropertyValue(PerformanceProperty.STAGE, "Royal")
+                                                              .build();
 
         verify(_milestoneFacetRepository).save(Collections.singletonList(expectedFacet));
     }
 
     @Test
     public void canCreateInitialMilestoneFacet() {
-        _milestoneService.createInitialMilestoneFacets();
+        _milestoneService.createInitialMilestoneFacets(null);
 
-        MilestoneFacet expectedFacet = milestoneFacetBuilder().build();
+        MilestoneFacet expectedFacet = milestoneFacetBuilder(null).build();
         verify(_milestoneFacetRepository).save(expectedFacet);
+    }
+
+    @Test
+    public void canIncrementCountAndSave() {
+        MilestoneFacet facet = milestoneFacetBuilder(null).addPropertyValue(PerformanceProperty.METHOD, "Triton Delight")
+                                                      .setInitialCount(1)
+                                                      .build();
+
+        _milestoneService.incrementCount(facet, _performance1, true);
+
+        MilestoneFacet expectedFacet = milestoneFacetBuilder(null).addPropertyValue(PerformanceProperty.METHOD, "Triton Delight")
+                                                              .setInitialCount(2)
+                                                              .build();
+
+        verify(_milestoneFacetRepository).save(expectedFacet);
+    }
+
+    @Test
+    public void addsMilestoneOnIncrementCount() {
+        MilestoneFacet facet = milestoneFacetBuilder(null).addPropertyValue(PerformanceProperty.METHOD, "Triton Delight")
+                                                      .build();
+
+        _milestoneService.incrementCount(facet, _performance1, true);
+
+        MilestoneFacet expectedFacet = milestoneFacetBuilder(null).addPropertyValue(PerformanceProperty.METHOD, "Triton Delight")
+                                                              .setInitialCount(1)
+                                                              .build();
+        expectedFacet.addMilestone(MilestoneValue.ONE, _performance1);
+
+        verify(_milestoneFacetRepository).save(expectedFacet);
+    }
+
+    @Test
+    public void createsMilestonesInDateOrder() {
+        MilestoneFacet facet = milestoneFacetBuilder(null).build();
+        given(_milestoneFacetRepository.findAll()).willReturn(Collections.singletonList(facet));
+
+        _milestoneService.updateMilestones(Arrays.asList(_performance1, _performance2));
+
+        MilestoneFacet expectedFacet = milestoneFacetBuilder(null).setInitialCount(2)
+                                                              .build();
+        expectedFacet.addMilestone(MilestoneValue.ONE, _performance2);
+        verify(_milestoneFacetRepository).save(Collections.singletonList(expectedFacet));
     }
 
 }

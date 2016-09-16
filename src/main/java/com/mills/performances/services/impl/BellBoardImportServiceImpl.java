@@ -44,9 +44,11 @@ public class BellBoardImportServiceImpl implements BellBoardImportService {
         BellBoardImport bbImport = new BellBoardImport(outUrl);
         bbImport.setName(name);
 
-        _milestoneService.createInitialMilestoneFacets();
+        bbImport = _bellBoardImportRepository.save(bbImport);
 
-        return _bellBoardImportRepository.save(bbImport);
+        _milestoneService.createInitialMilestoneFacets(bbImport);
+
+        return bbImport;
     }
 
     @Override

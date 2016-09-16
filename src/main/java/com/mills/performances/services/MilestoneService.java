@@ -1,9 +1,9 @@
 package com.mills.performances.services;
 
 import com.mills.performances.models.BellBoardImport;
+import com.mills.performances.models.MilestoneFacet;
 import com.mills.performances.models.Performance;
 
-import java.net.URISyntaxException;
 import java.util.List;
 
 /**
@@ -13,5 +13,7 @@ public interface MilestoneService {
 
     void updateMilestones(List<Performance> performances);
 
-    void createInitialMilestoneFacets();
+    void createInitialMilestoneFacets(BellBoardImport bellBoardImport);
+
+    void incrementCount(MilestoneFacet milestoneFacet, Performance performance, Boolean save);
 }

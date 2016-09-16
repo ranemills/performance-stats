@@ -1,6 +1,7 @@
 package com.mills.performances.builders;
 
 import com.mills.performances.enums.PerformanceProperty;
+import com.mills.performances.models.BellBoardImport;
 import com.mills.performances.models.MilestoneFacet;
 
 import java.util.HashMap;
@@ -12,13 +13,16 @@ import java.util.Map;
 public class MilestoneFacetBuilder {
 
     private Map<PerformanceProperty, Object> _properties;
+    private Integer _count;
+    private BellBoardImport _bellBoardImport;
 
-    private MilestoneFacetBuilder() {
+    private MilestoneFacetBuilder(BellBoardImport bellBoardImport) {
         _properties = new HashMap<>();
+        _bellBoardImport = bellBoardImport;
     }
 
-    public static MilestoneFacetBuilder milestoneFacetBuilder() {
-        return new MilestoneFacetBuilder();
+    public static MilestoneFacetBuilder milestoneFacetBuilder(BellBoardImport bellBoardImport) {
+        return new MilestoneFacetBuilder(bellBoardImport);
     }
 
     public MilestoneFacetBuilder addPropertyValue(PerformanceProperty property, Object value)
@@ -27,8 +31,19 @@ public class MilestoneFacetBuilder {
         return this;
     }
 
+    public MilestoneFacetBuilder setInitialCount(Integer count)
+    {
+        _count = count;
+        return this;
+    }
+
     public MilestoneFacet build() {
-        return new MilestoneFacet(_properties);
+        if(_count != null) {
+            return new MilestoneFacet(_bellBoardImport, _properties, _count);
+        }
+        else {
+            return new MilestoneFacet(_bellBoardImport, _properties);
+        }
     }
 
 }
