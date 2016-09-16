@@ -2,7 +2,7 @@
 
 angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3'])
 
-  .constant('JavaHost', '')
+  .constant('JavaHost', 'http://localhost:8080')
 
   .constant('_', window._)
 
@@ -32,7 +32,7 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3'])
   })
 
   .service('AuthService', function ($http, $rootScope, JavaHost) {
-    var authenticate = function (credentials, callback) {
+    function authenticate(credentials, callback) {
       var headers = credentials ? {
         authorization: 'Basic ' + btoa(credentials.username + ':' + credentials.password)
       } : {};
@@ -44,15 +44,15 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3'])
         $rootScope.authenticated = false;
         callback();
       });
-    };
+    }
 
-    var register = function (credentials, callback) {
+    function register(credentials, callback) {
       $http.get(JavaHost + '/api/auth/register', {params: credentials}).then(function () {
         callback(true);
       }, function () {
         callback(false);
       });
-    };
+    }
 
     return {
       authenticate: authenticate,

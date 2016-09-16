@@ -8,8 +8,9 @@
  * Controller of the PerformanceDashboard
  */
 angular.module('PerformanceDashboard')
-  .controller('ExploreController', function ($scope, _, d3, QuartersApi) {
+  .controller('ExploreController', function ($scope, $window, _, QuartersApi) {
     var exploreCtrl = this;
+    var d3 = $window.d3;
 
     // Store the currently available filter names
     exploreCtrl.availableFilters = [];

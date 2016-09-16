@@ -18,5 +18,5 @@ angular.module('PerformanceDashboard')
       }, function () {
         self.error = true;
       });
-    }
-  })
+    };
+  });

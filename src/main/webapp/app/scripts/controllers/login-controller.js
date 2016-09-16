@@ -9,8 +9,6 @@
  */
 angular.module('PerformanceDashboard')
   .controller('LoginController', function ($state, $rootScope, AuthService) {
-    AuthService.authenticate();
-
     var self = this;
 
     self.credentials = {username: 'millsy3', password: 'password'};
