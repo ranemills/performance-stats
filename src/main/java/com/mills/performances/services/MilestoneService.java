@@ -16,4 +16,6 @@ public interface MilestoneService {
     void createInitialMilestoneFacets(BellBoardImport bellBoardImport);
 
     void incrementCount(MilestoneFacet milestoneFacet, Performance performance, Boolean save);
+
+    Boolean isMilestoneValue(Integer value);
 }

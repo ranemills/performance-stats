@@ -1,6 +1,5 @@
 package com.mills.performances.services.impl;
 
-import com.mills.performances.enums.MilestoneValue;
 import com.mills.performances.enums.PerformanceProperty;
 import com.mills.performances.models.BellBoardImport;
 import com.mills.performances.models.MilestoneFacet;
@@ -11,7 +10,7 @@ import com.mills.performances.services.PerformanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -60,15 +59,19 @@ public class MilestoneServiceImpl implements MilestoneService {
     @Override
     public void incrementCount(MilestoneFacet milestoneFacet, Performance performance, Boolean save) {
         milestoneFacet.incrementCount();
-        MilestoneValue milestoneValue = MilestoneValue.fromInt(milestoneFacet.getCount());
 
-        if(milestoneValue != MilestoneValue.NONE) {
-            milestoneFacet.addMilestone(milestoneValue, performance);
+        if(isMilestoneValue(milestoneFacet.getCount())) {
+            milestoneFacet.addMilestone(milestoneFacet.getCount(), performance);
         }
 
         if(save) {
             _milestoneFacetRepository.save(milestoneFacet);
         }
+    }
+
+    @Override
+    public Boolean isMilestoneValue(Integer value) {
+        return Arrays.asList(1, 5, 10, 25).contains(value) || value % 50 == 0;
     }
 }
 

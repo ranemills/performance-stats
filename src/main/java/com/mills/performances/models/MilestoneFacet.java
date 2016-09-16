@@ -1,6 +1,5 @@
 package com.mills.performances.models;
 
-import com.mills.performances.enums.MilestoneValue;
 import com.mills.performances.enums.PerformanceProperty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -42,7 +41,7 @@ final public class MilestoneFacet extends AbstractMongoModel {
         _count = initialCount;
     }
 
-    public void addMilestone(MilestoneValue milestone, Performance performance)
+    public void addMilestone(Integer milestone, Performance performance)
     {
         _milestones.add(new Milestone(milestone, performance));
     }
@@ -65,18 +64,18 @@ final public class MilestoneFacet extends AbstractMongoModel {
     }
 
     final class Milestone {
-        private final MilestoneValue _milestone;
+        private final Integer _milestone;
         private final Date _date;
         @DBRef
         private final Performance _performance;
 
-        public Milestone(MilestoneValue milestone, Performance performance) {
+        public Milestone(Integer milestone, Performance performance) {
             _milestone = milestone;
             _performance = performance;
             _date = _performance.getDate();
         }
 
-        public MilestoneValue getMilestoneValue() {
+        public Integer getMilestoneValue() {
             return _milestone;
         }
 
