@@ -7,21 +7,21 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.mills.performances.MongoConfiguration.DOCUMENT_MILESTONES;
+import static com.mills.performances.MongoConfiguration.DOCUMENT_MILESTONE_FACETS;
 
 /**
  * Created by ryan on 15/09/16.
  */
-@Document(collection = DOCUMENT_MILESTONES)
+@Document(collection = DOCUMENT_MILESTONE_FACETS)
 final public class MilestoneFacet extends AbstractMongoModel {
 
     final private Map<PerformanceProperty, Object> _properties;
     private Integer _count;
+    @DBRef
     private List<Milestone> _milestones;
     @DBRef
     private BellBoardImport _bellBoardImport;
@@ -61,52 +61,6 @@ final public class MilestoneFacet extends AbstractMongoModel {
 
     public List<Milestone> getMilestones() {
         return _milestones;
-    }
-
-    final class Milestone {
-        private final Integer _milestone;
-        private final Date _date;
-        @DBRef
-        private final Performance _performance;
-
-        public Milestone(Integer milestone, Performance performance) {
-            _milestone = milestone;
-            _performance = performance;
-            _date = _performance.getDate();
-        }
-
-        public Integer getMilestoneValue() {
-            return _milestone;
-        }
-
-        public Performance getPerformance() {
-            return _performance;
-        }
-
-        @Override
-        public String toString() {
-            return new ToStringBuilder(this).append("_milestone", _milestone)
-                .append("_performance", _performance)
-                .build();
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (obj == null) {
-                return false;
-            }
-            if (obj == this) {
-                return true;
-            }
-            if (obj.getClass() != getClass()) {
-                return false;
-            }
-            Milestone rhs = (Milestone) obj;
-            return new EqualsBuilder()
-                       .append(getMilestoneValue(), rhs.getMilestoneValue())
-                       .append(getPerformance(), rhs.getPerformance())
-                       .isEquals();
-        }
     }
 
     @Override

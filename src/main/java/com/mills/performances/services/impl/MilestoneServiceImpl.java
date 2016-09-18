@@ -6,6 +6,7 @@ import com.mills.performances.models.MilestoneFacet;
 import com.mills.performances.models.Performance;
 import com.mills.performances.models.temp.PerformanceSearchOptions;
 import com.mills.performances.repositories.MilestoneFacetRepository;
+import com.mills.performances.repositories.MilestoneRepository;
 import com.mills.performances.repositories.PerformanceRepository;
 import com.mills.performances.services.MilestoneService;
 import com.mills.performances.services.PerformanceService;
@@ -26,6 +27,9 @@ public class MilestoneServiceImpl implements MilestoneService {
     private MilestoneFacetRepository _milestoneFacetRepository;
 
     @Autowired
+    private MilestoneRepository _milestoneRepository;
+
+    @Autowired
     private PerformanceService _performanceService;
 
     @Override
@@ -34,6 +38,7 @@ public class MilestoneServiceImpl implements MilestoneService {
         for(Performance performance : performances) {
             incrementCount(facet, performance, false);
         }
+        _milestoneRepository.save(facet.getMilestones());
         return _milestoneFacetRepository.save(facet);
     }
 
@@ -43,8 +48,8 @@ public class MilestoneServiceImpl implements MilestoneService {
 
         performances.sort((lhs, rhs) -> lhs.getDate().after(rhs.getDate()) ? 1 : -1);
 
-        for(Performance performance : performances) {
-            for (MilestoneFacet facet : facets) {
+        for (MilestoneFacet facet : facets) {
+            for(Performance performance : performances) {
                 boolean match = true;
                 for(Map.Entry<PerformanceProperty, Object> propertyObjectEntry : facet.getProperties().entrySet()) {
                     match = _performanceService.propertiesMatch(performance, propertyObjectEntry.getKey(), propertyObjectEntry.getValue());
@@ -57,6 +62,7 @@ public class MilestoneServiceImpl implements MilestoneService {
                     incrementCount(facet, performance, false);
                 }
             }
+            _milestoneRepository.save(facet.getMilestones());
         }
 
         _milestoneFacetRepository.save(facets);

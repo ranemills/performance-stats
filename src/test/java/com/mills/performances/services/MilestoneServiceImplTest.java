@@ -2,9 +2,11 @@ package com.mills.performances.services;
 
 import com.mills.performances.AbstractTest;
 import com.mills.performances.enums.PerformanceProperty;
+import com.mills.performances.models.Milestone;
 import com.mills.performances.models.MilestoneFacet;
 import com.mills.performances.models.Performance;
 import com.mills.performances.repositories.MilestoneFacetRepository;
+import com.mills.performances.repositories.MilestoneRepository;
 import com.mills.performances.repositories.PerformanceRepository;
 import com.mills.performances.services.impl.MilestoneServiceImpl;
 import org.junit.Before;
@@ -36,6 +38,8 @@ public class MilestoneServiceImplTest extends AbstractTest {
     @Mock
     private MilestoneFacetRepository _milestoneFacetRepository;
     @Mock
+    private MilestoneRepository _milestoneRepository;
+    @Mock
     private PerformanceService _performanceService;
     @Mock
     private PerformanceRepository _performanceRepository;
@@ -63,6 +67,7 @@ public class MilestoneServiceImplTest extends AbstractTest {
         expectedFacet.addMilestone(1, _performance1);
 
         verify(_milestoneFacetRepository).save(Collections.singletonList(expectedFacet));
+        verify(_milestoneRepository).save(Collections.singletonList(new Milestone(1, _performance1)));
     }
 
     @Test
@@ -218,6 +223,7 @@ public class MilestoneServiceImplTest extends AbstractTest {
         MilestoneFacet expectedFacet = milestoneFacetBuilder(null).setInitialCount(2).build();
         expectedFacet.addMilestone(1, _performance1);
 
+        verify(_milestoneRepository).save(Collections.singletonList(new Milestone(1, _performance1)));
         verify(_milestoneFacetRepository).save(expectedFacet);
     }
 
