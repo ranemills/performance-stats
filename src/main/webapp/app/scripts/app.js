@@ -5,6 +5,7 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3'])
   .constant('JavaHost', 'http://localhost:8080')
 
   .constant('_', window._)
+  .constant('moment', window.moment)
 
   .service('QuartersApi', function ($http, $q, JavaHost) {
     return {
@@ -69,6 +70,16 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3'])
         templateUrl: 'views/explore.html',
         controller: 'ExploreController as exploreCtrl'
       })
+      .state('milestones', {
+        url: '/milestones',
+        templateUrl: 'views/milestones.html',
+        controller: 'MilestonesController as milestonesCtrl'
+      })
+      .state('milestones.recent', {
+        url: '/recent',
+        templateUrl: 'views/recent-milestones.html',
+        controller: 'RecentMilestonesController as recentMilestonesCtrl'
+      })
       .state('login', {
         url: '/login',
         controller: 'LoginController as loginCtrl',
@@ -83,7 +94,7 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3'])
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
   })
 
-  .run(function ($rootScope, $state, $http, JavaHost) {
+  .run(function ($rootScope, $state, $http, JavaHost, AuthService) {
     $rootScope.logout = function () {
       $http.post(JavaHost + '/logout', {}).finally(function () {
         $rootScope.authenticated = false;
@@ -92,9 +103,13 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3'])
     };
 
     $rootScope.$on('$stateChangeStart', function (event, toState) {
-      if (!$rootScope.authenticated && toState.name !== 'login') {
-        event.preventDefault();
-        $state.go('login');
+      if (!$rootScope.authenticated){
+        AuthService.authenticate({}, function() {
+          if (!$rootScope.authenticated && toState.name !== 'login') {
+            event.preventDefault();
+            $state.go('login');
+          }
+        });
       }
     });
   })
