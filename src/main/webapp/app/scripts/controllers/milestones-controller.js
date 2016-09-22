@@ -9,9 +9,5 @@
  */
 angular.module('PerformanceDashboard')
   .controller('MilestonesController', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+    var milestonesCtrl = this;
   });

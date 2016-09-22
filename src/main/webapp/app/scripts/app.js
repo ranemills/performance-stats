@@ -80,6 +80,16 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3'])
         templateUrl: 'views/recent-milestones.html',
         controller: 'RecentMilestonesController as recentMilestonesCtrl'
       })
+      .state('milestones.manage', {
+        url: '/manage',
+        templateUrl: 'views/manage-milestones.html',
+        controller: 'ManageMilestonesController as manageMilestonesCtrl'
+      })
+      .state('milestones.create', {
+        url: '/new',
+        templateUrl: 'views/create-milestone.html',
+        controller: 'CreateMilestoneController as createMilestoneCtrl'
+      })
       .state('login', {
         url: '/login',
         controller: 'LoginController as loginCtrl',
