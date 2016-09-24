@@ -3,6 +3,7 @@ package com.mills.performances.controllers;
 import com.google.common.collect.ImmutableMap;
 import com.mills.performances.models.temp.DateTempCount;
 import com.mills.performances.models.temp.IntegerTempCount;
+import com.mills.performances.models.temp.LocationTempCount;
 import com.mills.performances.models.temp.PerformanceSearchOptions;
 import com.mills.performances.models.temp.StringTempCount;
 import com.mills.performances.models.temp.TempCount;
@@ -37,7 +38,7 @@ public class StatsController {
         return ImmutableMap.<String, Integer>builder().put("total", (int) _performanceRepository.count())
                                                       .put("ringers", _performanceRepository.findRingerCounts(emptyOptions).size())
                                                       .put("methods", _performanceRepository.findMethodCounts(emptyOptions).size())
-//                                                      .put("towers", _performanceRepository.findLo(emptyOptions).size())
+                                                      .put("towers", _performanceRepository.findLocationCounts(emptyOptions).size())
 //                                                      .put("time", _performanceRepository.find(emptyOptions).size())
                                                       .build();
     }
@@ -74,6 +75,13 @@ public class StatsController {
         throws Exception
     {
         return _performanceRepository.findRingerCounts(searchOptions(allRequestParams));
+    }
+
+    @RequestMapping("/locations")
+    List<LocationTempCount> getLocations(@RequestParam Map<String, String> allRequestParams)
+        throws Exception
+    {
+        return _performanceRepository.findLocationCounts(searchOptions(allRequestParams));
     }
 
     @Deprecated

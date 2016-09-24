@@ -3,6 +3,7 @@ package com.mills.performances.repositories.impl;
 import com.mills.performances.models.Performance;
 import com.mills.performances.models.temp.DateTempCount;
 import com.mills.performances.models.temp.IntegerTempCount;
+import com.mills.performances.models.temp.LocationTempCount;
 import com.mills.performances.models.temp.PerformanceSearchOptions;
 import com.mills.performances.models.temp.StringTempCount;
 import com.mills.performances.models.temp.TempCount;
@@ -87,6 +88,11 @@ public class PerformanceRepositoryImpl implements PerformanceCustomRepository {
     @Override
     public List<DateTempCount> findDateCounts(PerformanceSearchOptions searchOptions) {
         return propertyCount("date", searchOptions, DateTempCount.class);
+    }
+
+    @Override
+    public List<LocationTempCount> findLocationCounts(PerformanceSearchOptions searchOptions) {
+        return propertyCount("location", searchOptions, LocationTempCount.class);
     }
 
     @Override

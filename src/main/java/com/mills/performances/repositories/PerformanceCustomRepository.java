@@ -3,6 +3,7 @@ package com.mills.performances.repositories;
 import com.mills.performances.models.Performance;
 import com.mills.performances.models.temp.DateTempCount;
 import com.mills.performances.models.temp.IntegerTempCount;
+import com.mills.performances.models.temp.LocationTempCount;
 import com.mills.performances.models.temp.PerformanceSearchOptions;
 import com.mills.performances.models.temp.StringTempCount;
 import org.springframework.data.domain.Sort;
@@ -29,5 +30,7 @@ public interface PerformanceCustomRepository {
     List<IntegerTempCount> findYearCounts(PerformanceSearchOptions searchOptions);
 
     List<StringTempCount> findRingerCounts(PerformanceSearchOptions searchOptions);
+
+    List<LocationTempCount> findLocationCounts(PerformanceSearchOptions searchOptions);
 
 }
