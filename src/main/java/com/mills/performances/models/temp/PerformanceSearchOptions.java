@@ -19,7 +19,7 @@ public class PerformanceSearchOptions {
     private Date date;
     private Integer year;
 
-    private PerformanceSearchOptions() {
+    public PerformanceSearchOptions() {
     }
 
     public static PerformanceSearchOptions searchOptions(Map<String, String> requestParams)

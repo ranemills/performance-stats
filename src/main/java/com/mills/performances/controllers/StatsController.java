@@ -29,6 +29,19 @@ public class StatsController {
     @Autowired
     private PerformanceRepository _performanceRepository;
 
+    @RequestMapping("/snapshot")
+    Map<String, Integer> getSnapshot()
+        throws Exception
+    {
+        PerformanceSearchOptions emptyOptions = new PerformanceSearchOptions();
+        return ImmutableMap.<String, Integer>builder().put("total", (int) _performanceRepository.count())
+                                                      .put("ringers", _performanceRepository.findRingerCounts(emptyOptions).size())
+                                                      .put("methods", _performanceRepository.findMethodCounts(emptyOptions).size())
+//                                                      .put("towers", _performanceRepository.findLo(emptyOptions).size())
+//                                                      .put("time", _performanceRepository.find(emptyOptions).size())
+                                                      .build();
+    }
+
     @RequestMapping("/available")
     Map<String, String> getAvailableFilters(@RequestParam Map<String, String> allRequestParams)
         throws Exception

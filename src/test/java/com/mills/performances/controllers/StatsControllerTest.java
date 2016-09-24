@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import static com.mills.performances.builders.PerformanceBuilder.performanceBuilder;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
@@ -32,28 +33,31 @@ public class StatsControllerTest extends AbstractIntegrationTest {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
         _performanceRepository.save(ImmutableList.<Performance>builder()
-                                   .add(performanceBuilder().changes(5056)
-                                                            .date(sdf.parse("21-04-2015"))
-                                                            .method("Cambridge Surprise")
-                                                            .stage("Major")
-                                                            .ringer(1, "Ryan Mills")
-                                                            .ringer(2, "Lydia")
-                                                            .build())
-                                   .add(performanceBuilder().changes(1296)
-                                                            .date(sdf.parse("21-04-2012"))
-                                                            .method("Cambridge Surprise")
-                                                            .stage("Minor")
-                                                            .ringer(1, "Ryan Mills")
-                                                            .ringer(2, "Lydia")
-                                                            .build())
-                                   .add(performanceBuilder().changes(1280)
-                                                            .date(sdf.parse("21-04-2012"))
-                                                            .method("Yorkshire Surprise")
-                                                            .stage("Major")
-                                                            .ringer(1, "Ryan Mills")
-                                                            .ringer(2, "Claire")
-                                                            .build())
-                                   .build());
+                                        .add(performanceBuilder().changes(5056)
+                                                                 .date(sdf.parse("21-04-2015"))
+                                                                 .method("Cambridge Surprise")
+                                                                 .stage("Major")
+                                                                 .ringer(1, "Ryan Mills")
+                                                                 .ringer(2, "Lydia")
+                                                                 .time(3, 15)
+                                                                 .build())
+                                        .add(performanceBuilder().changes(1296)
+                                                                 .date(sdf.parse("21-04-2012"))
+                                                                 .method("Cambridge Surprise")
+                                                                 .stage("Minor")
+                                                                 .ringer(1, "Ryan Mills")
+                                                                 .ringer(2, "Lydia")
+                                                                 .time(45)
+                                                                 .build())
+                                        .add(performanceBuilder().changes(1280)
+                                                                 .date(sdf.parse("21-04-2012"))
+                                                                 .method("Yorkshire Surprise")
+                                                                 .stage("Major")
+                                                                 .ringer(1, "Ryan Mills")
+                                                                 .ringer(2, "Claire")
+                                                                 .time(60)
+                                                                 .build())
+                                        .build());
     }
 
     @Test
@@ -274,6 +278,20 @@ public class StatsControllerTest extends AbstractIntegrationTest {
                .andExpect(jsonPath("$['ringer']", hasSize(3)))
                .andExpect(jsonPath("$['date']", hasSize(1)))
                .andExpect(jsonPath("$['date'][0]", equalTo(filterMatcher("21-04-2012", 2))));
+    }
+
+    @Test
+    public void getSnapshot()
+        throws Exception
+    {
+        mockMvc.perform(get("/api/stats/snapshot"))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(_contentType))
+               .andExpect(jsonPath("$.total", is(3)))
+               .andExpect(jsonPath("$.ringers", is(3)))
+               .andExpect(jsonPath("$.methods", is(2)));
+//               .andExpect(jsonPath("$.towers", is(3)))
+//               .andExpect(jsonPath("$.time", is(300)));
     }
 
 
