@@ -9,7 +9,7 @@
  */
 angular.module('PerformanceDashboard')
   .controller('LoginController', function ($state, $rootScope, AuthService) {
-    var self = this;
+   var self = this;
 
     self.credentials = {username: 'millsy3', password: 'password'};
     self.login = function () {
@@ -38,4 +38,6 @@ angular.module('PerformanceDashboard')
         }
       });
     };
+
+    // self.login();
   });

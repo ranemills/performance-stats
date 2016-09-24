@@ -18,7 +18,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/coverage" />
       <excludeFolder url="file://$MODULE_DIR$/src/main/resources/static" />
-      <excludeFolder url="file://$MODULE_DIR$/src/main/webapp/bower_components" />
       <excludeFolder url="file://$MODULE_DIR$/src/main/webapp/node" />
       <excludeFolder url="file://$MODULE_DIR$/src/resources/static" />
       <excludeFolder url="file://$MODULE_DIR$/target" />

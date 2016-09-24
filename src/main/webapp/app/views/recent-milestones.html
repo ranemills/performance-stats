@@ -1,0 +1,12 @@
+<table class="table">
+  <tr>
+    <th>Date</th>
+    <th>Milestone</th>
+    <th></th>
+  </tr>
+  <tr ng-repeat="milestone in recentMilestonesCtrl.milestones">
+    <td>{{milestone.date}}</td>
+    <td>{{milestone.number}} of <span ng-repeat="(key, value) in milestone.properties">{{key}} is {{value}}</span></td>
+    <td>View</td>
+  </tr>
+</table>

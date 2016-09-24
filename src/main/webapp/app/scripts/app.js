@@ -5,6 +5,7 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3'])
   .constant('JavaHost', 'http://localhost:8080')
 
   .constant('_', window._)
+  .constant('moment', window.moment)
 
   .service('QuartersApi', function ($http, $q, JavaHost) {
     return {
@@ -74,6 +75,26 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3'])
         controller: 'DashboardController as dashboardCtrl',
         templateUrl: 'views/dashboard.html'
       })
+      .state('milestones', {
+        url: '/milestones',
+        templateUrl: 'views/milestones.html',
+        controller: 'MilestonesController as milestonesCtrl'
+      })
+      .state('milestones.recent', {
+        url: '/recent',
+        templateUrl: 'views/recent-milestones.html',
+        controller: 'RecentMilestonesController as recentMilestonesCtrl'
+      })
+      .state('milestones.manage', {
+        url: '/manage',
+        templateUrl: 'views/manage-milestones.html',
+        controller: 'ManageMilestonesController as manageMilestonesCtrl'
+      })
+      .state('milestones.create', {
+        url: '/new',
+        templateUrl: 'views/create-milestone.html',
+        controller: 'CreateMilestoneController as createMilestoneCtrl'
+      })
       .state('login', {
         url: '/login',
         controller: 'LoginController as loginCtrl',
@@ -88,7 +109,7 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3'])
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
   })
 
-  .run(function ($rootScope, $state, $http, JavaHost) {
+  .run(function ($rootScope, $state, $http, JavaHost, AuthService) {
     $rootScope.logout = function () {
       $http.post(JavaHost + '/logout', {}).finally(function () {
         $rootScope.authenticated = false;
@@ -97,9 +118,13 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3'])
     };
 
     $rootScope.$on('$stateChangeStart', function (event, toState) {
-      if (!$rootScope.authenticated && toState.name !== 'login') {
-        event.preventDefault();
-        $state.go('login');
+      if (!$rootScope.authenticated){
+        AuthService.authenticate({}, function() {
+          if (!$rootScope.authenticated && toState.name !== 'login') {
+            event.preventDefault();
+            $state.go('login');
+          }
+        });
       }
     });
   })
