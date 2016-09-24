@@ -19,7 +19,7 @@ angular.module('PerformanceDashboard')
             $state.go('import');
           }
           else {
-            $state.go('explore');
+            $state.go('dashboard');
           }
 
           self.error = false;

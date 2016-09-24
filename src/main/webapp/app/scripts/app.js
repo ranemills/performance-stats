@@ -69,6 +69,11 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3'])
         templateUrl: 'views/explore.html',
         controller: 'ExploreController as exploreCtrl'
       })
+      .state('dashboard', {
+        url: '/dashboard',
+        controller: 'DashboardController as dashboardCtrl',
+        templateUrl: 'views/dashboard.html'
+      })
       .state('login', {
         url: '/login',
         controller: 'LoginController as loginCtrl',
