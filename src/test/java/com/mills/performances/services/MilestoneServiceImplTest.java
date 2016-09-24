@@ -1,6 +1,7 @@
 package com.mills.performances.services;
 
 import com.mills.performances.AbstractTest;
+import com.mills.performances.enums.MilestoneFacetType;
 import com.mills.performances.enums.PerformanceProperty;
 import com.mills.performances.models.Milestone;
 import com.mills.performances.models.MilestoneFacet;
@@ -63,7 +64,7 @@ public class MilestoneServiceImplTest extends AbstractTest {
         _milestoneService.updateMilestones(Collections.singletonList(_performance1));
 
         MilestoneFacet expectedFacet = milestoneFacetBuilder(null).build();
-        expectedFacet.incrementCount();
+        expectedFacet.addValue(1);
         expectedFacet.addMilestone(1, _performance1);
 
         verify(_milestoneFacetRepository).save(Collections.singletonList(expectedFacet));
@@ -85,8 +86,30 @@ public class MilestoneServiceImplTest extends AbstractTest {
 
         MilestoneFacet expectedFacet = milestoneFacetBuilder(null).addPropertyValue(PerformanceProperty.METHOD,
                                                                                     "Triton Delight").build();
-        expectedFacet.incrementCount();
+        expectedFacet.addValue(1);
         expectedFacet.addMilestone(1, _performance2);
+
+        verify(_milestoneFacetRepository).save(Collections.singletonList(expectedFacet));
+    }
+
+    @Test
+    public void updatesDurationForMethodMilestoneFacet() {
+        MilestoneFacet facet = milestoneFacetBuilder(null).addPropertyValue(PerformanceProperty.METHOD,
+                                                                            "Triton Delight")
+                                                          .setType(MilestoneFacetType.DURATION)
+                                                          .build();
+
+        given(_milestoneFacetRepository.findAll()).willReturn(Collections.singletonList(facet));
+        given(_performanceService.propertiesMatch(_performance1, PerformanceProperty.METHOD, "Triton Delight"))
+            .willReturn(false);
+        given(_performanceService.propertiesMatch(_performance2, PerformanceProperty.METHOD, "Triton Delight"))
+            .willReturn(true);
+
+        _milestoneService.updateMilestones(Arrays.asList(_performance1, _performance2));
+
+        MilestoneFacet expectedFacet = milestoneFacetBuilder(null).addPropertyValue(PerformanceProperty.METHOD,
+                                                                                    "Triton Delight").build();
+        expectedFacet.addValue(_performance2.getTime());
 
         verify(_milestoneFacetRepository).save(Collections.singletonList(expectedFacet));
     }
@@ -112,7 +135,7 @@ public class MilestoneServiceImplTest extends AbstractTest {
                                                                                     "Delight")
                                                                   .addPropertyValue(PerformanceProperty.STAGE, "Royal")
                                                                   .build();
-        expectedFacet.incrementCount();
+        expectedFacet.addValue(1);
         expectedFacet.addMilestone(1, _performance2);
 
         verify(_milestoneFacetRepository).save(Collections.singletonList(expectedFacet));
@@ -196,18 +219,34 @@ public class MilestoneServiceImplTest extends AbstractTest {
     }
 
     @Test
-    public void milestoneValues() {
-        assertThat(_milestoneService.isMilestoneValue(1), is(true));
-        assertThat(_milestoneService.isMilestoneValue(2), is(false));
-        assertThat(_milestoneService.isMilestoneValue(5), is(true));
-        assertThat(_milestoneService.isMilestoneValue(10), is(true));
-        assertThat(_milestoneService.isMilestoneValue(25), is(true));
-        assertThat(_milestoneService.isMilestoneValue(50), is(true));
-        assertThat(_milestoneService.isMilestoneValue(74), is(false));
-        assertThat(_milestoneService.isMilestoneValue(100), is(true));
-        assertThat(_milestoneService.isMilestoneValue(101), is(false));
-        assertThat(_milestoneService.isMilestoneValue(150), is(true));
-        assertThat(_milestoneService.isMilestoneValue(203), is(false));
+    public void milestoneCounts() {
+        assertThat(_milestoneService.isMilestoneCount(1), is(true));
+        assertThat(_milestoneService.isMilestoneCount(2), is(false));
+        assertThat(_milestoneService.isMilestoneCount(5), is(true));
+        assertThat(_milestoneService.isMilestoneCount(10), is(true));
+        assertThat(_milestoneService.isMilestoneCount(25), is(true));
+        assertThat(_milestoneService.isMilestoneCount(50), is(true));
+        assertThat(_milestoneService.isMilestoneCount(74), is(false));
+        assertThat(_milestoneService.isMilestoneCount(100), is(true));
+        assertThat(_milestoneService.isMilestoneCount(101), is(false));
+        assertThat(_milestoneService.isMilestoneCount(150), is(true));
+        assertThat(_milestoneService.isMilestoneCount(203), is(false));
+    }
+
+    @Test
+    public void milestoneDurations() {
+        assertThat(_milestoneService.isMilestoneDuration(5*60), is(true));
+        assertThat(_milestoneService.isMilestoneDuration(10*60), is(true));
+        assertThat(_milestoneService.isMilestoneDuration(25*60), is(true));
+        assertThat(_milestoneService.isMilestoneDuration(26*60), is(false));
+        assertThat(_milestoneService.isMilestoneDuration(50*60), is(true));
+        assertThat(_milestoneService.isMilestoneDuration(51*60), is(false));
+        assertThat(_milestoneService.isMilestoneDuration(71*60), is(false));
+        assertThat(_milestoneService.isMilestoneDuration(100*60), is(true));
+        assertThat(_milestoneService.isMilestoneDuration(250*60), is(true));
+        assertThat(_milestoneService.isMilestoneDuration(85), is(false));
+        assertThat(_milestoneService.isMilestoneDuration(141), is(false));
+        assertThat(_milestoneService.isMilestoneDuration(1001), is(false));
     }
 
     @Test

@@ -1,13 +1,12 @@
 package com.mills.performances.services.impl;
 
+import com.mills.performances.enums.MilestoneFacetType;
 import com.mills.performances.enums.PerformanceProperty;
 import com.mills.performances.models.BellBoardImport;
 import com.mills.performances.models.MilestoneFacet;
 import com.mills.performances.models.Performance;
-import com.mills.performances.models.temp.PerformanceSearchOptions;
 import com.mills.performances.repositories.MilestoneFacetRepository;
 import com.mills.performances.repositories.MilestoneRepository;
-import com.mills.performances.repositories.PerformanceRepository;
 import com.mills.performances.services.MilestoneService;
 import com.mills.performances.services.PerformanceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,10 +75,17 @@ public class MilestoneServiceImpl implements MilestoneService {
 
     @Override
     public void incrementCount(MilestoneFacet milestoneFacet, Performance performance, Boolean save) {
-        milestoneFacet.incrementCount();
-
-        if(isMilestoneValue(milestoneFacet.getCount())) {
-            milestoneFacet.addMilestone(milestoneFacet.getCount(), performance);
+        if(milestoneFacet.getType().equals(MilestoneFacetType.COUNT)) {
+            milestoneFacet.addValue(1);
+            if (isMilestoneCount(milestoneFacet.getValue())) {
+                milestoneFacet.addMilestone(milestoneFacet.getValue(), performance);
+            }
+        }
+        else if(milestoneFacet.getType().equals(MilestoneFacetType.DURATION)){
+            milestoneFacet.addValue(performance.getTime());
+            if(isMilestoneDuration(milestoneFacet.getValue())) {
+                milestoneFacet.addMilestone(milestoneFacet.getValue(), performance);
+            }
         }
 
         if(save) {
@@ -88,8 +94,17 @@ public class MilestoneServiceImpl implements MilestoneService {
     }
 
     @Override
-    public Boolean isMilestoneValue(Integer value) {
+    public Boolean isMilestoneCount(Integer value) {
         return Arrays.asList(1, 5, 10, 25).contains(value) || value % 50 == 0;
+    }
+
+    @Override
+    public Boolean isMilestoneDuration(Integer value) {
+        return Arrays.asList(hours(5), hours(10), hours(25)).contains(value) || value % hours(50) == 0;
+    }
+
+    private Integer hours(Integer hours) {
+        return hours*60;
     }
 }
 

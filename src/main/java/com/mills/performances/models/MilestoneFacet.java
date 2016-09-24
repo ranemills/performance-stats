@@ -1,5 +1,6 @@
 package com.mills.performances.models;
 
+import com.mills.performances.enums.MilestoneFacetType;
 import com.mills.performances.enums.PerformanceProperty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -19,26 +20,31 @@ import static com.mills.performances.MongoConfiguration.DOCUMENT_MILESTONE_FACET
 @Document(collection = DOCUMENT_MILESTONE_FACETS)
 final public class MilestoneFacet extends AbstractMongoModel {
 
-    final private Map<PerformanceProperty, Object> _properties;
-    private Integer _count;
+    private final Map<PerformanceProperty, Object> _properties;
+    private Integer _value;
     @DBRef
     private List<Milestone> _milestones;
     @DBRef
     private BellBoardImport _bellBoardImport;
+    private final MilestoneFacetType _type;
 
     private MilestoneFacet() {
         _properties = new HashMap<>();
+        _type = MilestoneFacetType.COUNT;
     }
 
-    public MilestoneFacet(BellBoardImport bellBoardImport, Map<PerformanceProperty, Object> properties) {
+    public MilestoneFacet(BellBoardImport bellBoardImport, Map<PerformanceProperty, Object> properties,
+                          MilestoneFacetType type) {
         _properties = properties;
-        _count = 0;
+        _value = 0;
         _milestones = new ArrayList<>();
         _bellBoardImport = bellBoardImport;
+        _type = type;
     }
-    public MilestoneFacet(BellBoardImport bellBoardImport, Map<PerformanceProperty, Object> properties, Integer initialCount) {
-        this(bellBoardImport, properties);
-        _count = initialCount;
+
+    public MilestoneFacet(BellBoardImport bellBoardImport, Map<PerformanceProperty, Object> properties, MilestoneFacetType type, Integer initialCount) {
+        this(bellBoardImport, properties, type);
+        _value = initialCount;
     }
 
     public void addMilestone(Integer milestone, Performance performance)
@@ -46,17 +52,26 @@ final public class MilestoneFacet extends AbstractMongoModel {
         _milestones.add(new Milestone(milestone, performance, _properties));
     }
 
+    public MilestoneFacetType getType() {
+        return _type;
+    }
+
     public void incrementCount()
     {
-        _count = _count + 1;
+        _value = _value + 1;
+    }
+
+    public void addValue(Integer value)
+    {
+        _value = _value + value;
     }
 
     public Map<PerformanceProperty, Object> getProperties() {
         return _properties;
     }
 
-    public int getCount() {
-        return _count;
+    public int getValue() {
+        return _value;
     }
 
     public List<Milestone> getMilestones() {
@@ -66,7 +81,7 @@ final public class MilestoneFacet extends AbstractMongoModel {
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("properties", _properties)
-            .append("count", _count)
+            .append("count", _value)
             .append("milestones", _milestones)
             .build();
     }
@@ -85,7 +100,7 @@ final public class MilestoneFacet extends AbstractMongoModel {
         MilestoneFacet rhs = (MilestoneFacet) obj;
         return new EqualsBuilder()
                    .append(getProperties(), rhs.getProperties())
-                   .append(getCount(), rhs.getCount())
+                   .append(getValue(), rhs.getValue())
                    .append(getMilestones(), rhs.getMilestones())
                    .isEquals();
     }

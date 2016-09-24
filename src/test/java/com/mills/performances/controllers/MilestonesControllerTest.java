@@ -47,7 +47,7 @@ public class MilestonesControllerTest extends AbstractIntegrationTest {
                .andExpect(status().isOk())
                .andExpect(content().contentType(_contentType))
                .andExpect(jsonPath("$.properties['STAGE']", is("Major")))
-               .andExpect(jsonPath("$.count", is(0)));
+               .andExpect(jsonPath("$.value", is(0)));
 
         List<MilestoneFacet> facets = _milestoneFacetRepository.findAll();
         assertThat(facets, hasSize(1));

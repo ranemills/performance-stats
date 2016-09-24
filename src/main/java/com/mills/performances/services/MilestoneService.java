@@ -19,5 +19,7 @@ public interface MilestoneService {
 
     void incrementCount(MilestoneFacet milestoneFacet, Performance performance, Boolean save);
 
-    Boolean isMilestoneValue(Integer value);
+    Boolean isMilestoneCount(Integer value);
+
+    Boolean isMilestoneDuration(Integer value);
 }

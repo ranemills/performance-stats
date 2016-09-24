@@ -63,6 +63,7 @@ public class StatsController {
         return _performanceRepository.findRingerCounts(searchOptions(allRequestParams));
     }
 
+    @Deprecated
     @RequestMapping("/filters")
     Map<String, List<? extends TempCount>> getFilters(@RequestParam Map<String, String> allRequestParams)
         throws Exception
