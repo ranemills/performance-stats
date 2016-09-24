@@ -3,6 +3,8 @@ package com.mills.performances;
 import com.mills.performances.models.AuthUser;
 import com.mills.performances.repositories.AuthUserRepository;
 import com.mills.performances.repositories.BellBoardImportRepository;
+import com.mills.performances.repositories.MilestoneFacetRepository;
+import com.mills.performances.repositories.MilestoneRepository;
 import com.mills.performances.repositories.PerformanceRepository;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -47,6 +49,12 @@ public abstract class AbstractIntegrationTest extends AbstractTest {
     @Autowired
     protected BellBoardImportRepository _bellBoardImportRepository;
 
+    @Autowired
+    protected MilestoneFacetRepository _milestoneFacetRepository;
+
+    @Autowired
+    protected MilestoneRepository _milestoneRepository;
+
     protected MockMvc mockMvc;
 
     @Autowired
@@ -58,6 +66,8 @@ public abstract class AbstractIntegrationTest extends AbstractTest {
         _performanceRepository.deleteAll();
         _authUserRepository.deleteAll();
         _bellBoardImportRepository.deleteAll();
+        _milestoneFacetRepository.deleteAll();
+        _milestoneRepository.deleteAll();
 
         SecurityContext context = SecurityContextHolder.getContext();
         AuthUser user = _authUserRepository.save(new AuthUser((AuthUser) context.getAuthentication().getPrincipal()));

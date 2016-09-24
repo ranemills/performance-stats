@@ -43,7 +43,7 @@ final public class MilestoneFacet extends AbstractMongoModel {
 
     public void addMilestone(Integer milestone, Performance performance)
     {
-        _milestones.add(new Milestone(milestone, performance));
+        _milestones.add(new Milestone(milestone, performance, _properties));
     }
 
     public void incrementCount()

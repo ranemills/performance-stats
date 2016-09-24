@@ -67,7 +67,7 @@ public class MilestoneServiceImplTest extends AbstractTest {
         expectedFacet.addMilestone(1, _performance1);
 
         verify(_milestoneFacetRepository).save(Collections.singletonList(expectedFacet));
-        verify(_milestoneRepository).save(Collections.singletonList(new Milestone(1, _performance1)));
+        verify(_milestoneRepository).save(Collections.singletonList(new Milestone(1, _performance1, new HashMap<>())));
     }
 
     @Test
@@ -84,8 +84,7 @@ public class MilestoneServiceImplTest extends AbstractTest {
         _milestoneService.updateMilestones(Arrays.asList(_performance1, _performance2));
 
         MilestoneFacet expectedFacet = milestoneFacetBuilder(null).addPropertyValue(PerformanceProperty.METHOD,
-                                                                                    "Triton " +
-                                                                                                                "Delight").build();
+                                                                                    "Triton Delight").build();
         expectedFacet.incrementCount();
         expectedFacet.addMilestone(1, _performance2);
 
@@ -110,7 +109,7 @@ public class MilestoneServiceImplTest extends AbstractTest {
 
         MilestoneFacet expectedFacet = milestoneFacetBuilder(null).addPropertyValue(PerformanceProperty.METHOD,
                                                                                     "Triton " +
-                                                                                                                "Delight")
+                                                                                    "Delight")
                                                                   .addPropertyValue(PerformanceProperty.STAGE, "Royal")
                                                                   .build();
         expectedFacet.incrementCount();
@@ -134,7 +133,7 @@ public class MilestoneServiceImplTest extends AbstractTest {
 
         MilestoneFacet expectedFacet = milestoneFacetBuilder(null).addPropertyValue(PerformanceProperty.METHOD,
                                                                                     "Triton " +
-                                                                                                                "Delight")
+                                                                                    "Delight")
                                                                   .addPropertyValue(PerformanceProperty.STAGE, "Royal")
                                                                   .build();
 
@@ -223,7 +222,7 @@ public class MilestoneServiceImplTest extends AbstractTest {
         MilestoneFacet expectedFacet = milestoneFacetBuilder(null).setInitialCount(2).build();
         expectedFacet.addMilestone(1, _performance1);
 
-        verify(_milestoneRepository).save(Collections.singletonList(new Milestone(1, _performance1)));
+        verify(_milestoneRepository).save(Collections.singletonList(new Milestone(1, _performance1, new HashMap<>())));
         verify(_milestoneFacetRepository).save(expectedFacet);
     }
 
