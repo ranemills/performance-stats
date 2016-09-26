@@ -4,9 +4,11 @@
     <th>Milestone</th>
     <th></th>
   </tr>
-  <tr ng-repeat="milestone in recentMilestonesCtrl.milestones">
-    <td>{{milestone.date}}</td>
-    <td>{{milestone.number}} of <span ng-repeat="(key, value) in milestone.properties">{{key}} is {{value}}</span></td>
+  <tr ng-repeat="milestone in recentMilestonesCtrl.milestones" ng-click="recentMilestonesCtrl.selectMilestone($index)">
+    <td>{{milestone.performance.date}}</td>
+    <td>{{milestone.milestoneValue}} of <span ng-repeat="(key, value) in milestone.properties">{{key}} is {{value}}</span></td>
     <td>View</td>
   </tr>
 </table>
+
+<performance ng-if="recentMilestonesCtrl.selectedMilestone" show="recentMilestonesCtrl.selectedMilestone.performance"></performance>

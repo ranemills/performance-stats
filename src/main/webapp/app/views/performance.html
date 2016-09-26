@@ -1,0 +1,10 @@
+<div>
+  <p>{{show.location.name}}</p>
+  <p>{{show.date | amParse: 'DD-MM-YYYY' | amDateFormat: 'dddd Do MMMM YYYY' }}</p>
+  <p>{{show.changes}} {{show.method}} {{show.stage}}</p>
+  <ol>
+    <li ng-repeat="ringer in show.ringers | orderBy: ringer.methodBell">
+      {{ringer.name}}
+    </li>
+  </ol>
+</div>

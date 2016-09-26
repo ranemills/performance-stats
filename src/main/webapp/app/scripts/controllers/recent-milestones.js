@@ -8,11 +8,17 @@
  * Controller of the PerformanceDashboard
  */
 angular.module('PerformanceDashboard')
-  .controller('RecentMilestonesController', function (moment, MilestonesService) {
+  .controller('RecentMilestonesController', function (_, moment, MilestonesService) {
     var recentMilestonesCtrl = this;
 
     recentMilestonesCtrl.milestones = [];
-    MilestonesService.recentMilestones().then(function(milestones) {
-      recentMilestonesCtrl.milestones = milestones;
+    MilestonesService.recentMilestones().then(function(response) {
+      recentMilestonesCtrl.milestones = response.data;
     });
+
+    recentMilestonesCtrl.selectMilestone = function(index) {
+      console.log('hello');
+      recentMilestonesCtrl.selectedMilestone = recentMilestonesCtrl.milestones[index];
+    };
+
   });

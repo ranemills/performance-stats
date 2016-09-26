@@ -8,28 +8,14 @@
  * Service in the PerformanceDashboard.
  */
 angular.module('PerformanceDashboard')
-  .service('MilestonesService', function ($q, moment) {
+  .service('MilestonesService', function ($http, $q, JavaHost) {
 
     function recentMilestones() {
-      return $q.resolve([
-          {
-            id: '1',
-            date: moment().format('ll'),
-            number: 50,
-            properties: {'STAGE': 'Major'},
-            performanceId: '123'
-          }
-        ]);
+      return $http.get(JavaHost + '/api/milestones');
     }
 
     function getMilestonesFacets() {
-      return $q.resolve([
-          {
-            id: '1',
-            count: 122,
-            properties: {'STAGE': 'Major'}
-          }
-        ]);
+      return $http.get(JavaHost + '/api/facets');
     }
 
     function newMilestoneFacet() {
