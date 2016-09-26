@@ -1,5 +1,6 @@
 package com.mills.performances.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mills.performances.enums.PerformanceProperty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
