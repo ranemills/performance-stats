@@ -78,7 +78,7 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3'])
       .state('milestones', {
         url: '/milestones',
         templateUrl: 'views/milestones.html',
-        controller: 'MilestonesController as milestonesCtrl'
+        redirectTo: 'milestones.recent'
       })
       .state('milestones.recent', {
         url: '/recent',
@@ -107,6 +107,15 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3'])
       });
 
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+  })
+
+  .run(function($rootScope, $state) {
+    $rootScope.$on('$stateChangeStart', function(evt, to, params) {
+      if (to.redirectTo) {
+        evt.preventDefault();
+        $state.go(to.redirectTo, params);
+      }
+    });
   })
 
   .run(function ($rootScope, $state, $http, JavaHost, AuthService) {
