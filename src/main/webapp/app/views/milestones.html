@@ -1,16 +1,12 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-xs-12">
-      <h4>Milestones</h4>
-    </div>
-  </div>
-  <div class="row">
     <div class="col col-xs-3">
-      <ul class="nav nav-pills nav-stacked">
-        <li role="presentation"><button type="button" class="btn btn-primary" ui-sref=".create" ui-sref-active>New Milestone</button></li>
-        <li role="presentation"><a ui-sref=".recent" ui-sref-active>Recent</a></li>
-        <li role="presentation"><a ui-sref=".manage" ui-sref-active>Manage</a></li>
-      </ul>
+      <nav class="nav nav-pills nav-stacked">
+        <!--<button type="button" class="btn btn-primary" ui-sref=".create" ui-sref-active>New Milestone</button>-->
+        <a class="nav-link" ui-sref=".create" ui-sref-active>New Milestone</a>
+        <a class="nav-link" ui-sref=".recent" ui-sref-active>Recent</a>
+        <a class="nav-link" ui-sref=".manage" ui-sref-active>Manage</a>
+      </nav>
     </div>
     <div class="col col-xs-9">
       <div ui-view></div>

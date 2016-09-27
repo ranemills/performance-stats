@@ -5,10 +5,10 @@
 </div>
 </div>
 <ul class="list-group">
-    <a class="list-group-item"
+    <li class="list-group-item list-group-item-action"
        ng-repeat="item in items | filter: searchText | orderBy: item.count | limitTo: maxDisplayed"
        ng-click="select(item.property)" ng-class="active(item.property) ? 'active' : ''" ng-if="show(item.property)">
-        <span class="badge">{{item.count}}</span> {{item.property}}
-    </a>
-    <a class="list-group-item" ng-if="items.length > maxDisplayed" ng-click="increaseMaxDisplayed()">Show more...</a>
+        <span class="tag tag-default tag-pill">{{item.count}}</span> {{item.property}}
+    </li>
+    <li class="list-group-item" ng-if="items.length > maxDisplayed" ng-click="increaseMaxDisplayed()">Show more...</li>
 </ul>

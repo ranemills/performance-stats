@@ -1,64 +1,82 @@
-<div class="panel panel-default">
+<nav class="navbar navbar-light bg-faded">
+  <ul class="nav navbar-nav pull-xs-right">
+    <li>
+      <button type="button" class="btn btn-primary" ng-click="exploreCtrl.reset()">Reset</button>
+    </li>
+  </ul>
+</nav>
 
-  <div class="panel-heading">
-    <h4>Explore</h4>
-  </div>
 
-  <div class="panel-body">
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li>
-              <button type="button" class="btn btn-default navbar-btn"
-                      ng-click="exploreCtrl.reset()">
-                Reset
-              </button>
-            </li>
-          </ul>
-        </div>
+<div class="container-fluid">
+  <div class="card-columns">
+    <div class="card" ng-repeat="(filterName, filterObj) in exploreCtrl.newFilters"
+         ng-init="exploreCtrl.view[$index] = 'chart'">
+      <div class="card-header">
+        {{ filterName }}
+        <ul class="nav nav-pills card-header-pills pull-xs-right">
+          <li class="nav-item">
+            <button type="button" class="btn btn-default" ng-click="exploreCtrl.view[$index] = 'chart'">
+              <i class="glyphicon glyphicon-stats"></i>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="btn btn-default" ng-click="exploreCtrl.view[$index] = 'list'">
+              <i class="glyphicon glyphicon-list"></i>
+            </button>
+          </li>
+        </ul>
       </div>
-    </nav>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col col-xs-3" ng-repeat="(filterName, filterObj) in exploreCtrl.newFilters"
-             ng-init="exploreCtrl.view[$index] = 'chart'">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <div class="row">
-                <span class="pull-left col col-xs-8">{{ filterName }}</span>
-                <span class="pull-right col col-xs-4">
-                <button type="button" class="btn btn-default" ng-click="exploreCtrl.view[$index] = 'chart'">
-                  <i class="glyphicon glyphicon-stats"></i>
-                </button>
-                <button type="button" class="btn btn-default" ng-click="exploreCtrl.view[$index] = 'list'">
-                  <i class="glyphicon glyphicon-list"></i>
-                </button>
-              </span>
-              </div>
-            </div>
-            <div class="panel-body">
-              <stats-list ng-show="exploreCtrl.view[$index] === 'list'"
-                          items="filterObj.listData" selector="exploreCtrl.select"
-                          max-displayed="exploreCtrl.maxDisplayed[filterName]"
-                          selector-key="filterName" update="exploreCtrl.selectFilter">
-              </stats-list>
-              <nvd3 ng-show="exploreCtrl.view[$index] === 'chart'" options="exploreCtrl.chartOptions(filterName)"
-                    data="filterObj.chartData"></nvd3>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col col-xs-12">
-          <div class="panel">
-            <div class="panel-body panel-default">
-              <performance-list performances="exploreCtrl.performances"></performance-list>
-            </div>
-          </div>
-        </div>
+      <div class="card-block">
+        <stats-list ng-show="exploreCtrl.view[$index] === 'list'"
+                    items="filterObj.listData" selector="exploreCtrl.select"
+                    max-displayed="exploreCtrl.maxDisplayed[filterName]"
+                    selector-key="filterName" update="exploreCtrl.selectFilter">
+        </stats-list>
+        <nvd3 ng-show="exploreCtrl.view[$index] === 'chart'" options="exploreCtrl.chartOptions(filterName)"
+              data="filterObj.chartData"></nvd3>
       </div>
     </div>
   </div>
+</div>
+
+
+<!--<div class="row">-->
+<!--<div class="col col-xs-3" ng-repeat="(filterName, filterObj) in exploreCtrl.newFilters"-->
+<!--ng-init="exploreCtrl.view[$index] = 'chart'">-->
+<!--<div class="panel panel-default">-->
+<!--<div class="panel-heading">-->
+<!--<div class="row">-->
+<!--<span class="pull-left col col-xs-8">{{ filterName }}</span>-->
+<!--<span class="pull-right col col-xs-4">-->
+<!--<button type="button" class="btn btn-default" ng-click="exploreCtrl.view[$index] = 'chart'">-->
+<!--<i class="glyphicon glyphicon-stats"></i>-->
+<!--</button>-->
+<!--<button type="button" class="btn btn-default" ng-click="exploreCtrl.view[$index] = 'list'">-->
+<!--<i class="glyphicon glyphicon-list"></i>-->
+<!--</button>-->
+<!--</span>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="panel-body">-->
+<!--<stats-list ng-show="exploreCtrl.view[$index] === 'list'"-->
+<!--items="filterObj.listData" selector="exploreCtrl.select"-->
+<!--max-displayed="exploreCtrl.maxDisplayed[filterName]"-->
+<!--selector-key="filterName" update="exploreCtrl.selectFilter">-->
+<!--</stats-list>-->
+<!--<nvd3 ng-show="exploreCtrl.view[$index] === 'chart'" options="exploreCtrl.chartOptions(filterName)"-->
+<!--data="filterObj.chartData"></nvd3>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<div class="row">
+  <div class="col col-xs-12">
+    <div class="panel">
+      <div class="panel-body panel-default">
+        <performance-list performances="exploreCtrl.performances"></performance-list>
+      </div>
+    </div>
+  </div>
+</div>
 </div>

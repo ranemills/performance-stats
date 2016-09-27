@@ -25,3 +25,8 @@ body {
 .panel-with-drawer {
     margin-right: 50px;
 }
+
+/* Fix for split-card bug. See https://github.com/twbs/bootstrap/issues/20654 */
+.card-columns .card {
+    display: inline-block;
+}
