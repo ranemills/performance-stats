@@ -11,14 +11,17 @@ angular.module('PerformanceDashboard')
   .controller('RecentMilestonesController', function (_, moment, MilestonesService) {
     var recentMilestonesCtrl = this;
 
-    recentMilestonesCtrl.milestones = [];
+    recentMilestonesCtrl.milestones = {};
     MilestonesService.recentMilestones().then(function(response) {
       recentMilestonesCtrl.milestones = response.data;
     });
 
     recentMilestonesCtrl.selectMilestone = function(index) {
-      console.log('hello');
       recentMilestonesCtrl.selectedMilestone = recentMilestonesCtrl.milestones[index];
+    };
+
+    recentMilestonesCtrl.emptyProperties = function(milestone) {
+      return _.size(milestone.properties) === 0;
     };
 
   });
