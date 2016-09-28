@@ -5,6 +5,7 @@ import com.mills.performances.enums.PerformanceProperty;
 import com.mills.performances.models.BellBoardImport;
 import com.mills.performances.models.Milestone;
 import com.mills.performances.models.MilestoneFacet;
+import com.mills.performances.models.Performance;
 import com.mills.performances.repositories.BellBoardImportRepository;
 import com.mills.performances.repositories.MilestoneFacetRepository;
 import com.mills.performances.repositories.MilestoneRepository;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -36,12 +38,12 @@ public class FacetsController {
     private BellBoardImportRepository _bellboardImportRepository;
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    MilestoneFacet newFacet(@RequestBody Map<String, String> allRequestParams)
+    MilestoneFacet newFacet(@RequestBody Map<String, Object> allRequestParams)
         throws Exception
     {
         BellBoardImport bbImport = _bellboardImportRepository.findAll().get(0);
         MilestoneFacetBuilder facetBuilder = MilestoneFacetBuilder.milestoneFacetBuilder(bbImport);
-        for(Map.Entry<String, String> entry : allRequestParams.entrySet()) {
+        for(Map.Entry<String, String> entry : ((Map<String, String>) allRequestParams.get("properties")).entrySet()) {
             facetBuilder.addPropertyValue(PerformanceProperty.fromString(entry.getKey()), entry.getValue());
         }
         return _milestoneService.initialiseMilestoneFacet(facetBuilder.build());
@@ -52,6 +54,11 @@ public class FacetsController {
         throws Exception
     {
         return _milestoneFacetRepository.findAll();
+    }
+
+    @RequestMapping("/properties")
+    List<PerformanceProperty> getProperties() {
+        return Arrays.asList(PerformanceProperty.values());
     }
 
 }

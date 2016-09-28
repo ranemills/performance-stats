@@ -16,11 +16,23 @@
   </div>
 </div>
 
-<div class="row">
+<div class="row" ng-repeat="row in createMilestoneCtrl.new.properties">
   <div class="col-xs-4">
-    Property dropdown
+    <label for="property">Property</label>
+    <select id="property"
+            ng-model="createMilestoneCtrl.new.properties[$index].property"
+            ng-options="property for property in createMilestoneCtrl.availableProperties">
+    </select>
   </div>
-  <div class="col-xs-8">
-    Property value dropdown
+  <div class="col-xs-7">
+    <label for="value">Value</label>
+    <input id="value" type="text" ng-model="createMilestoneCtrl.new.properties[$index].value">
   </div>
+  <div class="col-xs-1">
+    <span ng-click="createMilestoneCtrl.newPropertyRow()" ng-if="$last && createMilestoneCtrl.canAddNewRow()">+</span>
+  </div>
+</div>
+
+<div class="row">
+  <button type="submit" class="btn btn-primary" ng-click="createMilestoneCtrl.create()">Submit</button>
 </div>

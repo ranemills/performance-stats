@@ -8,11 +8,46 @@
  * Controller of the PerformanceDashboard
  */
 angular.module('PerformanceDashboard')
-  .controller('CreateMilestoneController', function () {
+  .controller('CreateMilestoneController', function(_, MilestonesService) {
 
     var createMilestoneCtrl = this;
 
-    createMilestoneCtrl.create = function() {
+    createMilestoneCtrl.availableProperties = [];
 
+    createMilestoneCtrl.new = {
+      properties: [
+        {
+          property: 'STAGE',
+          value: ''
+        }
+      ]
+    };
+
+    MilestonesService.getAvailableProperties().then(function(response) {
+      createMilestoneCtrl.availableProperties = response.data;
+    });
+
+    createMilestoneCtrl.create = function() {
+      var creation = {
+        properties: {
+
+        }
+      };
+
+      creation.properties[createMilestoneCtrl.new.properties[0].property] = createMilestoneCtrl.new.properties[0].value;
+
+
+      MilestonesService.newMilestoneFacet(creation);
+    };
+
+    createMilestoneCtrl.newPropertyRow = function() {
+      createMilestoneCtrl.new.properties.push({
+        property: 'STAGE',
+        value: ''
+      });
+    };
+
+    createMilestoneCtrl.canAddNewRow = function() {
+      return createMilestoneCtrl.new.properties.length !== createMilestoneCtrl.availableProperties.length;
     };
   });

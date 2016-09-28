@@ -33,7 +33,7 @@ public class MilestoneServiceImpl implements MilestoneService {
 
     @Override
     public MilestoneFacet initialiseMilestoneFacet(MilestoneFacet facet) {
-        List<Performance> performances = _performanceService.findByProperties(facet.getProperties(), new Sort(Sort.Direction.DESC, "date"));
+        List<Performance> performances = _performanceService.findByProperties(facet.getProperties(), new Sort(Sort.Direction.ASC, "date"));
         for(Performance performance : performances) {
             incrementCount(facet, performance, false);
         }

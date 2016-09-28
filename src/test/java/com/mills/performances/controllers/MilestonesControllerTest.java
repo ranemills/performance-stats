@@ -33,27 +33,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class MilestonesControllerTest extends AbstractIntegrationTest {
 
     @Test
-    public void canCreateMilestoneFacet()
-        throws Exception
-    {
-        _bellBoardImportRepository.save(new BellBoardImport("default"));
-
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put(PerformanceProperty.STAGE.toString(), "Major");
-
-        mockMvc.perform(post("/api/milestones/new")
-                            .content(jsonObject.toString())
-                            .contentType(MediaType.APPLICATION_JSON))
-               .andExpect(status().isOk())
-               .andExpect(content().contentType(_contentType))
-               .andExpect(jsonPath("$.properties['STAGE']", is("Major")))
-               .andExpect(jsonPath("$.value", is(0)));
-
-        List<MilestoneFacet> facets = _milestoneFacetRepository.findAll();
-        assertThat(facets, hasSize(1));
-    }
-
-    @Test
     public void canGetListOfRecentMilestones()
         throws Exception
     {

@@ -7,7 +7,8 @@
   <tr ng-repeat="milestone in recentMilestonesCtrl.milestones" ng-click="recentMilestonesCtrl.selectMilestone($index)">
     <td>{{milestone.performance.date}}</td>
     <td>
-      <span ng-if="!recentMilestonesCtrl.emptyProperties(milestone)">{{milestone.properties}} {{milestone.milestoneValue}} of <span ng-repeat="(key, value) in milestone.properties">{{key}} is {{value}}</span></span>
+      {{milestone.milestoneValue}}
+      <span ng-if="!recentMilestonesCtrl.emptyProperties(milestone)">of <span ng-repeat="(key, value) in milestone.properties">{{key}} is {{value}}</span></span>
       <span ng-if="recentMilestonesCtrl.emptyProperties(milestone)">All</span>
     </td>
     <td>View</td>

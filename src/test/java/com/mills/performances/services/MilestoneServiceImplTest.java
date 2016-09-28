@@ -251,7 +251,7 @@ public class MilestoneServiceImplTest extends AbstractTest {
 
     @Test
     public void canInitialiseNewFacet() {
-        given(_performanceService.findByProperties(new HashMap<>(), new Sort(Sort.Direction.DESC, "date")))
+        given(_performanceService.findByProperties(new HashMap<>(), new Sort(Sort.Direction.ASC, "date")))
             .willReturn(Arrays.asList(_performance1, _performance2));
 
         MilestoneFacet facet = milestoneFacetBuilder(null).build();

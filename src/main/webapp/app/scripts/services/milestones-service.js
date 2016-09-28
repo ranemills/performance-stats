@@ -18,16 +18,19 @@ angular.module('PerformanceDashboard')
       return $http.get(JavaHost + '/api/facets');
     }
 
-    function newMilestoneFacet() {
-      return $q.resolve({
-        id: '2'
-      });
+    function newMilestoneFacet(facet) {
+      return $http.post(JavaHost + '/api/facets/new', facet);
+    }
+
+    function getAvailableProperties() {
+      return $http.get(JavaHost + '/api/facets/properties');
     }
 
     return {
       recentMilestones: recentMilestones,
       getMilestonesFacets: getMilestonesFacets,
-      newMilestoneFacet: newMilestoneFacet
+      newMilestoneFacet: newMilestoneFacet,
+      getAvailableProperties: getAvailableProperties
     };
 
   });
