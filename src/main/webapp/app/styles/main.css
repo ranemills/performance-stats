@@ -1,32 +1,46 @@
 body {
-    font-family: Verdana, Helvetica, sans-serif;
+  font-family: Verdana, Helvetica, sans-serif;
 }
 
 .filter-box {
-    border: 1px solid black;
-    margin: 10px;
+  border: 1px solid black;
+  margin: 10px;
 }
 
 .performance-drawer-controls {
-    /* background-color: grey; */
-    border: solid darkgrey 1px;
-    text-align: center;
+  /* background-color: grey; */
+  border: solid darkgrey 1px;
+  text-align: center;
 }
 
 .performance-drawer-controls .text-container {
-    -webkit-transform: rotate(-90deg);
-    margin-top: 90px;
+  -webkit-transform: rotate(-90deg);
+  margin-top: 90px;
 }
 
 .panel-full-height {
-    height: 100%;
+  height: 100%;
 }
 
 .panel-with-drawer {
-    margin-right: 50px;
+  margin-right: 50px;
 }
 
 /* Fix for split-card bug. See https://github.com/twbs/bootstrap/issues/20654 */
 .card-columns .card {
-    display: inline-block;
+  display: inline-block;
 }
+
+.no-line-space-paragraph p {
+  margin: 0;
+}
+
+.no-line-space-paragraph :first-of-type {
+  margin-top: 1rem;
+}
+
+.no-line-space-paragraph :last-of-type {
+  margin-bottom: 1rem;
+
+}
+

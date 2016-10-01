@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3'])
+angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3', 'ui.bootstrap'])
 
   .constant('JavaHost', 'http://localhost:8080')
 

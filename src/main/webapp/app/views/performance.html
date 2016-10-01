@@ -1,10 +1,13 @@
 <div>
-  <p>{{show.location.name}}</p>
-  <p>{{show.date | amParse: 'DD-MM-YYYY' | amDateFormat: 'dddd Do MMMM YYYY' }}</p>
-  <p>{{show.changes}} {{show.method}} {{show.stage}}</p>
-  <ol>
+  <div class="no-line-space-paragraph">
+    <p>{{show.location.name}}</p>
+    <p>{{show.date | amParse: 'DD-MM-YYYY' | amDateFormat: 'dddd Do MMMM YYYY' }}</p>
+    <p>{{show.changes}} {{show.method}} {{show.stage}}</p>
+  </div>
+
+  <ol  class="list-unstyled">
     <li ng-repeat="ringer in show.ringers | orderBy: ringer.methodBell">
-      {{ringer.name}}
+      {{$index+1}}. {{ringer.name}}
     </li>
   </ol>
 </div>
