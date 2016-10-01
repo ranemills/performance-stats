@@ -8,7 +8,7 @@
  * Controller of the PerformanceDashboard
  */
 angular.module('PerformanceDashboard')
-  .controller('RecentMilestonesController', function (_, $uibModal, moment, MilestonesService) {
+  .controller('RecentMilestonesController', function (_, moment, MilestonesService, ModalService) {
     var recentMilestonesCtrl = this;
 
     recentMilestonesCtrl.milestones = {};
@@ -19,14 +19,7 @@ angular.module('PerformanceDashboard')
     recentMilestonesCtrl.selectMilestone = function(index) {
       recentMilestonesCtrl.selectedMilestone = recentMilestonesCtrl.milestones[index];
 
-      $uibModal.open({
-        templateUrl: 'views/performance-modal.html',
-        controller: 'PerformanceModalController',
-        controllerAs: 'performanceModalCtrl',
-        resolve: {
-          performance: recentMilestonesCtrl.selectedMilestone.performance
-        }
-      });
+      ModalService.openPerformanceModal(recentMilestonesCtrl.selectedMilestone.performance);
     };
 
     recentMilestonesCtrl.emptyProperties = function(milestone) {
