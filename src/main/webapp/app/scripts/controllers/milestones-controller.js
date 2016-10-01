@@ -9,5 +9,5 @@
  */
 angular.module('PerformanceDashboard')
   .controller('MilestonesController', function () {
-    var milestonesCtrl = this;
+    // var milestonesCtrl = this;
   });

@@ -12,17 +12,17 @@ angular.module('PerformanceDashboard')
     var recentMilestonesCtrl = this;
 
     recentMilestonesCtrl.milestones = {};
-    MilestonesService.recentMilestones().then(function(response) {
+    MilestonesService.recentMilestones().then(function (response) {
       recentMilestonesCtrl.milestones = response.data;
     });
 
-    recentMilestonesCtrl.selectMilestone = function(index) {
+    recentMilestonesCtrl.selectMilestone = function (index) {
       recentMilestonesCtrl.selectedMilestone = recentMilestonesCtrl.milestones[index];
 
       ModalService.openPerformanceModal(recentMilestonesCtrl.selectedMilestone.performance);
     };
 
-    recentMilestonesCtrl.emptyProperties = function(milestone) {
+    recentMilestonesCtrl.emptyProperties = function (milestone) {
       return _.size(milestone.properties) === 0;
     };
 

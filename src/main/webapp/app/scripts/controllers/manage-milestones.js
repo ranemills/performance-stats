@@ -11,7 +11,7 @@ angular.module('PerformanceDashboard')
   .controller('ManageMilestonesController', function (MilestonesService) {
     var manageMilestonesCtrl = this;
     manageMilestonesCtrl.milestones = [];
-    MilestonesService.getMilestonesFacets().then(function(response) {
+    MilestonesService.getMilestonesFacets().then(function (response) {
       manageMilestonesCtrl.milestones = response.data;
     });
   });

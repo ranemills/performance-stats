@@ -1,8 +1,12 @@
-<table class="table">
+<h1>Manage Milestones</h1>
+
+<table class="table table-hover table-sm">
+  <thead class="">
   <tr>
     <th>Milestone</th>
     <th>Current Count</th>
   </tr>
+  </thead>
   <tr ng-repeat="milestone in manageMilestonesCtrl.milestones">
     <td>{{milestone.properties}}</td>
     <td>{{milestone.value}}</td>

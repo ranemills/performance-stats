@@ -8,7 +8,7 @@
  * Controller of the PerformanceDashboard
  */
 angular.module('PerformanceDashboard')
-  .controller('ExploreController', function ($scope, $window, _, QuartersApi) {
+  .controller('ExploreController', function ($scope, $window, _, ModalService, QuartersApi) {
     var exploreCtrl = this;
     var d3 = $window.d3;
 
@@ -136,5 +136,9 @@ angular.module('PerformanceDashboard')
     };
 
     exploreCtrl.maxDisplayed = {};
+
+    exploreCtrl.openPerformance = function(performance) {
+      ModalService.openPerformanceModal(performance);
+    };
 
   });

@@ -23,6 +23,6 @@ angular.module('PerformanceDashboard')
 
     return {
       openPerformanceModal: performanceModal
-    }
+    };
 
   });
