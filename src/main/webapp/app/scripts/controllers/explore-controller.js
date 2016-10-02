@@ -10,7 +10,6 @@
 angular.module('PerformanceDashboard')
   .controller('ExploreController', function ($scope, $window, _, ModalService, QuartersApi) {
     var exploreCtrl = this;
-    var d3 = $window.d3;
 
     // Store the currently available filter names
     exploreCtrl.availableFilters = [];
@@ -37,32 +36,14 @@ angular.module('PerformanceDashboard')
 
       QuartersApi.getFilters([''], exploreCtrl.select).then(function (response) {
         exploreCtrl.filters = response.data;
-
-        exploreCtrl.maxDisplayed = _.transform(exploreCtrl.filters, function(result, value, key) {
-          result[key] = 10;
-        }, {});
-
-        exploreCtrl.chartsData = _.transform(exploreCtrl.filters, function (result, value, key) {
-          result[key] = [{
-            key: key,
-            values: _.take(value, 10)
-          }];
-        }, {});
-
-        exploreCtrl.newFilters = _.transform(exploreCtrl.filters, function(result, value, key) {
-          result[key] = {};
-          result[key].chartData = [{
-            key: key,
-            values: _.take(value, 10)
-          }];
-          result[key].listData = value;
-        }, {});
       });
 
       getPerformances();
     }
 
     exploreCtrl.selectFilter = function (filter, value) {
+      console.log(filter);
+      console.log(value);
       if (exploreCtrl.select[filter] === value) {
         _.unset(exploreCtrl.select, filter);
       }
@@ -79,66 +60,6 @@ angular.module('PerformanceDashboard')
 
     exploreCtrl.reset();
 
-    exploreCtrl.state = 'lists';
-
-    exploreCtrl.showLists = function () {
-      return exploreCtrl.state === 'lists';
-    };
-
-    exploreCtrl.selectLists = function () {
-      exploreCtrl.state = 'lists';
-    };
-
-    exploreCtrl.showCharts = function () {
-      return exploreCtrl.state === 'charts';
-    };
-
-    exploreCtrl.selectCharts = function () {
-      exploreCtrl.state = 'charts';
-    };
-
-
-    var baseChartOptions = {
-      chart: {
-        type: 'discreteBarChart',
-        height: 450,
-        margin: {
-          top: 20,
-          right: 20,
-          bottom: 100,
-          left: 55
-        },
-        x: function (d) {
-          return d.property;
-        },
-        y: function (d) {
-          return d.count;
-        },
-        showValues: true,
-        valueFormat: function (d) {
-          return d3.format(',d')(d);
-        },
-        xAxis: {
-          rotateLabels: -45
-        },
-        yAxis: {
-          axisLabel: 'Count',
-          axisLabelDistance: -10
-        }
-      }
-    };
-
-    exploreCtrl.chartOptions = function (key) {
-      _.set(baseChartOptions, 'chart.discretebar.dispatch.elementClick', function (e) {
-        exploreCtrl.selectFilter(key, e.data.label);
-      });
-      return baseChartOptions;
-    };
-
     exploreCtrl.maxDisplayed = {};
-
-    exploreCtrl.openPerformance = function(performance) {
-      ModalService.openPerformanceModal(performance);
-    };
 
   });

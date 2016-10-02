@@ -1,0 +1,22 @@
+<div class="card">
+  <div class="card-header">
+    {{ filterName }}
+    <ul class="nav nav-pills card-header-pills pull-xs-right">
+      <li class="nav-item">
+        <button type="button" class="btn btn-default" ng-click="view = 'chart'">
+          <i class="glyphicon glyphicon-stats"></i>
+        </button>
+      </li>
+      <li class="nav-item">
+        <button type="button" class="btn btn-default" ng-click="view = 'list'">
+          <i class="glyphicon glyphicon-list"></i>
+        </button>
+      </li>
+    </ul>
+  </div>
+  <div class="card-block">
+    <stats-list ng-if="view === 'list'" items="listData" selector-key="filterName" select-fn="selectFn">
+    </stats-list>
+    <nvd3 ng-if="view === 'chart'" options="chartOptions(filterName)" data="chartData"></nvd3>
+  </div>
+</div>
