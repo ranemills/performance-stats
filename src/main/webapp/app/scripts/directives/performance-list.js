@@ -7,27 +7,17 @@
  * # performanceList
  */
 angular.module('PerformanceDashboard')
-  .directive('performanceList', function (ModalService) {
+  .directive('performanceList', function (_, ModalService) {
     return {
       restrict: 'E',
       templateUrl: 'views/directives/performance-list.html',
       scope: {
         performances: '='
       },
-      link: function ($scope) {
-        var expanded = null;
+      link: function ($scope, element, attrs) {
+        $scope.small = !_.isUndefined(attrs.small);
 
-        $scope.expand = function (id) {
-          if (expanded === id) {
-            expanded = null;
-          } else {
-            expanded = id;
-          }
-        };
-
-        $scope.isExpanded = function (id) {
-          return expanded === id;
-        };
+        $scope.maxDisplayed = $scope.small ? 5 : 100;
 
         $scope.openPerformance = function (performance) {
           ModalService.openPerformanceModal(performance);

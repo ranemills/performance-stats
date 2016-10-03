@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table table-hover" ng-class="{'table-sm': small}">
   <thead>
   <tr>
     <th>No.</th>
@@ -9,7 +9,7 @@
     <th>Location</th>
   </tr>
   </thead>
-  <tr ng-repeat="quarter in performances" ng-click="openPerformance(quarter)">
+  <tr ng-repeat="quarter in performances | limitTo:maxDisplayed" ng-click="openPerformance(quarter)">
     <td>{{performances.length - $index}}</td>
     <td>{{quarter.date | amParse: 'DD-MM-YYYY' | amDateFormat: 'Do MMMM YYYY' }}</td>
     <td>{{quarter.changes}}</td>

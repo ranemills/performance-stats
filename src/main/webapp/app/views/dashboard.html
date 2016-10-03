@@ -6,12 +6,7 @@
           Recent Performances
         </div>
         <div class="card-block">
-          <table class="table">
-            <tr>
-              <td>29th April 2016</td>
-              <td>5040 Grandsire Triples</td>
-            </tr>
-          </table>
+          <performance-list performances="dashboardCtrl.performances" small></performance-list>
         </div>
       </div>
       <div class="card">
@@ -33,27 +28,27 @@
             <div class="card-deck">
               <div class="card card-block">
                 <h4 class="card-title text-xs-center">Total Performances</h4>
-                <p class="text-xs-center">500</p>
+                <p class="text-xs-center">{{dashboardCtrl.snapshot.total}}</p>
               </div>
               <div class="card card-block">
                 <h4 class="card-title text-xs-center">Unique Ringers</h4>
-                <p class="text-xs-center">1000</p>
+                <p class="text-xs-center">{{dashboardCtrl.snapshot.ringers}}</p>
               </div>
             </div>
             <div class="card-deck">
               <div class="card card-block">
                 <h4 class="card-title text-xs-center">Unique Methods</h4>
-                <p class="text-xs-center">50</p>
+                <p class="text-xs-center">{{dashboardCtrl.snapshot.methods}}</p>
               </div>
               <div class="card card-block">
                 <h4 class="card-title text-xs-center">Unique Towers</h4>
-                <p class="text-xs-center">10</p>
+                <p class="text-xs-center">{{dashboardCtrl.snapshot.towers}}</p>
               </div>
             </div>
             <div class="card-deck">
               <div class="card card-block">
                 <h4 class="card-title text-xs-center">Total Time</h4>
-                <p class="text-xs-center">10d 9h 6m</p>
+                <p class="text-xs-center">{{dashboardCtrl.snapshot.time}}</p>
               </div>
             </div>
           </div>
@@ -64,7 +59,7 @@
           Recent Milestones
         </div>
         <div class="card-block">
-
+          <milestone-list milestones="dashboardCtrl.milestones" small></milestone-list>
         </div>
       </div>
     </div>

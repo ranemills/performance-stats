@@ -21,6 +21,9 @@ angular.module('PerformanceDashboard')
         //   params[filters] = filters;
         // }
         return $http.get(JavaHost + '/api/stats/filters', {params: params});
+      },
+      getSnapshot: function () {
+        return $http.get(JavaHost + '/api/stats/snapshot');
       }
     };
   });
