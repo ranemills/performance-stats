@@ -32,7 +32,7 @@ public class MilestonesController {
     public List<Milestone> getMilestones()
         throws Exception
     {
-        return _milestoneRepository.findAll(new Sort(Sort.Direction.DESC, "date"));
+        return _milestoneRepository.findAll(new Sort(Sort.Direction.DESC, "_date"));
     }
 
 }

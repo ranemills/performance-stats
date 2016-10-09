@@ -24,6 +24,7 @@ public abstract class AbstractMongoModel {
         _customer = getCurrentUser();
     }
 
+    @JsonIgnore
     public AuthUser getCustomer() {
         return _customer;
     }
