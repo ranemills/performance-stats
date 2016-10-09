@@ -19,7 +19,7 @@ public abstract class AbstractMongoModel {
     @DBRef
     private AuthUser _customer;
 
-    AbstractMongoModel()
+    protected AbstractMongoModel()
     {
         _customer = getCurrentUser();
     }

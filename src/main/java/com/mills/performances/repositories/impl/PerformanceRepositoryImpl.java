@@ -24,7 +24,6 @@ import java.util.List;
 import static com.mills.performances.MongoConfiguration.DOCUMENT_PERFORMANCE;
 import static com.mills.performances.utils.CustomerUtils.customerCriteria;
 import static org.springframework.data.domain.Sort.Direction.DESC;
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.bind;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.match;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
@@ -72,7 +71,8 @@ public class PerformanceRepositoryImpl implements PerformanceCustomRepository {
 
     @Override
     public List<Performance> findPerformances(PerformanceSearchOptions searchOptions, Sort sort) {
-        return mongoTemplate.find(new Query().addCriteria(criteriaFromSearchOptions(searchOptions)).with(sort), Performance.class);
+        return mongoTemplate.find(new Query().addCriteria(criteriaFromSearchOptions(searchOptions)).with(sort),
+                                  Performance.class);
     }
 
     @Override
@@ -91,11 +91,6 @@ public class PerformanceRepositoryImpl implements PerformanceCustomRepository {
     }
 
     @Override
-    public List<LocationTempCount> findLocationCounts(PerformanceSearchOptions searchOptions) {
-        return propertyCount("location", searchOptions, LocationTempCount.class);
-    }
-
-    @Override
     public List<IntegerTempCount> findYearCounts(PerformanceSearchOptions searchOptions) {
         Aggregation agg = newAggregation(
             match(criteriaFromSearchOptions(searchOptions)),
@@ -104,7 +99,8 @@ public class PerformanceRepositoryImpl implements PerformanceCustomRepository {
             project("count").and("property").previousOperation(),
             sort(DESC, "property")
         );
-        AggregationResults<IntegerTempCount> results = mongoTemplate.aggregate(agg, DOCUMENT_PERFORMANCE, IntegerTempCount.class);
+        AggregationResults<IntegerTempCount> results = mongoTemplate.aggregate(agg, DOCUMENT_PERFORMANCE,
+                                                                               IntegerTempCount.class);
         return results.getMappedResults();
     }
 
@@ -121,6 +117,11 @@ public class PerformanceRepositoryImpl implements PerformanceCustomRepository {
         AggregationResults<StringTempCount> results = mongoTemplate.aggregate(agg, DOCUMENT_PERFORMANCE,
                                                                               StringTempCount.class);
         return results.getMappedResults();
+    }
+
+    @Override
+    public List<LocationTempCount> findLocationCounts(PerformanceSearchOptions searchOptions) {
+        return propertyCount("location", searchOptions, LocationTempCount.class);
     }
 
     private List<StringTempCount> propertyCount(String property, PerformanceSearchOptions searchOptions) {
