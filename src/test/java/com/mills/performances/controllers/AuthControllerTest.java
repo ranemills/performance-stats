@@ -4,8 +4,10 @@ import com.google.common.collect.ImmutableMap;
 import com.mills.performances.AbstractIntegrationTest;
 import com.mills.performances.models.AuthUser;
 import com.mills.performances.services.AuthUserService;
+import org.json.JSONObject;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 
 import java.util.List;
 import java.util.Map;
@@ -33,7 +35,14 @@ public class AuthControllerTest extends AbstractIntegrationTest {
         throws Exception
     {
         String username = "test_user";
-        mockMvc.perform(post("/api/auth/register?username=" + username + "&password=test_password"))
+
+        JSONObject newUser = new JSONObject();
+        newUser.put("username", username);
+        newUser.put("password", "test_password");
+
+
+        mockMvc.perform(post("/api/auth/register").content(newUser.toString())
+                                                  .contentType(MediaType.APPLICATION_JSON))
                .andExpect(status().isOk());
 
         List<AuthUser> imports = _authUserRepository.findByUsername(username);

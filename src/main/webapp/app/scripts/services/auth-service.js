@@ -14,7 +14,7 @@ angular.module('PerformanceDashboard')
         authorization: 'Basic ' + btoa(credentials.username + ':' + credentials.password)
       } : {};
 
-      $http.post(JavaHost + '/api/auth/user', {headers: headers}).then(function (response) {
+      $http.get(JavaHost + '/api/auth/user', {headers: headers}).then(function (response) {
         $rootScope.authenticated = !!response.data.name;
         callback(response.data);
       }, function () {
@@ -24,7 +24,7 @@ angular.module('PerformanceDashboard')
     }
 
     function register(credentials, callback) {
-      $http.post(JavaHost + '/api/auth/register', {params: credentials}).then(function () {
+      $http.post(JavaHost + '/api/auth/register', credentials).then(function () {
         callback(true);
       }, function () {
         callback(false);

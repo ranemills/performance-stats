@@ -5,8 +5,11 @@ import com.mills.performances.models.BellBoardImport;
 import com.mills.performances.services.BellBoardImportService;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
+import org.json.JSONObject;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.util.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -44,13 +47,22 @@ public class ImportsControllerTest extends AbstractIntegrationTest {
         encodedExpectedUrl = URLEncoder.encode(rawExpectedUrl, "UTF-8");
     }
 
+    private static String getJsonRequestBody(String bbUrl, String name)
+    {
+        JSONObject newImport = new JSONObject();
+        newImport.put("bbUrl", bbUrl);
+        if (!StringUtils.isEmpty(name)) {
+            newImport.put("name", name);
+        }
+        return newImport.toString();
+    }
+
     @Test
     public void testCreateNewImport()
         throws Exception
     {
-        String requestUrl = String.format("/api/imports?bbUrl=%s", encodedUrl);
-
-        mockMvc.perform(post(requestUrl))
+        mockMvc.perform(post("/api/imports").content(getJsonRequestBody(encodedUrl, null))
+                                            .contentType(MediaType.APPLICATION_JSON))
                .andExpect(status().isOk())
                .andExpect(content().contentType(_contentType))
                .andExpect(jsonPath("$.name", is("bellboard")))
@@ -66,9 +78,8 @@ public class ImportsControllerTest extends AbstractIntegrationTest {
     public void testCreateNewImportWithName()
         throws Exception
     {
-        String requestUrl = String.format("/api/imports?name=custom&bbUrl=%s", encodedUrl);
-
-        mockMvc.perform(post(requestUrl))
+        mockMvc.perform(post("/api/imports").content(getJsonRequestBody(encodedUrl, "custom"))
+                                            .contentType(MediaType.APPLICATION_JSON))
                .andExpect(status().isOk())
                .andExpect(content().contentType(_contentType))
                .andExpect(jsonPath("$.name", is("custom")))
