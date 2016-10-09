@@ -31,4 +31,12 @@ public class AuthUserRepositoryImpl implements AuthUserCustomRepository {
         return matchingUsers.get(0);
     }
 
+    /**
+     * Override the standard implementation of findAll, given that we have no interest in restricting to just this customer.
+     * @return
+     */
+    public List<AuthUser> findAll() {
+        return _mongoTemplate.findAll(AuthUser.class);
+    }
+
 }

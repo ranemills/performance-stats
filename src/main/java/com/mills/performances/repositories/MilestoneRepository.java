@@ -13,7 +13,6 @@ import java.util.List;
  * Created by ryan on 12/04/16.
  */
 @Repository
-public interface MilestoneRepository extends MongoRepository<Milestone, ObjectId> {
+public interface MilestoneRepository extends MongoModelRepository<Milestone> {
 
-    List<Milestone> findAll(Sort sort);
 }
