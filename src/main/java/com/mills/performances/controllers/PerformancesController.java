@@ -24,7 +24,7 @@ public class PerformancesController {
     @Autowired
     private PerformanceRepository _performanceRepository;
 
-    @RequestMapping("/list")
+    @RequestMapping
     List<Performance> getPerformances(@RequestParam Map<String, String> allRequestParams)
         throws Exception
     {

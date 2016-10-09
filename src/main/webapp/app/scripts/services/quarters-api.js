@@ -11,7 +11,7 @@ angular.module('PerformanceDashboard')
   .service('QuartersApi', function ($http, JavaHost) {
     return {
       get: function (params) {
-        return $http.get(JavaHost + '/api/performances/list', {params: params});
+        return $http.get(JavaHost + '/api/performances', {params: params});
       },
       getAvailableFilters: function (params) {
         return $http.get(JavaHost + '/api/stats/available', {params: params});

@@ -44,7 +44,7 @@ public class FacetsControllerTest extends AbstractIntegrationTest {
 
         jsonObject.put("properties", propertiesJsonObject);
 
-        mockMvc.perform(post("/api/facets/new")
+        mockMvc.perform(post("/api/facets")
                             .content(jsonObject.toString())
                             .contentType(MediaType.APPLICATION_JSON))
                .andExpect(status().isOk())

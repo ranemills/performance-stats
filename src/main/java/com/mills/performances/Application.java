@@ -44,16 +44,6 @@ public class Application extends SpringBootServletInitializer {
         return application.sources(applicationClass);
     }
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurerAdapter() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://localhost:8011");
-            }
-        };
-    }
-
 //    @Bean
 //    public MongoTemplate mongoTemplate()
 //        throws Exception

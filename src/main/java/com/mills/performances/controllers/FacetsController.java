@@ -37,7 +37,7 @@ public class FacetsController {
     @Autowired
     private BellBoardImportRepository _bellboardImportRepository;
 
-    @RequestMapping(value = "/new", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     MilestoneFacet newFacet(@RequestBody Map<String, Object> allRequestParams)
         throws Exception
     {

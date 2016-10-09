@@ -28,7 +28,7 @@ public class PerformancesControllerTest extends AbstractIntegrationTest {
                                    .add(performanceBuilder().changes(1296).method("Cambridge").stage("Minor").build())
                                    .build());
 
-        mockMvc.perform(get("/api/performances/list"))
+        mockMvc.perform(get("/api/performances"))
                .andExpect(status().isOk())
                .andExpect(content().contentType(_contentType))
                .andExpect(jsonPath("$", hasSize(2)))
@@ -49,7 +49,7 @@ public class PerformancesControllerTest extends AbstractIntegrationTest {
                                    .add(performanceBuilder().changes(1296).method("Cambridge").stage("Minor").build())
                                    .build());
 
-        mockMvc.perform(get("/api/performances/list?stage=Major"))
+        mockMvc.perform(get("/api/performances?stage=Major"))
                .andExpect(status().isOk())
                .andExpect(content().contentType(_contentType))
                .andExpect(jsonPath("$", hasSize(1)))

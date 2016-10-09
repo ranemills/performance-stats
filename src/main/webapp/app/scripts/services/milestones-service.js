@@ -19,7 +19,7 @@ angular.module('PerformanceDashboard')
     }
 
     function newMilestoneFacet(facet) {
-      return $http.post(JavaHost + '/api/facets/new', facet);
+      return $http.post(JavaHost + '/api/facets', facet);
     }
 
     function getAvailableProperties() {
