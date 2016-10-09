@@ -14,6 +14,5 @@ public interface BellBoardImportService {
 
     BellBoardImport addImport(String name, String inUrl);
 
-    List<Performance> runImport(BellBoardImport bbImport)
-        throws URISyntaxException;
+    List<Performance> runImport(BellBoardImport bbImport);
 }

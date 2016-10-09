@@ -25,7 +25,6 @@ public class BellBoardServiceImpl implements BellBoardService {
 
     @Override
     public List<Performance> loadPerformances(BellBoardImport bbImport)
-        throws URISyntaxException
     {
         String outUrl = bbImport.getUrl().replace("search.php", "export.php");
 

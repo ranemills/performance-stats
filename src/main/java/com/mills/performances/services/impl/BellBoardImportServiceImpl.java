@@ -53,7 +53,6 @@ public class BellBoardImportServiceImpl implements BellBoardImportService {
 
     @Override
     public List<Performance> runImport(BellBoardImport bbImport)
-            throws URISyntaxException
     {
         List<Performance> performances = _bellBoardService.loadPerformances(bbImport);
         _performanceRepository.save(performances);

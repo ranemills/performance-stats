@@ -9,4 +9,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 @org.springframework.stereotype.Repository
 public interface BellBoardImportRepository extends MongoRepository<BellBoardImport, Long> {
 
+    BellBoardImport findByName(String name);
 }

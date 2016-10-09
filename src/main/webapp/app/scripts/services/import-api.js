@@ -11,7 +11,7 @@ angular.module('PerformanceDashboard')
   .service('ImportApi', function ($http, JavaHost) {
     return {
       import: function (bbUrl) {
-        return $http.get(JavaHost + '/api/bellboard/import', {params: {bbUrl: bbUrl}});
+        return $http.post(JavaHost + '/api/imports', {params: {bbUrl: bbUrl}});
       }
     };
   });

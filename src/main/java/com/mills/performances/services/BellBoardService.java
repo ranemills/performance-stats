@@ -11,8 +11,7 @@ import java.util.List;
  */
 public interface BellBoardService {
 
-    List<Performance> loadPerformances(BellBoardImport bbImport)
-        throws URISyntaxException;
+    List<Performance> loadPerformances(BellBoardImport bbImport);
 
     Performance loadPerformance(String id);
 }
