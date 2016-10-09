@@ -35,11 +35,17 @@ public class StatsController {
         throws Exception
     {
         PerformanceSearchOptions emptyOptions = new PerformanceSearchOptions();
+
+        int totalDuration = 0;
+        for(IntegerTempCount durationEntry : _performanceRepository.findDurationCounts(emptyOptions)) {
+            totalDuration += durationEntry.getProperty();
+        }
+
         return ImmutableMap.<String, Integer>builder().put("total", (int) _performanceRepository.count())
                                                       .put("ringers", _performanceRepository.findRingerCounts(emptyOptions).size())
                                                       .put("methods", _performanceRepository.findMethodCounts(emptyOptions).size())
                                                       .put("towers", _performanceRepository.findLocationCounts(emptyOptions).size())
-//                                                      .put("time", _performanceRepository.find(emptyOptions).size())
+                                                      .put("time", totalDuration)
                                                       .build();
     }
 
@@ -96,6 +102,7 @@ public class StatsController {
         List<StringTempCount> methods = _performanceRepository.findMethodCounts(searchOptions);
         List<DateTempCount> dates = _performanceRepository.findDateCounts(searchOptions);
         List<IntegerTempCount> years = _performanceRepository.findYearCounts(searchOptions);
+        List<IntegerTempCount> times = _performanceRepository.findDurationCounts(searchOptions);
 
         Map<String, List<? extends TempCount>> filters = new HashMap<>();
         filters.put("method", methods);
@@ -103,6 +110,7 @@ public class StatsController {
         filters.put("ringer", ringers);
         filters.put("date", dates);
         filters.put("year", years);
+        filters.put("time", times);
         return filters;
     }
 

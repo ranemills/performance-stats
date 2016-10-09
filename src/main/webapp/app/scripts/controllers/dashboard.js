@@ -18,11 +18,10 @@ angular.module('PerformanceDashboard')
 
     QuartersApi.getSnapshot().then(function(response) {
       dashboardCtrl.snapshot = response.data;
-      dashboardCtrl.snapshot.time = 896760;
-      dashboardCtrl.snapshot.time = humanizeDuration(dashboardCtrl.snapshot.time*1000, {
+      console.log(dashboardCtrl.snapshot);
+      dashboardCtrl.snapshot.time = humanizeDuration(dashboardCtrl.snapshot.time*60*1000, {
         units: ['y', 'mo', 'd', 'h', 'm']
       });
-      console.log(dashboardCtrl.snapshot);
     });
 
     MilestonesService.recentMilestones().then(function (response) {

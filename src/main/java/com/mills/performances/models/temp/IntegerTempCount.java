@@ -16,7 +16,12 @@ public class IntegerTempCount extends TempCount {
     @JsonIgnore(false)
     public Integer getProperty()
     {
-        return (Integer) super.getProperty();
+        Integer number = (Integer) super.getProperty();
+        if(number == null)
+        {
+            return 0;
+        }
+        return number;
     }
 
 }

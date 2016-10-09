@@ -29,6 +29,8 @@ public interface PerformanceCustomRepository {
 
     List<IntegerTempCount> findYearCounts(PerformanceSearchOptions searchOptions);
 
+    List<IntegerTempCount> findDurationCounts(PerformanceSearchOptions searchOptions);
+
     List<StringTempCount> findRingerCounts(PerformanceSearchOptions searchOptions);
 
     List<LocationTempCount> findLocationCounts(PerformanceSearchOptions searchOptions);

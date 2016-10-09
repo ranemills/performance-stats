@@ -7,10 +7,8 @@ import com.mills.performances.services.BellBoardService;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import static com.mills.performances.builders.PerformanceBuilder.fromBBPeformance;
 
@@ -35,9 +33,7 @@ public class BellBoardServiceImpl implements BellBoardService {
             for (BBPerformance bbPerformance : _bellBoardService.getPerformances(outUrl, changedSince)) {
                 performances.add(fromBBPeformance(bbPerformance).bellboardImport(bbImport).build());
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             // TODO: Deal with this a bit more smoothly. For the time being, just return an empty list.
         }
 
@@ -47,13 +43,10 @@ public class BellBoardServiceImpl implements BellBoardService {
     @Override
     public Performance loadPerformance(String id)
     {
-        try
-        {
+        try {
             BBPerformance bbPerformance = _bellBoardService.getSinglePerformance(id);
             return fromBBPeformance(bbPerformance).build();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             return null;
         }
     }

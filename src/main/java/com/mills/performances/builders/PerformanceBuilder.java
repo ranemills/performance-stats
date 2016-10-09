@@ -8,6 +8,7 @@ import com.mills.performances.models.Location;
 import com.mills.performances.models.Performance;
 import com.mills.performances.models.Ringer;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
 import java.text.ParseException;
@@ -24,6 +25,8 @@ import java.util.regex.Pattern;
  * Created by ryan on 14/04/16.
  */
 public class PerformanceBuilder {
+
+    private static final Logger log = Logger.getLogger(PerformanceBuilder.class);
 
     private Date _date = DateTime.now().toDate();
     private Integer _changes;
@@ -159,14 +162,15 @@ public class PerformanceBuilder {
 
             if (time.contains("h") || time.contains("H") || time.contains(":")) {
                 if (m.find()) {
-                    String minutes = m.group(0);
-                    output += Integer.decode(minutes)*60;
+                    String hours = m.group(0);
+                    output += Integer.decode(hours)*60;
                 }
             }
 
             while (m.find()) {
-                if(StringUtils.isNotEmpty(m.group(0)) )
-                output += Integer.decode(m.group(0));
+                if(StringUtils.isNotEmpty(m.group(0))) {
+                    output += Integer.valueOf(m.group(0));
+                }
             }
 
             if(output == 0) {

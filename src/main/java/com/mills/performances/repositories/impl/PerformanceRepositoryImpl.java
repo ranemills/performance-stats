@@ -91,6 +91,11 @@ public class PerformanceRepositoryImpl implements PerformanceCustomRepository {
     }
 
     @Override
+    public List<IntegerTempCount> findDurationCounts(PerformanceSearchOptions searchOptions) {
+        return propertyCount("time", searchOptions, IntegerTempCount.class);
+    }
+
+    @Override
     public List<IntegerTempCount> findYearCounts(PerformanceSearchOptions searchOptions) {
         Aggregation agg = newAggregation(
             match(criteriaFromSearchOptions(searchOptions)),

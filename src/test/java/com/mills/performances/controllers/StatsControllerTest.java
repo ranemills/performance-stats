@@ -313,8 +313,8 @@ public class StatsControllerTest extends AbstractIntegrationTest {
                .andExpect(jsonPath("$.total", is(3)))
                .andExpect(jsonPath("$.ringers", is(3)))
                .andExpect(jsonPath("$.methods", is(2)))
-               .andExpect(jsonPath("$.towers", is(1)));
-//               .andExpect(jsonPath("$.time", is(300)));
+               .andExpect(jsonPath("$.towers", is(1)))
+               .andExpect(jsonPath("$.time", is(300)));
     }
 
 
