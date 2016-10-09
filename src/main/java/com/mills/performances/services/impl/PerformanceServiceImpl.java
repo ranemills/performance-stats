@@ -2,6 +2,7 @@ package com.mills.performances.services.impl;
 
 import com.mills.performances.enums.PerformanceProperty;
 import com.mills.performances.models.Performance;
+import com.mills.performances.models.Ringer;
 import com.mills.performances.models.temp.PerformanceSearchOptions;
 import com.mills.performances.repositories.PerformanceRepository;
 import com.mills.performances.services.PerformanceService;
@@ -28,6 +29,8 @@ public class PerformanceServiceImpl implements PerformanceService {
                 return performance.getStage().equals(value);
             case METHOD:
                 return performance.getMethod().equals(value);
+            case RINGER:
+                return ringersContainsName(performance.getRingers(), (String) value);
         }
         throw new IllegalArgumentException("No handling for property in Performance" + property);
     }
@@ -36,5 +39,14 @@ public class PerformanceServiceImpl implements PerformanceService {
     public List<Performance> findByProperties(Map<PerformanceProperty, Object> properties, Sort sort) {
         return _performanceRepository.findPerformances(
             PerformanceSearchOptions.fromPerformanceProperties(properties), sort);
+    }
+
+    private static Boolean ringersContainsName(List<Ringer> ringers, String name) {
+        for(Ringer ringer : ringers) {
+            if(ringer.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

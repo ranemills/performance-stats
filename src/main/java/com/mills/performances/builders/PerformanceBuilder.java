@@ -59,7 +59,9 @@ public class PerformanceBuilder {
         } catch (ParseException e) {
         }
 
-        builder.location(bbPerformance.getPlace().getPlace());
+        builder.location(bbPerformance.getPlace().getDedication(),
+                         bbPerformance.getPlace().getTown(),
+                         bbPerformance.getPlace().getCounty());
 
         Map<String, String> methodParts = parseMethod(bbPerformance.getTitle().getMethod());
         builder.stage(methodParts.get("stage"));
@@ -114,7 +116,7 @@ public class PerformanceBuilder {
     public static PerformanceBuilder tritonDelightPerformance() {
         return performanceBuilder().bellboardId("1500")
                                    .date(new DateTime(2016, 3, 21, 0, 0).toDate())
-                                   .location("Oxford")
+                                   .location("St Thos", "Oxford", "Oxfordshire")
                                    .changes(1440)
                                    .method("Triton Delight")
                                    .stage("Royal")
@@ -134,7 +136,7 @@ public class PerformanceBuilder {
     public static PerformanceBuilder yorkshireMajorPerformance() {
         return performanceBuilder().bellboardId("101")
                                    .date(new DateTime(2016, 4, 10, 0, 0).toDate())
-                                   .location("Abingdon")
+                                   .location("St Helen", "Abingdon", "Oxfordshire")
                                    .changes(1280)
                                    .method("Yorkshire Surprise")
                                    .stage("Major")
@@ -163,17 +165,17 @@ public class PerformanceBuilder {
             if (time.contains("h") || time.contains("H") || time.contains(":")) {
                 if (m.find()) {
                     String hours = m.group(0);
-                    output += Integer.decode(hours)*60;
+                    output += Integer.decode(hours) * 60;
                 }
             }
 
             while (m.find()) {
-                if(StringUtils.isNotEmpty(m.group(0))) {
+                if (StringUtils.isNotEmpty(m.group(0))) {
                     output += Integer.valueOf(m.group(0));
                 }
             }
 
-            if(output == 0) {
+            if (output == 0) {
                 return null;
             }
 
@@ -228,9 +230,11 @@ public class PerformanceBuilder {
         return this;
     }
 
-    public PerformanceBuilder location(String locationName) {
+    public PerformanceBuilder location(String dedication, String town, String county) {
         Location location = new Location();
-        location.setName(locationName);
+        location.setDedication(dedication);
+        location.setTown(town);
+        location.setCounty(county);
         return location(location);
     }
 

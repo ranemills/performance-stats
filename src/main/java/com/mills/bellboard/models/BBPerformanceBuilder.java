@@ -28,7 +28,7 @@ public class BBPerformanceBuilder {
         return bbPerformanceBuilder().id("1500")
                                      .association("Oxford Society")
                                      .place("Oxford")
-                                     .dedication("Christ Church")
+                                     .dedication("St Thos")
                                      .county("Oxfordshire")
                                      .date("2016-03-21")
                                      .changes(1440)

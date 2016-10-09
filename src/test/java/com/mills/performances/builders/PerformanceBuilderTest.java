@@ -63,7 +63,7 @@ public class PerformanceBuilderTest extends AbstractTest {
                                                               .changes(CHANGES)
                                                               .method(METHOD)
                                                               .stage(STAGE)
-                                                              .location(PLACE)
+                                                              .location(DEDICATION, PLACE, COUNTY)
                                                               .ringer(1, RINGER_1)
                                                               .ringer(2, RINGER_2)
                                                               .ringer(3, RINGER_3)

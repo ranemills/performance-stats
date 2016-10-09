@@ -107,6 +107,9 @@ public class PerformanceSearchOptions {
         if(properties.containsKey(PerformanceProperty.METHOD)) {
             searchOptions.method((String) properties.get(PerformanceProperty.METHOD));
         }
+        if(properties.containsKey(PerformanceProperty.RINGER)) {
+            searchOptions.ringer((String) properties.get(PerformanceProperty.RINGER));
+        }
         return searchOptions;
     }
 }

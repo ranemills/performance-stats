@@ -33,7 +33,6 @@ public class FacetsController {
     private MilestoneService _milestoneService;
     @Autowired
     private MilestoneFacetRepository _milestoneFacetRepository;
-
     @Autowired
     private BellBoardImportRepository _bellboardImportRepository;
 

@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 public enum PerformanceProperty {
     METHOD,
     STAGE,
+    RINGER,
     LOCATION;
 
     @Override

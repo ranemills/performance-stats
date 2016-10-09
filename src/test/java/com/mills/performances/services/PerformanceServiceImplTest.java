@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static com.mills.performances.builders.PerformanceBuilder.tritonDelightPerformance;
+import static junit.framework.TestCase.fail;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -53,6 +54,29 @@ public class PerformanceServiceImplTest extends AbstractTest {
     public void comparesNonMatchingStageForPerformance() {
         Boolean result = _performanceService.propertiesMatch(_performance, PerformanceProperty.STAGE, "R");
         assertThat(result, is(false));
+    }
+
+    @Test
+    public void comparesMatchingRingerForPerformance() {
+        Boolean result = _performanceService.propertiesMatch(_performance, PerformanceProperty.RINGER, "Ryan E Mills");
+        assertThat(result, is(true));
+    }
+
+    @Test
+    public void comparesNonMatchingRingerForPerformance() {
+        Boolean result = _performanceService.propertiesMatch(_performance, PerformanceProperty.RINGER, "R");
+        assertThat(result, is(false));
+    }
+
+    @Test
+    public void throwsErrorForLocation() {
+        try {
+            _performanceService.propertiesMatch(_performance, PerformanceProperty.LOCATION, "Place");
+            fail("Was expecting an exception");
+        }
+        catch(IllegalArgumentException e) {
+            assertThat(true, is(true));
+        }
     }
 
 }

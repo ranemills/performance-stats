@@ -63,7 +63,7 @@ public class FacetsControllerTest extends AbstractIntegrationTest {
         mockMvc.perform(get("/api/facets/properties"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(_contentType))
-                .andExpect(jsonPath("$", hasSize(3)))
-                .andExpect(jsonPath("$", containsInAnyOrder("STAGE", "LOCATION", "METHOD")));
+                .andExpect(jsonPath("$", hasSize(4)))
+                .andExpect(jsonPath("$", containsInAnyOrder("STAGE", "LOCATION", "METHOD", "RINGER")));
     }
 }

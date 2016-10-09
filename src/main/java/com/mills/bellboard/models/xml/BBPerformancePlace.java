@@ -17,7 +17,7 @@ public class BBPerformancePlace {
         this.placeElements = placeElements;
     }
 
-    public String getPlace() {
+    public String getTown() {
         return placeElements.get("place");
     }
 
@@ -42,7 +42,7 @@ public class BBPerformancePlace {
         }
         BBPerformancePlace rhs = (BBPerformancePlace) obj;
         return new EqualsBuilder()
-                   .append(getPlace(), rhs.getPlace())
+                   .append(getTown(), rhs.getTown())
                    .append(getDedication(), rhs.getDedication())
                    .append(getCounty(), rhs.getCounty())
                    .isEquals();
@@ -50,7 +50,7 @@ public class BBPerformancePlace {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("place", getPlace())
+        return new ToStringBuilder(this).append("place", getTown())
                                         .append("dedication", getDedication())
                                         .append("county", getCounty())
                                         .build();
