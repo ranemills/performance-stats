@@ -1,0 +1,21 @@
+<table class="table table-hover table-sm">
+  <thead>
+  <tr>
+    <th>Date</th>
+    <th>Milestone</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tr ng-repeat="milestone in milestones | limitTo: maxDisplayed" ng-click="selectMilestone($index)">
+    <td>{{milestone.performance.date}}</td>
+    <td>
+      {{milestone.milestoneValue}}
+      <span ng-if="!emptyProperties(milestone)">of <span
+        ng-repeat="(key, value) in milestone.properties">{{key}} is {{value}}</span></span>
+      <span ng-if="emptyProperties(milestone)">All</span>
+    </td>
+    <td>
+      <button type="button" class="btn btn-primary btn-sm">View</button>
+    </td>
+  </tr>
+</table>

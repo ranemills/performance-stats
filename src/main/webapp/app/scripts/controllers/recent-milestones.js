@@ -8,22 +8,13 @@
  * Controller of the PerformanceDashboard
  */
 angular.module('PerformanceDashboard')
-  .controller('RecentMilestonesController', function (_, moment, MilestonesService, ModalService) {
+  .controller('RecentMilestonesController', function (MilestonesService) {
     var recentMilestonesCtrl = this;
 
     recentMilestonesCtrl.milestones = {};
+
     MilestonesService.recentMilestones().then(function (response) {
       recentMilestonesCtrl.milestones = response.data;
     });
-
-    recentMilestonesCtrl.selectMilestone = function (index) {
-      recentMilestonesCtrl.selectedMilestone = recentMilestonesCtrl.milestones[index];
-
-      ModalService.openPerformanceModal(recentMilestonesCtrl.selectedMilestone.performance);
-    };
-
-    recentMilestonesCtrl.emptyProperties = function (milestone) {
-      return _.size(milestone.properties) === 0;
-    };
 
   });

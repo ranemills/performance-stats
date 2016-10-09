@@ -6,6 +6,7 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3', 'u
 
   .constant('_', window._)
   .constant('moment', window.moment)
+  .constant('humanizeDuration', window.humanizeDuration)
 
 
   .run(function($rootScope, $state) {
