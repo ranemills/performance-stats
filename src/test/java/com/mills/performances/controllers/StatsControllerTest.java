@@ -4,11 +4,14 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.mills.performances.AbstractIntegrationTest;
 import com.mills.performances.models.Performance;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
+import java.util.TimeZone;
 
 import static com.mills.performances.builders.PerformanceBuilder.performanceBuilder;
 import static org.hamcrest.CoreMatchers.is;
@@ -26,38 +29,58 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 public class StatsControllerTest extends AbstractIntegrationTest {
 
+    private static final String CAMBRIDGE = "Cambridge Surprise";
+    private static final String YORKSHIRE = "Yorkshire Surprise";
+    private static final String MINOR = "Minor";
+    private static final String MAJOR = "Major";
+
+    private TimeZone _defaultTimeZone;
+
+    @Before
+    public void fixTimeZone() {
+        _defaultTimeZone = TimeZone.getDefault();
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
+    }
+
     @Before
     public void addTestData()
         throws Exception
     {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        Date aprilFifteen = sdf.parse("21-04-2015");
+        Date aprilTwelve = sdf.parse("21-04-2012");
 
         _performanceRepository.save(ImmutableList.<Performance>builder()
                                         .add(performanceBuilder().changes(5056)
-                                                                 .date(sdf.parse("21-04-2015"))
-                                                                 .method("Cambridge Surprise")
-                                                                 .stage("Major")
+                                                                 .date(aprilFifteen)
+                                                                 .method(CAMBRIDGE)
+                                                                 .stage(MAJOR)
                                                                  .ringer(1, "Ryan Mills")
                                                                  .ringer(2, "Lydia")
                                                                  .time(3, 15)
                                                                  .build())
                                         .add(performanceBuilder().changes(1296)
-                                                                 .date(sdf.parse("21-04-2012"))
-                                                                 .method("Cambridge Surprise")
-                                                                 .stage("Minor")
+                                                                 .date(aprilTwelve)
+                                                                 .method(CAMBRIDGE)
+                                                                 .stage(MINOR)
                                                                  .ringer(1, "Ryan Mills")
                                                                  .ringer(2, "Lydia")
                                                                  .time(45)
                                                                  .build())
                                         .add(performanceBuilder().changes(1280)
-                                                                 .date(sdf.parse("21-04-2012"))
-                                                                 .method("Yorkshire Surprise")
-                                                                 .stage("Major")
+                                                                 .date(aprilTwelve)
+                                                                 .method(YORKSHIRE)
+                                                                 .stage(MAJOR)
                                                                  .ringer(1, "Ryan Mills")
                                                                  .ringer(2, "Claire")
                                                                  .time(60)
                                                                  .build())
                                         .build());
+    }
+
+    @After
+    public void resetTimeZone() {
+        TimeZone.setDefault(_defaultTimeZone);
     }
 
     @Test
@@ -273,11 +296,11 @@ public class StatsControllerTest extends AbstractIntegrationTest {
         mockMvc.perform(get("/api/stats/filters?date=21-04-2012"))
                .andExpect(status().isOk())
                .andExpect(content().contentType(_contentType))
+               .andExpect(jsonPath("$['date']", hasSize(1)))
+               .andExpect(jsonPath("$['date'][0]", equalTo(filterMatcher("21-04-2012", 2))))
                .andExpect(jsonPath("$['method']", hasSize(2)))
                .andExpect(jsonPath("$['stage']", hasSize(2)))
-               .andExpect(jsonPath("$['ringer']", hasSize(3)))
-               .andExpect(jsonPath("$['date']", hasSize(1)))
-               .andExpect(jsonPath("$['date'][0]", equalTo(filterMatcher("21-04-2012", 2))));
+               .andExpect(jsonPath("$['ringer']", hasSize(3)));
     }
 
     @Test
