@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
  * Created by ryan on 12/04/16.
  */
 @Repository
-public interface MilestoneFacetRepository extends MongoRepository<MilestoneFacet, Long> {
+public interface MilestoneFacetRepository extends MongoModelRepository<MilestoneFacet> {
 
 }

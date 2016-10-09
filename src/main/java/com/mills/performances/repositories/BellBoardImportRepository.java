@@ -1,13 +1,13 @@
 package com.mills.performances.repositories;
 
 import com.mills.performances.models.BellBoardImport;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * Created by ryan on 12/04/16.
  */
-@org.springframework.stereotype.Repository
-public interface BellBoardImportRepository extends MongoRepository<BellBoardImport, Long> {
+@Repository
+public interface BellBoardImportRepository extends MongoModelRepository<BellBoardImport> {
 
     BellBoardImport findByName(String name);
 }

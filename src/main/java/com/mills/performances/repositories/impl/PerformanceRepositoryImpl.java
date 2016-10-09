@@ -38,7 +38,7 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.unwi
 public class PerformanceRepositoryImpl implements PerformanceCustomRepository {
 
     @Autowired
-    MongoTemplate mongoTemplate;
+    private MongoTemplate _mongoTemplate;
 
     private static Criteria criteriaFromSearchOptions(PerformanceSearchOptions searchOptions) {
         Criteria criteria = customerCriteria();
@@ -66,13 +66,13 @@ public class PerformanceRepositoryImpl implements PerformanceCustomRepository {
 
     @Override
     public List<Performance> findPerformances(PerformanceSearchOptions searchOptions) {
-        return mongoTemplate.find(new Query().addCriteria(criteriaFromSearchOptions(searchOptions)), Performance.class);
+        return _mongoTemplate.find(new Query().addCriteria(criteriaFromSearchOptions(searchOptions)), Performance.class);
     }
 
     @Override
     public List<Performance> findPerformances(PerformanceSearchOptions searchOptions, Sort sort) {
-        return mongoTemplate.find(new Query().addCriteria(criteriaFromSearchOptions(searchOptions)).with(sort),
-                                  Performance.class);
+        return _mongoTemplate.find(new Query().addCriteria(criteriaFromSearchOptions(searchOptions)).with(sort),
+                                   Performance.class);
     }
 
     @Override
@@ -99,8 +99,8 @@ public class PerformanceRepositoryImpl implements PerformanceCustomRepository {
             project("count").and("property").previousOperation(),
             sort(DESC, "property")
         );
-        AggregationResults<IntegerTempCount> results = mongoTemplate.aggregate(agg, DOCUMENT_PERFORMANCE,
-                                                                               IntegerTempCount.class);
+        AggregationResults<IntegerTempCount> results = _mongoTemplate.aggregate(agg, DOCUMENT_PERFORMANCE,
+                                                                                IntegerTempCount.class);
         return results.getMappedResults();
     }
 
@@ -114,8 +114,8 @@ public class PerformanceRepositoryImpl implements PerformanceCustomRepository {
             project("count").and("property").previousOperation(),
             sort(DESC, "count")
         );
-        AggregationResults<StringTempCount> results = mongoTemplate.aggregate(agg, DOCUMENT_PERFORMANCE,
-                                                                              StringTempCount.class);
+        AggregationResults<StringTempCount> results = _mongoTemplate.aggregate(agg, DOCUMENT_PERFORMANCE,
+                                                                               StringTempCount.class);
         return results.getMappedResults();
     }
 
@@ -138,7 +138,7 @@ public class PerformanceRepositoryImpl implements PerformanceCustomRepository {
             project("count").and("property").previousOperation(),
             sort(DESC, "count")
         );
-        AggregationResults<T> results = mongoTemplate.aggregate(agg, DOCUMENT_PERFORMANCE, tempCount);
+        AggregationResults<T> results = _mongoTemplate.aggregate(agg, DOCUMENT_PERFORMANCE, tempCount);
         return results.getMappedResults();
     }
 
