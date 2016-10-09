@@ -15,6 +15,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -32,7 +33,7 @@ public class AuthControllerTest extends AbstractIntegrationTest {
         throws Exception
     {
         String username = "test_user";
-        mockMvc.perform(get("/api/auth/register?username=" + username + "&password=test_password"))
+        mockMvc.perform(post("/api/auth/register?username=" + username + "&password=test_password"))
                .andExpect(status().isOk());
 
         List<AuthUser> imports = _authUserRepository.findByUsername(username);
@@ -47,7 +48,7 @@ public class AuthControllerTest extends AbstractIntegrationTest {
         String username = "test_user";
         _authUserService.addUser(username, "password");
 
-        mockMvc.perform(get("/api/auth/register?username=" + username + "&password=test_password"))
+        mockMvc.perform(post("/api/auth/register?username=" + username + "&password=test_password"))
                .andExpect(status().isBadRequest());
     }
 
