@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.User;
 public abstract class CustomerUtils {
 
     public static Criteria customerCriteria() {
-        return new Criteria("customer.$id").is(getCurrentUser().getId());
+        return new Criteria("_customer.$id").is(getCurrentUser().getId());
     }
 
     public static AuthUser getCurrentUser()

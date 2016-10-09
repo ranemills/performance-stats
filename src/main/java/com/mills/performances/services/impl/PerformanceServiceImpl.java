@@ -35,7 +35,6 @@ public class PerformanceServiceImpl implements PerformanceService {
     @Override
     public List<Performance> findByProperties(Map<PerformanceProperty, Object> properties, Sort sort) {
         return _performanceRepository.findPerformances(
-            PerformanceSearchOptions.fromPerformanceProperties(properties),
-            sort);
+            PerformanceSearchOptions.fromPerformanceProperties(properties), sort);
     }
 }
