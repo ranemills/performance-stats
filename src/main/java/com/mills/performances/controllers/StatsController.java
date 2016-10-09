@@ -103,6 +103,7 @@ public class StatsController {
         List<DateTempCount> dates = _performanceRepository.findDateCounts(searchOptions);
         List<IntegerTempCount> years = _performanceRepository.findYearCounts(searchOptions);
         List<IntegerTempCount> times = _performanceRepository.findDurationCounts(searchOptions);
+        List<LocationTempCount> locations = _performanceRepository.findLocationCounts(searchOptions);
 
         Map<String, List<? extends TempCount>> filters = new HashMap<>();
         filters.put("method", methods);
@@ -111,6 +112,7 @@ public class StatsController {
         filters.put("date", dates);
         filters.put("year", years);
         filters.put("time", times);
+        filters.put("location", locations);
         return filters;
     }
 
