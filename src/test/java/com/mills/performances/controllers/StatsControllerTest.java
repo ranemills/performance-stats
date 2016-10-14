@@ -3,16 +3,13 @@ package com.mills.performances.controllers;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.mills.performances.AbstractIntegrationTest;
-import com.mills.performances.models.Location;
 import com.mills.performances.models.Performance;
-import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -39,8 +36,8 @@ public class StatsControllerTest extends AbstractIntegrationTest {
 
     private TimeZone _defaultTimeZone;
 
-    private Map<String, String> allSaints;
-    private Map<String, String> stWistan;
+    private static final String ALL_SAINTS = "All Saints, Wigston Magna, Leicestershire";
+    private static final String ST_WISTAN = "St Wistan, Wigston Magna, Leicestershire";
 
     @Before
     public void fixTimeZone() {
@@ -88,18 +85,6 @@ public class StatsControllerTest extends AbstractIntegrationTest {
                                                                  .time(60)
                                                                  .build())
                                         .build());
-
-        allSaints = new HashMap<>();
-        allSaints.put("dedication", "All Saints");
-        allSaints.put("county", "Leicestershire");
-        allSaints.put("town", "Wigston Magna");
-        allSaints.put("id", null);
-
-        stWistan = new HashMap<>();
-        stWistan.put("dedication", "St Wistan");
-        stWistan.put("town", "Wigston Magna");
-        stWistan.put("county", "Leicestershire");
-        stWistan.put("id", null);
     }
 
     @After
@@ -204,6 +189,7 @@ public class StatsControllerTest extends AbstractIntegrationTest {
                                                   .put("ringer", "Ringers")
                                                   .put("date", "Dates")
                                                   .put("year", "Years")
+                                                  .put("location", "Locations")
                                                   .build();
         mockMvc.perform(get("/api/stats/available"))
                .andExpect(status().isOk())
@@ -231,8 +217,8 @@ public class StatsControllerTest extends AbstractIntegrationTest {
                .andExpect(jsonPath("$['year'][0]", equalTo(filterMatcher(2015, 1))))
                .andExpect(jsonPath("$['year'][1]", equalTo(filterMatcher(2012, 2))))
                .andExpect(jsonPath("$['location']", hasSize(2)))
-               .andExpect(jsonPath("$['location'][0]", equalTo(filterMatcher(allSaints.toString(), 2))))
-               .andExpect(jsonPath("$['location'][1]", equalTo(filterMatcher(stWistan.toString(), 1))));
+               .andExpect(jsonPath("$['location'][0]", equalTo(filterMatcher(ALL_SAINTS, 2))))
+               .andExpect(jsonPath("$['location'][1]", equalTo(filterMatcher(ST_WISTAN, 1))));
     }
 
     @Test
@@ -255,7 +241,7 @@ public class StatsControllerTest extends AbstractIntegrationTest {
                .andExpect(jsonPath("$['ringer'][1]", anyOf(equalTo(filterMatcher("Lydia", 1)),
                                                            equalTo(filterMatcher("Claire", 1)))))
                .andExpect(jsonPath("$['location']", hasSize(1)))
-               .andExpect(jsonPath("$['location'][0]", equalTo(filterMatcher(allSaints, 2))));
+               .andExpect(jsonPath("$['location'][0]", equalTo(filterMatcher(ALL_SAINTS, 2))));
     }
 
     @Test
@@ -278,10 +264,10 @@ public class StatsControllerTest extends AbstractIntegrationTest {
                .andExpect(jsonPath("$['ringer'][1]", anyOf(equalTo(filterMatcher("Lydia", 2)),
                                                            equalTo(filterMatcher("Ryan Mills", 2)))))
                .andExpect(jsonPath("$['location']", hasSize(2)))
-               .andExpect(jsonPath("$['location'][0]", anyOf(equalTo(filterMatcher(allSaints.toString(), 1)),
-                                                             equalTo(filterMatcher(stWistan.toString(), 1)))))
-               .andExpect(jsonPath("$['location'][1]", anyOf(equalTo(filterMatcher(allSaints.toString(), 1)),
-                                                             equalTo(filterMatcher(stWistan.toString(), 1)))));
+               .andExpect(jsonPath("$['location'][0]", anyOf(equalTo(filterMatcher(ALL_SAINTS, 1)),
+                                                             equalTo(filterMatcher(ST_WISTAN, 1)))))
+               .andExpect(jsonPath("$['location'][1]", anyOf(equalTo(filterMatcher(ALL_SAINTS, 1)),
+                                                             equalTo(filterMatcher(ST_WISTAN, 1)))));
     }
 
     @Test
@@ -304,10 +290,10 @@ public class StatsControllerTest extends AbstractIntegrationTest {
                .andExpect(jsonPath("$['ringer'][1]", anyOf(equalTo(filterMatcher("Ryan Mills", 2)),
                                                            equalTo(filterMatcher("Lydia", 2)))))
                .andExpect(jsonPath("$['location']", hasSize(2)))
-               .andExpect(jsonPath("$['location'][0]", anyOf(equalTo(filterMatcher(allSaints.toString(), 1)),
-                                                             equalTo(filterMatcher(stWistan.toString(), 1)))))
-               .andExpect(jsonPath("$['location'][1]", anyOf(equalTo(filterMatcher(allSaints.toString(), 1)),
-                                                             equalTo(filterMatcher(stWistan.toString(), 1)))));
+               .andExpect(jsonPath("$['location'][0]", anyOf(equalTo(filterMatcher(ALL_SAINTS, 1)),
+                                                             equalTo(filterMatcher(ST_WISTAN, 1)))))
+               .andExpect(jsonPath("$['location'][1]", anyOf(equalTo(filterMatcher(ALL_SAINTS, 1)),
+                                                             equalTo(filterMatcher(ST_WISTAN, 1)))));
     }
 
     @Test
@@ -327,7 +313,7 @@ public class StatsControllerTest extends AbstractIntegrationTest {
                .andExpect(jsonPath("$['ringer'][1]", anyOf(equalTo(filterMatcher("Ryan Mills", 1)),
                                                            equalTo(filterMatcher("Lydia", 1)))))
                .andExpect(jsonPath("$['location']", hasSize(1)))
-               .andExpect(jsonPath("$['location'][0]", equalTo(filterMatcher(allSaints, 1))));
+               .andExpect(jsonPath("$['location'][0]", equalTo(filterMatcher(ALL_SAINTS, 1))));
     }
 
     @Test
@@ -343,10 +329,10 @@ public class StatsControllerTest extends AbstractIntegrationTest {
                .andExpect(jsonPath("$['stage']", hasSize(2)))
                .andExpect(jsonPath("$['ringer']", hasSize(3)))
                .andExpect(jsonPath("$['location']", hasSize(2)))
-               .andExpect(jsonPath("$['location'][0]", anyOf(equalTo(filterMatcher(allSaints.toString(), 1)),
-                                                             equalTo(filterMatcher(stWistan.toString(), 1)))))
-               .andExpect(jsonPath("$['location'][1]", anyOf(equalTo(filterMatcher(allSaints.toString(), 1)),
-                                                             equalTo(filterMatcher(stWistan.toString(), 1)))));
+               .andExpect(jsonPath("$['location'][0]", anyOf(equalTo(filterMatcher(ALL_SAINTS, 1)),
+                                                             equalTo(filterMatcher(ST_WISTAN, 1)))))
+               .andExpect(jsonPath("$['location'][1]", anyOf(equalTo(filterMatcher(ALL_SAINTS, 1)),
+                                                             equalTo(filterMatcher(ST_WISTAN, 1)))));
     }
 
     @Test

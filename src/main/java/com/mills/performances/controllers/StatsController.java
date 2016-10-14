@@ -59,6 +59,7 @@ public class StatsController {
                    .put("ringer", "Ringers")
                    .put("date", "Dates")
                    .put("year", "Years")
+                   .put("location", "Towers")
                    .build();
     }
 
