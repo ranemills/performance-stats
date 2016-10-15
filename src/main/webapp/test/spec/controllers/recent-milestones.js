@@ -5,19 +5,29 @@ describe('Controller: RecentMilestonesCtrl', function () {
   // load the controller's module
   beforeEach(module('PerformanceDashboard'));
 
-  var RecentMilestonesCtrl,
-    scope;
+  var recentMilestonesCtrl,
+    scope,
+    MilestonesService;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(inject(function ($controller, $q, $rootScope, _MilestonesService_) {
     scope = $rootScope.$new();
-    RecentMilestonesCtrl = $controller('RecentMilestonesCtrl', {
-      $scope: scope
-      // place here mocked dependencies
+    MilestonesService = _MilestonesService_;
+
+    spyOn(MilestonesService, 'recentMilestones').and.callFake(function() {
+      var deferred = $q.defer();
+      deferred.resolve({data: {hello: 'hello'}});
+      return deferred.promise;
     });
+
+    recentMilestonesCtrl = $controller('RecentMilestonesController');
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(RecentMilestonesCtrl.awesomeThings.length).toBe(3);
+  it('should request recent milestones on load', function () {
+    expect(MilestonesService.recentMilestones).toHaveBeenCalled();
+  });
+
+  it('should set the milestones with the response from recent milestones', function() {
+    expect(recentMilestonesCtrl.milestones).toEqual({hello: 'hello'});
   });
 });

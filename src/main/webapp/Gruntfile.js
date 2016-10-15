@@ -434,6 +434,10 @@ module.exports = function (grunt) {
       unit: {
         configFile: 'test/karma.conf.js',
         singleRun: true
+      },
+      chameleon: {
+        configFile: 'test/karma.conf.js',
+        singleRun: false
       }
     },
 

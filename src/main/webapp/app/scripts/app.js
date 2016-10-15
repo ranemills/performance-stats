@@ -2,7 +2,7 @@
 
 angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3', 'ui.bootstrap'])
 
-  .constant('JavaHost', 'http://localhost:8080')
+  .constant('JavaHost', '')
 
   .constant('_', window._)
   .constant('moment', window.moment)
