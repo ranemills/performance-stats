@@ -2,6 +2,9 @@ package com.mills.performances.repositories.impl;
 
 import com.mills.performances.repositories.MongoModelRepository;
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -35,11 +38,27 @@ public class MongoModelRepositoryImpl<T> extends SimpleMongoRepository<T, Object
         _entityInformation = metadata;
     }
 
-    public List<T> findAll() {
-        return _mongoOperations.find(new Query().addCriteria(customerCriteria()), _entityInformation.getJavaType());
+    private static Query queryWithCustomer() {
+        return new Query().addCriteria(customerCriteria());
     }
 
+    @Override
+    public long count() {
+        return _mongoOperations.count(queryWithCustomer(), _entityInformation.getJavaType());
+    }
+
+    @Override
+    public List<T> findAll() {
+        return _mongoOperations.find(queryWithCustomer(), _entityInformation.getJavaType());
+    }
+
+    @Override
+    public Page<T> findAll(Pageable pageable) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public List<T> findAll(Sort sort) {
-        return _mongoOperations.find(new Query().addCriteria(customerCriteria()).with(sort), _entityInformation.getJavaType());
+        return _mongoOperations.find(queryWithCustomer().with(sort), _entityInformation.getJavaType());
     }
 }
