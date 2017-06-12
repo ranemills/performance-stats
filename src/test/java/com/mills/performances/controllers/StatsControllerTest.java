@@ -189,7 +189,7 @@ public class StatsControllerTest extends AbstractIntegrationTest {
                                                   .put("ringer", "Ringers")
                                                   .put("date", "Dates")
                                                   .put("year", "Years")
-                                                  .put("location", "Locations")
+                                                  .put("location", "Towers")
                                                   .build();
         mockMvc.perform(get("/api/stats/available"))
                .andExpect(status().isOk())

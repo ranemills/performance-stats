@@ -24,10 +24,12 @@ angular.module('PerformanceDashboard')
 
         var d3 = $window.d3;
 
-        scope.chartData = [{
-          key: scope.filterName,
-          values: _.take(scope.listData, 10)
-        }];
+        function calculateChartData() {
+          scope.chartData = [{
+            key: scope.filterName,
+            values: _.take(scope.listData, 10)
+          }];
+        }
 
         var baseChartOptions = {
           chart: {
@@ -65,6 +67,12 @@ angular.module('PerformanceDashboard')
           // });
           return baseChartOptions;
         };
+
+        scope.$watch('listData', function() {
+          calculateChartData();
+        }, true);
+
+        calculateChartData();
 
       }
     };

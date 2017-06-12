@@ -8,38 +8,13 @@
 
 <div class="container-fluid">
   <div class="card-columns">
-    <stats-widget-card ng-repeat="(filterName, listData) in exploreCtrl.filters" filter-name="filterName" list-data="listData" select-fn="exploreCtrl.selectFilter" select-obj="exploreCtrl.select"></stats-widget-card>
+    <stats-widget-card ng-repeat="(filterName, listData) in exploreCtrl.filters"
+                       filter-name="filterName"
+                       list-data="listData"
+                       select-fn="exploreCtrl.selectFilter"
+                       select-obj="exploreCtrl.select">
+    </stats-widget-card>
   </div>
-
-  <!--<div class="card-columns">-->
-    <!--<div class="card" ng-repeat="(filterName, filterObj) in exploreCtrl.newFilters"-->
-         <!--ng-init="exploreCtrl.view[$index] = 'chart'">-->
-      <!--<div class="card-header">-->
-        <!--{{ filterName }}-->
-        <!--<ul class="nav nav-pills card-header-pills pull-xs-right">-->
-          <!--<li class="nav-item">-->
-            <!--<button type="button" class="btn btn-default" ng-click="exploreCtrl.view[$index] = 'chart'">-->
-              <!--<i class="glyphicon glyphicon-stats"></i>-->
-            <!--</button>-->
-          <!--</li>-->
-          <!--<li class="nav-item">-->
-            <!--<button type="button" class="btn btn-default" ng-click="exploreCtrl.view[$index] = 'list'">-->
-              <!--<i class="glyphicon glyphicon-list"></i>-->
-            <!--</button>-->
-          <!--</li>-->
-        <!--</ul>-->
-      <!--</div>-->
-      <!--<div class="card-block">-->
-        <!--<stats-list ng-show="exploreCtrl.view[$index] === 'list'"-->
-                    <!--items="filterObj.listData" selector="exploreCtrl.select"-->
-                    <!--max-displayed="exploreCtrl.maxDisplayed[filterName]"-->
-                    <!--selector-key="filterName" update="exploreCtrl.selectFilter">-->
-        <!--</stats-list>-->
-        <!--<nvd3 ng-show="exploreCtrl.view[$index] === 'chart'" options="exploreCtrl.chartOptions(filterName)"-->
-              <!--data="filterObj.chartData"></nvd3>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
 
   <div class="row">
     <div class="col col-xs-12">

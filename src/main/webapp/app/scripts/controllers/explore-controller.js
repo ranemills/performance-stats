@@ -42,8 +42,6 @@ angular.module('PerformanceDashboard')
     }
 
     exploreCtrl.selectFilter = function (filter, value) {
-      console.log(filter);
-      console.log(value);
       if (exploreCtrl.select[filter] === value) {
         _.unset(exploreCtrl.select, filter);
       }
