@@ -1,4 +1,4 @@
-* A bellringing statistics dashboard
+# A bellringing statistics dashboard
 
 Sourced from Bellboard queries of your choosing, generate charts and lists of performances.
 
