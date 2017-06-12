@@ -1,3 +1,5 @@
-The OpenShift `jbossews` cartridge documentation can be found at:
+* A bellringing statistics dashboard
 
-http://openshift.github.io/documentation/oo_cartridge_guide.html#tomcat
+Sourced from Bellboard queries of your choosing, generate charts and lists of performances.
+
+Built with spring-boot, spring-security, Mongo and an AngularJS with Bootstrap frontend.
