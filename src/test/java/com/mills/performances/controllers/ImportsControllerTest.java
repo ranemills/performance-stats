@@ -5,6 +5,7 @@ import com.mills.performances.models.BellBoardImport;
 import com.mills.performances.services.BellBoardImportService;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,9 +51,18 @@ public class ImportsControllerTest extends AbstractIntegrationTest {
     private static String getJsonRequestBody(String bbUrl, String name)
     {
         JSONObject newImport = new JSONObject();
-        newImport.put("bbUrl", bbUrl);
+
+        try {
+            newImport.put("bbUrl", bbUrl);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         if (!StringUtils.isEmpty(name)) {
-            newImport.put("name", name);
+            try {
+                newImport.put("name", name);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
         return newImport.toString();
     }

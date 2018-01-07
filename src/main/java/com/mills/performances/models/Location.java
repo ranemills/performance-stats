@@ -6,7 +6,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 /**
  * Created by ryan on 14/04/16.
  */
-public class Location extends AbstractMongoModel {
+public class Location {
 
     private String dedication;
     private String county;
