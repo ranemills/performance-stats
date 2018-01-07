@@ -134,7 +134,7 @@ public class PerformanceRepositoryImpl implements PerformanceCustomRepository {
     }
 
     private <T extends TempCount> List<T> propertyCount(String property, PerformanceSearchOptions searchOptions,
-                                                        Class tempCount)
+                                                        Class<T> tempCount)
     {
         Aggregation agg = newAggregation(
             match(criteriaFromSearchOptions(searchOptions)),

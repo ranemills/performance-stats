@@ -2,14 +2,17 @@ package com.mills.performances.models;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.google.common.base.MoreObjects;
 import com.mills.performances.enums.PerformanceProperty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import static com.mills.performances.MongoConfiguration.DOCUMENT_PERFORMANCE;
 import static javax.swing.text.html.HTML.Tag.P;
@@ -18,7 +21,7 @@ import static javax.swing.text.html.HTML.Tag.P;
  * Created by ryan on 12/04/16.
  */
 @Document(collection = DOCUMENT_PERFORMANCE)
-public class Performance extends AbstractMongoModel {
+public final class Performance extends AbstractMongoModel {
 
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date date;
@@ -119,36 +122,62 @@ public class Performance extends AbstractMongoModel {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        if (obj.getClass() != getClass()) {
-            return false;
-        }
-        Performance rhs = (Performance) obj;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Performance that = (Performance) o;
+
         return new EqualsBuilder()
-                   .append(getBellboardId(), rhs.getBellboardId())
-                   .append(getDate(), rhs.getDate())
-                   .append(getChanges(), rhs.getChanges())
-                   .append(getMethod(), rhs.getMethod())
-                   .append(getStage(), rhs.getStage())
-                   .append(getLocation(), rhs.getLocation())
-                   .append(getRingers(), rhs.getRingers())
+                   .append(getId(), that.getId())
+                   .append(getCustomer(), that.getCustomer())
+                   .append(date, that.date)
+                   .append(changes, that.changes)
+                   .append(method, that.method)
+                   .append(stage, that.stage)
+                   .append(location, that.location)
+                   .append(ringers, that.ringers)
+                   .append(bellboardId, that.bellboardId)
+                   .append(time, that.time)
+                   .append(year, that.year)
+                   .append(bellBoardImport, that.bellBoardImport)
                    .isEquals();
     }
 
     @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                   .append(getId())
+                   .append(getCustomer())
+                   .append(date)
+                   .append(changes)
+                   .append(method)
+                   .append(stage)
+                   .append(location)
+                   .append(ringers)
+                   .append(bellboardId)
+                   .append(time)
+                   .append(year)
+                   .append(bellBoardImport)
+                   .toHashCode();
+    }
+
+    @Override
     public String toString() {
-        return new ToStringBuilder(this).append("date", date)
-                                        .append("location", location)
-                                        .append("changes", changes)
-                                        .append("method", method)
-                                        .append("stage", stage)
-                                        .append("ringers", ringers)
-                                        .build();
+        return MoreObjects.toStringHelper(this)
+                          .add("_id", getId())
+                          .add("_customer", getCustomer())
+                          .add("date", date)
+                          .add("changes", changes)
+                          .add("method", method)
+                          .add("stage", stage)
+                          .add("location", location)
+                          .add("ringers", ringers)
+                          .add("bellboardId", bellboardId)
+                          .add("time", time)
+                          .add("year", year)
+                          .add("bellBoardImport", bellBoardImport)
+                          .toString();
     }
 }

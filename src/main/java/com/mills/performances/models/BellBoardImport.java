@@ -1,6 +1,7 @@
 package com.mills.performances.models;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,7 +13,7 @@ import static com.mills.performances.MongoConfiguration.DOCUMENT_BELLBOARDIMPORT
  * Created by ryan on 08/05/16.
  */
 @Document(collection = DOCUMENT_BELLBOARDIMPORT)
-public class BellBoardImport extends AbstractMongoModel {
+public final class BellBoardImport extends AbstractMongoModel {
 
     private String name;
     private String url;
@@ -51,10 +52,13 @@ public class BellBoardImport extends AbstractMongoModel {
 
     @Override
     public int hashCode() {
-        int result = getName().hashCode();
-        result = 31 * result + getUrl().hashCode();
-        result = 31 * result + (getLastImport() != null ? getLastImport().hashCode() : 0);
-        return result;
+        return new HashCodeBuilder(17, 37)
+                   .append(getId())
+                   .append(getCustomer())
+                   .append(name)
+                   .append(url)
+                   .append(lastImport)
+                   .toHashCode();
     }
 
     @Override
@@ -63,7 +67,9 @@ public class BellBoardImport extends AbstractMongoModel {
         if (o == null || getClass() != o.getClass()) return false;
 
         BellBoardImport rhs = (BellBoardImport) o;
-        return new EqualsBuilder().append(getName(), rhs.getName())
+        return new EqualsBuilder().append(getId(), rhs.getId())
+                                  .append(getCustomer(), rhs.getCustomer())
+                                  .append(getName(), rhs.getName())
                                   .append(getUrl(), rhs.getUrl())
                                   .append(getLastImport(), rhs.getLastImport())
                                   .build();
@@ -72,7 +78,9 @@ public class BellBoardImport extends AbstractMongoModel {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("name", getName())
+        return new ToStringBuilder(this).append("_id", getId())
+                                        .append("customer", getCustomer())
+                                        .append("name", getName())
                                         .append("url", getUrl())
                                         .append("lastImport", getLastImport())
                                         .build();

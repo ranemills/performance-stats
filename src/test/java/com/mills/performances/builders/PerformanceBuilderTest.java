@@ -28,7 +28,8 @@ public class PerformanceBuilderTest extends AbstractTest {
     private static final String DEDICATION = "Christ Church";
     private static final String COUNTY = "Oxfordshire";
     private static final String DATE_STRING = "2016-04-10";
-    private static final Date DATE_DATE = new DateTime(2016, 4, 10, 0, 0).toDate();
+    private static final Integer DATE_YEAR = 2016;
+    private static final Date DATE_DATE = new DateTime(DATE_YEAR, 4, 10, 0, 0).toDate();
     private static final String METHOD = "Yorkshire Surprise";
     private static final String STAGE = "Major";
     private static final int CHANGES = 1280;
@@ -60,6 +61,7 @@ public class PerformanceBuilderTest extends AbstractTest {
 
         Performance expectedPerformance = performanceBuilder().bellboardId(ID)
                                                               .date(DATE_DATE)
+                                                              .year(DATE_YEAR)
                                                               .changes(CHANGES)
                                                               .method(METHOD)
                                                               .stage(STAGE)

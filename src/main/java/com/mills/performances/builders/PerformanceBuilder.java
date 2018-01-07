@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ public class PerformanceBuilder {
     private static final Logger log = Logger.getLogger(PerformanceBuilder.class);
 
     private Date _date = DateTime.now().toDate();
+    private Integer _year;
     private Integer _changes;
     private String _method;
     private String _stage;
@@ -203,6 +205,11 @@ public class PerformanceBuilder {
         return this;
     }
 
+    public PerformanceBuilder year(Integer year) {
+        _year = year;
+        return this;
+    }
+
     public PerformanceBuilder changes(int changes) {
         this._changes = changes;
         return this;
@@ -280,7 +287,14 @@ public class PerformanceBuilder {
         performance.setRingers(_ringers);
         performance.setBellboardId(_bellboardId);
         performance.setTime(_time);
-        performance.setYear(_date.getYear());
+        if(_year == null)
+        {
+            performance.setYear(Integer.valueOf(new SimpleDateFormat("yyyy").format(_date)));
+        }
+        else
+        {
+            performance.setYear(_year);
+        }
         if (_bellboardImport != null) {
             performance.setBellBoardImport(_bellboardImport);
         }

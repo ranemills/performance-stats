@@ -20,6 +20,7 @@ import static com.mills.bellboard.models.BBPerformanceBuilder.tritonDelightBbPer
 import static com.mills.bellboard.models.BBPerformanceBuilder.yorkshireMajorBbPerformance;
 import static com.mills.performances.builders.PerformanceBuilder.tritonDelightPerformance;
 import static com.mills.performances.builders.PerformanceBuilder.yorkshireMajorPerformance;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -90,7 +91,34 @@ public class BellBoardServiceImplTest extends AbstractTest {
         BellBoardImport bellBoardImport = new BellBoardImport(searchUrl);
         List<Performance> quarters = _bellBoardService.loadPerformances(bellBoardImport);
 
+        for(Performance p : quarters)
+        {
+            p.setBellBoardImport(null);
+        }
+
         assertThat(quarters, contains(performance1, performance2));
+    }
+
+    @Test
+    public void testLoadPerformancesWithUrlStoresLinkToBellboardImport()
+        throws Exception
+    {
+        String searchUrl = "http://bb.ringingworld.co.uk/search.php?ringer=ryan+mills&length=q-or-p&bells_type=tower";
+        String exportUrl = "http://bb.ringingworld.co.uk/export.php?ringer=ryan+mills&length=q-or-p&bells_type=tower";
+
+        List<BBPerformance> performances = Arrays.asList(BBPERFORMANCE1, BBPERFORMANCE2);
+
+        given(bellBoardService.getPerformances(exportUrl, null)).willReturn(performances);
+
+        BellBoardImport bellBoardImport = new BellBoardImport(searchUrl);
+        List<Performance> quarters = _bellBoardService.loadPerformances(bellBoardImport);
+
+        assertThat(quarters, hasSize(2));
+
+        for(Performance p : quarters)
+        {
+            assertThat(p.getBellBoardImport(), equalTo(bellBoardImport));
+        }
     }
 
     @Test
