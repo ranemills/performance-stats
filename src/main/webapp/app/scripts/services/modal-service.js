@@ -7,22 +7,23 @@
  * # modalService
  * Service in the PerformanceDashboard.
  */
-angular.module('PerformanceDashboard')
-  .service('ModalService', function ($uibModal) {
+function ModalService($uibModal) {
 
-    function performanceModal(performance) {
-      return $uibModal.open({
-        templateUrl: 'views/performance-modal.html',
-        controller: 'PerformanceModalController',
-        controllerAs: 'performanceModalCtrl',
-        resolve: {
-          performance: performance
-        }
-      });
-    }
+  function performanceModal(performance) {
+    return $uibModal.open({
+      templateUrl: 'views/performance-modal.html',
+      controller: 'PerformanceModalController',
+      controllerAs: 'performanceModalCtrl',
+      resolve: {
+        performance: performance
+      }
+    });
+  }
 
-    return {
-      openPerformanceModal: performanceModal
-    };
+  return {
+    openPerformanceModal: performanceModal
+  };
 
-  });
+}
+
+module.exports = ModalService;

@@ -7,8 +7,9 @@
  * # PerformanceModalCtrl
  * Controller of the PerformanceDashboard
  */
-angular.module('PerformanceDashboard')
-  .controller('PerformanceModalController', function (performance) {
-    var performanceModalCtrl = this;
-    performanceModalCtrl.performance = performance;
-  });
+function PerformanceModalController(performance) {
+  var performanceModalCtrl = this;
+  performanceModalCtrl.performance = performance;
+}
+
+module.exports = PerformanceModalController;

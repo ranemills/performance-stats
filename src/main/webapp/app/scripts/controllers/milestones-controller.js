@@ -7,7 +7,8 @@
  * # MilestonesCtrl
  * Controller of the PerformanceDashboard
  */
-angular.module('PerformanceDashboard')
-  .controller('MilestonesController', function () {
-    // var milestonesCtrl = this;
-  });
+function MilestonesController() {
+  // var milestonesCtrl = this;
+}
+
+module.exports = MilestonesController;

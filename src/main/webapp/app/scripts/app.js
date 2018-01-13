@@ -4,7 +4,6 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3', 'u
 
   .constant('JavaHost', 'http://localhost:8080')
 
-  .constant('_', window._)
   .constant('moment', window.moment)
   .constant('humanizeDuration', window.humanizeDuration)
 
@@ -37,3 +36,8 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3', 'u
       }
     });
   });
+
+require('./config');
+require('./controllers');
+require('./directives');
+require('./services');

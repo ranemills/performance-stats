@@ -6,13 +6,14 @@
  * @description
  * # performance
  */
-angular.module('PerformanceDashboard')
-  .directive('performance', function () {
-    return {
-      templateUrl: 'views/performance.html',
-      restrict: 'E',
-      scope: {
-        show: '='
-      }
-    };
-  });
+function performance() {
+  return {
+    templateUrl: 'views/performance.html',
+    restrict: 'E',
+    scope: {
+      show: '='
+    }
+  };
+}
+
+module.exports = performance;

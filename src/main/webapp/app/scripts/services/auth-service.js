@@ -7,32 +7,33 @@
  * # authService
  * Service in the PerformanceDashboard.
  */
-angular.module('PerformanceDashboard')
-  .service('AuthService', function ($http, $rootScope, JavaHost) {
-    function authenticate(credentials, callback) {
-      var headers = credentials ? {
-        authorization: 'Basic ' + btoa(credentials.username + ':' + credentials.password)
-      } : {};
+function AuthService($http, $rootScope, JavaHost) {
+  function authenticate(credentials, callback) {
+    var headers = credentials ? {
+      authorization: 'Basic ' + btoa(credentials.username + ':' + credentials.password)
+    } : {};
 
-      $http.get(JavaHost + '/api/auth/user', {headers: headers}).then(function (response) {
-        $rootScope.authenticated = !!response.data.name;
-        callback(response.data);
-      }, function () {
-        $rootScope.authenticated = false;
-        callback();
-      });
-    }
+    $http.get(JavaHost + '/api/auth/user', {headers: headers}).then(function (response) {
+      $rootScope.authenticated = !!response.data.name;
+      callback(response.data);
+    }, function () {
+      $rootScope.authenticated = false;
+      callback();
+    });
+  }
 
-    function register(credentials, callback) {
-      $http.post(JavaHost + '/api/auth/register', credentials).then(function () {
-        callback(true);
-      }, function () {
-        callback(false);
-      });
-    }
+  function register(credentials, callback) {
+    $http.post(JavaHost + '/api/auth/register', credentials).then(function () {
+      callback(true);
+    }, function () {
+      callback(false);
+    });
+  }
 
-    return {
-      authenticate: authenticate,
-      register: register
-    };
-  });
+  return {
+    authenticate: authenticate,
+    register: register
+  };
+}
+
+module.exports = AuthService;

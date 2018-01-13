@@ -7,14 +7,15 @@
  * # RecentMilestonesCtrl
  * Controller of the PerformanceDashboard
  */
-angular.module('PerformanceDashboard')
-  .controller('RecentMilestonesController', function (MilestonesService) {
-    var recentMilestonesCtrl = this;
+function RecentMilestonesController(MilestonesService) {
+  var recentMilestonesCtrl = this;
 
-    recentMilestonesCtrl.milestones = {};
+  recentMilestonesCtrl.milestones = {};
 
-    MilestonesService.recentMilestones().then(function (response) {
-      recentMilestonesCtrl.milestones = response.data;
-    });
-
+  MilestonesService.recentMilestones().then(function (response) {
+    recentMilestonesCtrl.milestones = response.data;
   });
+
+}
+
+module.exports = RecentMilestonesController;

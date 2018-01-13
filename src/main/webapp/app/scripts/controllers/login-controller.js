@@ -7,37 +7,38 @@
  * # LogincontrollerCtrl
  * Controller of the PerformanceDashboard
  */
-angular.module('PerformanceDashboard')
-  .controller('LoginController', function ($state, $rootScope, AuthService) {
-    var self = this;
+function LoginController($state, $rootScope, AuthService) {
+  var self = this;
 
-    self.credentials = {username: 'millsy3', password: 'password'};
-    self.login = function () {
-      AuthService.authenticate(self.credentials, function (user) {
-        if ($rootScope.authenticated) {
-          if (!user.hasImported) {
-            $state.go('import');
-          }
-          else {
-            $state.go('dashboard');
-          }
-
-          self.error = false;
-        } else {
-          $state.go('login');
-          self.error = true;
+  self.credentials = {username: 'millsy3', password: 'password'};
+  self.login = function () {
+    AuthService.authenticate(self.credentials, function (user) {
+      if ($rootScope.authenticated) {
+        if (!user.hasImported) {
+          $state.go('import');
         }
-      });
-    };
-
-    self.register = function () {
-      AuthService.register(self.credentials, function (success) {
-        self.error = !success;
-        if (success) {
-          self.login();
+        else {
+          $state.go('dashboard');
         }
-      });
-    };
 
-    // self.login();
-  });
+        self.error = false;
+      } else {
+        $state.go('login');
+        self.error = true;
+      }
+    });
+  };
+
+  self.register = function () {
+    AuthService.register(self.credentials, function (success) {
+      self.error = !success;
+      if (success) {
+        self.login();
+      }
+    });
+  };
+
+  // self.login();
+}
+
+module.exports = LoginController;
