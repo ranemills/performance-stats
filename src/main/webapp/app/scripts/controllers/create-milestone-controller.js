@@ -8,7 +8,7 @@
  * Controller of the PerformanceDashboard
  */
 angular.module('PerformanceDashboard')
-  .controller('CreateMilestoneController', function (_, MilestonesService) {
+  .controller('CreateMilestoneController', function (_, $state, MilestonesService) {
 
     var createMilestoneCtrl = this;
 
@@ -35,7 +35,10 @@ angular.module('PerformanceDashboard')
       creation.properties[createMilestoneCtrl.new.properties[0].property] = createMilestoneCtrl.new.properties[0].value;
 
 
-      MilestonesService.newMilestoneFacet(creation);
+      MilestonesService.newMilestoneFacet(creation).then(function(response)
+      {
+        $state.go('milestones');
+      });
     };
 
     createMilestoneCtrl.newPropertyRow = function () {
