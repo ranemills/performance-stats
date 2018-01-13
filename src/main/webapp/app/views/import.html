@@ -17,8 +17,8 @@
             <span class="input-group-addon" id="basic-addon1">Bellboard Search URL</span>
             <input type="text" class="form-control" id="bbUrl" name="bbUrl" ng-model="importCtrl.bbUrl"/>
             <span class="input-group-btn">
-                        <button class="btn btn-default" type="submit">Go!</button>
-                    </span>
+                <button class="btn btn-default" type="submit" ng-disabled="importCtrl.loading">Go!</button>
+            </span>
           </div>
         </form>
       </div>
