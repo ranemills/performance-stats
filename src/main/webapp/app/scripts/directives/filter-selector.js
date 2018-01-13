@@ -6,10 +6,10 @@
  * @description
  * # filterSelector
  */
-function filterSelector() {
+module.exports = function() {
   return {
     restrict: 'E',
-    templateUrl: 'views/directives/filter-selector.html',
+    template: require('../../views/directives/filter-selector.html'),
     scope: {
       filters: '=filters',
       onSelectFn: '=onSelect',
@@ -27,5 +27,3 @@ function filterSelector() {
     }
   };
 }
-
-module.exports = filterSelector;

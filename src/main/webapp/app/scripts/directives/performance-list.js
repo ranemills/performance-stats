@@ -1,6 +1,6 @@
 'use strict';
 
-import _ from 'lodash';
+const _ = require('lodash');
 
 /**
  * @ngdoc directive
@@ -8,10 +8,10 @@ import _ from 'lodash';
  * @description
  * # performanceList
  */
-function performanceList(ModalService) {
+module.exports = function(ModalService) {
   return {
     restrict: 'E',
-    templateUrl: 'views/directives/performance-list.html',
+    template: require('../../views/directives/performance-list.html'),
     scope: {
       performances: '='
     },
@@ -26,5 +26,3 @@ function performanceList(ModalService) {
     }
   };
 }
-
-module.exports = performanceList;

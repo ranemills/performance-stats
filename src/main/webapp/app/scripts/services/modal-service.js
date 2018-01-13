@@ -7,7 +7,7 @@
  * # modalService
  * Service in the PerformanceDashboard.
  */
-function ModalService($uibModal) {
+module.exports = function($uibModal) {
 
   function performanceModal(performance) {
     return $uibModal.open({
@@ -25,5 +25,3 @@ function ModalService($uibModal) {
   };
 
 }
-
-module.exports = ModalService;

@@ -1,6 +1,6 @@
 'use strict';
 
-import _ from 'lodash';
+const _ = require('lodash');
 
 /**
  * @ngdoc directive
@@ -8,9 +8,9 @@ import _ from 'lodash';
  * @description
  * # milestoneList
  */
-function milestoneList(ModalService) {
+module.exports = function(ModalService) {
   return {
-    templateUrl: 'views/directives/milestone-list.html',
+    template: require('../../views/directives/milestone-list.html'),
     restrict: 'E',
     scope: {
       milestones: '='
@@ -29,5 +29,3 @@ function milestoneList(ModalService) {
     }
   };
 }
-
-module.exports = milestoneList;

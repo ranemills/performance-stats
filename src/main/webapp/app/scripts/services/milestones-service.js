@@ -7,7 +7,7 @@
  * # milestones
  * Service in the PerformanceDashboard.
  */
-function MilestonesService($http, $q, JavaHost) {
+module.exports = function($http, $q, JavaHost) {
 
   function recentMilestones() {
     return $http.get(JavaHost + '/api/milestones');
@@ -33,5 +33,3 @@ function MilestonesService($http, $q, JavaHost) {
   };
 
 }
-
-module.exports = MilestonesService;

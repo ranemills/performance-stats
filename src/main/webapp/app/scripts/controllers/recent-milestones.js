@@ -7,7 +7,7 @@
  * # RecentMilestonesCtrl
  * Controller of the PerformanceDashboard
  */
-function RecentMilestonesController(MilestonesService) {
+module.exports = function(MilestonesService) {
   var recentMilestonesCtrl = this;
 
   recentMilestonesCtrl.milestones = {};
@@ -17,5 +17,3 @@ function RecentMilestonesController(MilestonesService) {
   });
 
 }
-
-module.exports = RecentMilestonesController;

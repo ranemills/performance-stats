@@ -6,7 +6,7 @@
  * @description
  * # performance
  */
-function performance() {
+module.exports = function() {
   return {
     templateUrl: 'views/performance.html',
     restrict: 'E',
@@ -15,5 +15,3 @@ function performance() {
     }
   };
 }
-
-module.exports = performance;

@@ -7,7 +7,7 @@
  * # LogincontrollerCtrl
  * Controller of the PerformanceDashboard
  */
-function LoginController($state, $rootScope, AuthService) {
+module.exports = function($state, $rootScope, AuthService) {
   var self = this;
 
   self.credentials = {username: 'millsy3', password: 'password'};
@@ -40,5 +40,3 @@ function LoginController($state, $rootScope, AuthService) {
 
   // self.login();
 }
-
-module.exports = LoginController;

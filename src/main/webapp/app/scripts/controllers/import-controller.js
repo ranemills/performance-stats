@@ -7,7 +7,7 @@
  * # ImportcontrollerCtrl
  * Controller of the PerformanceDashboard
  */
-function ImportController($state, ImportApi) {
+module.exports = function($state, ImportApi) {
   var self = this;
 
   self.loading = false;
@@ -23,5 +23,3 @@ function ImportController($state, ImportApi) {
     });
   };
 }
-
-module.exports = ImportController;

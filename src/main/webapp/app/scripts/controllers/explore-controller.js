@@ -1,6 +1,6 @@
 'use strict';
 
-import _ from 'lodash';
+const _ = require('lodash');
 
 /**
  * @ngdoc function
@@ -9,7 +9,7 @@ import _ from 'lodash';
  * # ExplorecontrollerCtrl
  * Controller of the PerformanceDashboard
  */
-function ExploreController($scope, $window, ModalService, QuartersApi) {
+module.exports = function ($scope, $window, ModalService, QuartersApi) {
   var exploreCtrl = this;
 
   // Store the currently available filter names
@@ -62,5 +62,3 @@ function ExploreController($scope, $window, ModalService, QuartersApi) {
   exploreCtrl.maxDisplayed = {};
 
 }
-
-module.exports = ExploreController;

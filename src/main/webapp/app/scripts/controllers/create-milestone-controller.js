@@ -7,7 +7,7 @@
  * # CreateMilestoneCtrl
  * Controller of the PerformanceDashboard
  */
-function CreateMilestoneController($state, MilestonesService) {
+module.exports = function($state, MilestonesService) {
   var createMilestoneCtrl = this;
 
   createMilestoneCtrl.availableProperties = [];
@@ -50,5 +50,3 @@ function CreateMilestoneController($state, MilestonesService) {
     return createMilestoneCtrl.new.properties.length !== createMilestoneCtrl.availableProperties.length;
   };
 }
-
-module.exports = CreateMilestoneController;

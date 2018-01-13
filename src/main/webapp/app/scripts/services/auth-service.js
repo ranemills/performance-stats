@@ -7,7 +7,7 @@
  * # authService
  * Service in the PerformanceDashboard.
  */
-function AuthService($http, $rootScope, JavaHost) {
+module.exports = function($http, $rootScope, JavaHost) {
   function authenticate(credentials, callback) {
     var headers = credentials ? {
       authorization: 'Basic ' + btoa(credentials.username + ':' + credentials.password)
@@ -35,5 +35,3 @@ function AuthService($http, $rootScope, JavaHost) {
     register: register
   };
 }
-
-module.exports = AuthService;

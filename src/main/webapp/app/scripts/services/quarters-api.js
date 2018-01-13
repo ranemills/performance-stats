@@ -7,7 +7,7 @@
  * # quartersApi
  * Service in the PerformanceDashboard.
  */
-function QuartersApi($http, JavaHost) {
+module.exports = function($http, JavaHost) {
   return {
     get: function (params) {
       return $http.get(JavaHost + '/api/performances', {params: params});
@@ -26,5 +26,3 @@ function QuartersApi($http, JavaHost) {
     }
   };
 }
-
-module.exports = QuartersApi;

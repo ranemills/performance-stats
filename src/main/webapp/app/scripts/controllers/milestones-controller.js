@@ -7,8 +7,6 @@
  * # MilestonesCtrl
  * Controller of the PerformanceDashboard
  */
-function MilestonesController() {
+module.exports = function() {
   // var milestonesCtrl = this;
-}
-
-module.exports = MilestonesController;
+};

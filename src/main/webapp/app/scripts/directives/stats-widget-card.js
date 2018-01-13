@@ -1,6 +1,6 @@
 'use strict';
 
-import _ from 'lodash';
+const _ = require('lodash');
 
 /**
  * @ngdoc directive
@@ -8,9 +8,9 @@ import _ from 'lodash';
  * @description
  * # statsWidget
  */
-function statsWidgetCard($window) {
+module.exports = function($window) {
   return {
-    templateUrl: 'views/directives/stats-widget-card.html',
+    template: require('../../views/directives/stats-widget-card.html'),
     scope: {
       filterName: '=',
       listData: '=',
@@ -78,5 +78,3 @@ function statsWidgetCard($window) {
     }
   };
 }
-
-module.exports = statsWidgetCard;

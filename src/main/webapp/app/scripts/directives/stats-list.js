@@ -1,6 +1,6 @@
 'use strict';
 
-import _ from 'lodash';
+const _ = require('lodash');
 
 /**
  * @ngdoc directive
@@ -8,10 +8,10 @@ import _ from 'lodash';
  * @description
  * # statsList
  */
-function statsList() {
+module.exports = function() {
   return {
     restrict: 'E',
-    templateUrl: 'views/directives/stats-list.html',
+    template: require('../../views/directives/stats-list.html'),
     scope: {
       items: '=',
       selectFn: '=',
@@ -37,5 +37,3 @@ function statsList() {
     }
   };
 }
-
-module.exports = statsList;

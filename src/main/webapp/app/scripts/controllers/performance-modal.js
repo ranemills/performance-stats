@@ -7,9 +7,7 @@
  * # PerformanceModalCtrl
  * Controller of the PerformanceDashboard
  */
-function PerformanceModalController(performance) {
+module.exports = function(performance) {
   var performanceModalCtrl = this;
   performanceModalCtrl.performance = performance;
 }
-
-module.exports = PerformanceModalController;
