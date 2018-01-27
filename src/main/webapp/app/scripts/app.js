@@ -7,17 +7,7 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3', 'u
   .constant('moment', window.moment)
   .constant('humanizeDuration', window.humanizeDuration)
 
-
-  .run(function($rootScope, $state) {
-    $rootScope.$on('$stateChangeStart', function(evt, to, params) {
-      if (to.redirectTo) {
-        evt.preventDefault();
-        $state.go(to.redirectTo, params);
-      }
-    });
-  })
-
-  .run(function ($rootScope, $state, $http, JavaHost, AuthService) {
+  .run(function ($rootScope, $state, $http, $transitions, JavaHost, AuthService) {
     $rootScope.logout = function () {
       $http.post(JavaHost + '/logout', {}).finally(function () {
         $rootScope.authenticated = false;
@@ -25,15 +15,14 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3', 'u
       });
     };
 
-    $rootScope.$on('$stateChangeStart', function (event, toState) {
-      if (!$rootScope.authenticated){
-        AuthService.authenticate({}, function() {
-          if (!$rootScope.authenticated && toState.name !== 'login') {
-            event.preventDefault();
-            $state.go('login');
+    $transitions.onBefore({}, function (transition) {
+      // if (!$rootScope.authenticated){
+      //   AuthService.authenticate({}, function() {
+          if (!$rootScope.authenticated && transition.to().name !== 'login') {
+            return transition.router.stateService.target('login');
           }
-        });
-      }
+        // });
+      // }
     });
   });
 
