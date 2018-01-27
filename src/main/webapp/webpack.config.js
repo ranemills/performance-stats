@@ -5,7 +5,9 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const distDir = path.resolve(__dirname, 'dist');
+const distDirName = 'static';
+
+const distDir = path.resolve(__dirname, distDirName);
 
 module.exports = {
   context: path.resolve(__dirname, 'app'),
@@ -19,7 +21,7 @@ module.exports = {
     port: 9000
   },
   plugins: [
-    new CleanWebpackPlugin(['dist']),
+    new CleanWebpackPlugin([distDirName]),
     new CopyWebpackPlugin([
       {from:'index.html',to: distDir}
     ]),
