@@ -131,7 +131,7 @@
             <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
-                <version>1.0</version>
+                <version>1.6</version>
                 <configuration>
                     <nodeVersion>v8.9.4</nodeVersion>
                     <npmVersion>5.6.0</npmVersion>
@@ -150,18 +150,12 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>bower install</id>
+                        <id>build</id>
                         <goals>
-                            <goal>bower</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>grunt build</id>
-                        <goals>
-                            <goal>grunt</goal>
+                            <goal>npm</goal>
                         </goals>
                         <configuration>
-                            <arguments>build --force</arguments>
+                            <arguments>run build</arguments>
                         </configuration>
                     </execution>
                 </executions>
