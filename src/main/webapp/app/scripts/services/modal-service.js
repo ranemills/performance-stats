@@ -11,7 +11,7 @@ module.exports = function($uibModal) {
 
   function performanceModal(performance) {
     return $uibModal.open({
-      templateUrl: 'views/performance-modal.html',
+      template: require('../../views/performance-modal.html'),
       controller: 'PerformanceModalController',
       controllerAs: 'performanceModalCtrl',
       resolve: {

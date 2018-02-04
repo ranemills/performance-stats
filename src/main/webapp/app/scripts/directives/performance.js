@@ -8,7 +8,7 @@
  */
 module.exports = function() {
   return {
-    templateUrl: 'views/performance.html',
+    template: require('../../views/performance.html'),
     restrict: 'E',
     scope: {
       show: '='
