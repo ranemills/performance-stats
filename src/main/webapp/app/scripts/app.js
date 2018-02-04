@@ -4,8 +4,7 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3', 'u
 
   .constant('JavaHost', 'http://localhost:8080')
 
-  .constant('moment', window.moment)
-  .constant('humanizeDuration', window.humanizeDuration)
+  .constant('humanizeDuration', require('humanize-duration'))
 
   .run(function ($rootScope, $state, $http, $transitions, JavaHost, AuthService) {
     $rootScope.logout = function () {

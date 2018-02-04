@@ -7,7 +7,7 @@
  * # DashboardCtrl
  * Controller of the PerformanceDashboard
  */
-module.exports = function(humanizeDuration, moment, MilestonesService, QuartersApi) {
+module.exports = function(humanizeDuration, MilestonesService, QuartersApi) {
   var dashboardCtrl = this;
 
   QuartersApi.get().then(function (response) {
