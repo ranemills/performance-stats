@@ -16,13 +16,13 @@ angular.module('PerformanceDashboard', ['angularMoment', 'ui.router', 'nvd3', 'u
     };
 
     $transitions.onBefore({}, function (transition) {
-      // if (!$rootScope.authenticated){
-      //   AuthService.authenticate({}, function() {
+      if (!$rootScope.authenticated){
+        return AuthService.authenticate({}, function() {
           if (!$rootScope.authenticated && transition.to().name !== 'login') {
             return transition.router.stateService.target('login');
           }
-        // });
-      // }
+        });
+      }
     });
   });
 
