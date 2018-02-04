@@ -29,6 +29,8 @@
   "scripts": {
     "build": "webpack",
     "start": "webpack-dev-server --open",
-    "deploy": "cp -r static ../resources/static"
+    "deploy": "cp -r static ../resources/static",
+    "start-mock": "node mock-server/mock-server.js",
+    "start-dev-server": "webpack-dev-server"
   }
 }

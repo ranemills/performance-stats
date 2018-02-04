@@ -1,9 +1,11 @@
 "use strict";
 
-var express = require('express');
-var bodyParser     =        require("body-parser");
-var fs = require('fs');
-var app = express();
+let express = require('express');
+let bodyParser = require("body-parser");
+let fs = require('fs');
+let app = express();
+
+let mockResponsesDir = 'mock-server/mock-responses/api';
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -26,32 +28,32 @@ app.get('/api/auth/user', function (req, res) {
 });
 
 app.get('/api/stats/available', function(req, res) {
-  var response = JSON.parse(fs.readFileSync('mock-responses/api/stats/available.json'));
+  let response = JSON.parse(fs.readFileSync(mockResponsesDir + '/stats/available.json'));
   res.send(response);
 });
 
 app.get('/api/stats/filters', function(req, res) {
-  var response = JSON.parse(fs.readFileSync('mock-responses/api/stats/filters.json'));
+  let response = JSON.parse(fs.readFileSync(mockResponsesDir + '/stats/filters.json'));
   res.send(response);
 });
 
 app.get('/api/stats/snapshot', function(req, res) {
-  var response = JSON.parse(fs.readFileSync('mock-responses/api/stats/snapshot.json'));
+  let response = JSON.parse(fs.readFileSync(mockResponsesDir + '/stats/snapshot.json'));
   res.send(response);
 });
 
-app.get('/api/performances/list', function(req, res) {
-  var response = JSON.parse(fs.readFileSync('mock-responses/api/performances/list.json'));
+app.get('/api/performances', function(req, res) {
+  let response = JSON.parse(fs.readFileSync(mockResponsesDir + '/performances.json'));
   res.send(response);
 });
 
 app.get('/api/milestones', function(req, res) {
-  var response = JSON.parse(fs.readFileSync('mock-responses/api/milestones.json'));
+  let response = JSON.parse(fs.readFileSync(mockResponsesDir + '/milestones.json'));
   res.send(response);
 });
 
 app.get('/api/facets', function(req, res) {
-  var response = JSON.parse(fs.readFileSync('mock-responses/api/facets.json'));
+  let response = JSON.parse(fs.readFileSync(mockResponsesDir + '/facets.json'));
   res.send(response);
 });
 
@@ -62,7 +64,7 @@ app.post('/api/facets/new', function(req, res) {
 });
 
 app.get('/api/facets/properties', function(req, res) {
-  var response = JSON.parse(fs.readFileSync('mock-responses/api/facets/properties.json'));
+  let response = JSON.parse(fs.readFileSync(mockResponsesDir + '/facets/properties.json'));
   res.send(response);
 });
 
