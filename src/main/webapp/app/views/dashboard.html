@@ -1,6 +1,5 @@
 <div class="container-fluid">
-  <div class="card-deck-wrapper">
-    <div class="card-deck">
+    <div class="card-deck mb-4">
       <div class="card">
         <div class="card-header">
           Recent Performances
@@ -23,33 +22,34 @@
         <div class="card-header">
           Snapshot Stats
         </div>
-        <div class="card-block">
-          <div class="card-deck-wrapper">
-            <div class="card-deck">
-              <div class="card card-block">
-                <h4 class="card-title text-xs-center">Total Performances</h4>
-                <p class="text-xs-center">{{dashboardCtrl.snapshot.total}}</p>
-              </div>
-              <div class="card card-block">
-                <h4 class="card-title text-xs-center">Unique Ringers</h4>
-                <p class="text-xs-center">{{dashboardCtrl.snapshot.ringers}}</p>
-              </div>
+        <div class="card-block text-center">
+
+          <div class="d-flex flex-row justify-content-around pt-3">
+            <div>
+              <h4>Total Performances</h4>
+              <p>{{dashboardCtrl.snapshot.total}}</p>
             </div>
-            <div class="card-deck">
-              <div class="card card-block">
-                <h4 class="card-title text-xs-center">Unique Methods</h4>
-                <p class="text-xs-center">{{dashboardCtrl.snapshot.methods}}</p>
-              </div>
-              <div class="card card-block">
-                <h4 class="card-title text-xs-center">Unique Towers</h4>
-                <p class="text-xs-center">{{dashboardCtrl.snapshot.towers}}</p>
-              </div>
+            <div>
+              <h4>Unique Ringers</h4>
+              <p>{{dashboardCtrl.snapshot.ringers}}</p>
             </div>
-            <div class="card-deck">
-              <div class="card card-block">
-                <h4 class="card-title text-xs-center">Total Time</h4>
-                <p class="text-xs-center">{{dashboardCtrl.snapshot.time}}</p>
-              </div>
+          </div>
+
+          <div class="d-flex flex-row justify-content-around">
+            <div>
+              <h4>Unique Methods</h4>
+              <p>{{dashboardCtrl.snapshot.methods}}</p>
+            </div>
+            <div>
+              <h4>Unique Towers</h4>
+              <p>{{dashboardCtrl.snapshot.towers}}</p>
+            </div>
+          </div>
+
+          <div class="d-flex flex-row justify-content-around">
+            <div>
+              <h4>Total Time</h4>
+              <p>{{dashboardCtrl.snapshot.time}}</p>
             </div>
           </div>
         </div>
@@ -63,5 +63,4 @@
         </div>
       </div>
     </div>
-  </div>
 </div>
