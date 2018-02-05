@@ -4,7 +4,7 @@
         <div class="card-header">
           Recent Performances
         </div>
-        <div class="card-block">
+        <div class="card-body">
           <performance-list performances="dashboardCtrl.performances" small></performance-list>
         </div>
       </div>
@@ -12,7 +12,7 @@
         <div class="card-header">
           Upcoming Milestones
         </div>
-        <div class="card-block">
+        <div class="card-body">
           <p>Work In Progress</p>
         </div>
       </div>
@@ -22,18 +22,7 @@
         <div class="card-header">
           Snapshot Stats
         </div>
-        <div class="card-block text-center">
-
-          <div class="d-flex flex-row justify-content-around pt-3">
-            <div>
-              <h4>Total Performances</h4>
-              <p>{{dashboardCtrl.snapshot.total}}</p>
-            </div>
-            <div>
-              <h4>Unique Ringers</h4>
-              <p>{{dashboardCtrl.snapshot.ringers}}</p>
-            </div>
-          </div>
+        <div class="card-body text-center">
 
           <div class="d-flex flex-row justify-content-around">
             <div>
@@ -43,6 +32,17 @@
             <div>
               <h4>Unique Towers</h4>
               <p>{{dashboardCtrl.snapshot.towers}}</p>
+            </div>
+          </div>
+
+          <div class="d-flex flex-row justify-content-around">
+            <div>
+              <h4>Total Performances</h4>
+              <p>{{dashboardCtrl.snapshot.total}}</p>
+            </div>
+            <div>
+              <h4>Unique Ringers</h4>
+              <p>{{dashboardCtrl.snapshot.ringers}}</p>
             </div>
           </div>
 
@@ -58,7 +58,7 @@
         <div class="card-header">
           Recent Milestones
         </div>
-        <div class="card-block">
+        <div class="card-body">
           <milestone-list milestones="dashboardCtrl.milestones" small></milestone-list>
         </div>
       </div>
