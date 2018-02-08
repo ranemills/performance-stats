@@ -13,7 +13,7 @@ module.exports = {
   context: path.resolve(__dirname, 'app'),
   entry: {
     app: './scripts/app.js',
-    vendor: ['angular', 'angular-moment', '@uirouter/angularjs', 'angular-nvd3', 'angular-ui-bootstrap']
+    vendor: ['angular', 'angular-moment', '@uirouter/angularjs', 'angular-nvd3', 'ui-bootstrap4']
   },
   devtool: 'source-map',
   devServer: {
